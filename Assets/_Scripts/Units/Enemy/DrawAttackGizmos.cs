@@ -7,23 +7,23 @@ namespace _Scripts.Units.Enemy
         void OnDrawGizmosSelected()
         {
         
-            if (this.CompareTag("Player"))
+            if (CompareTag("Player"))
             {
-                if (this.name == "SwordAttackPoint"){
+                if (name == "SwordAttackPoint"){
                     Gizmos.color = Color.green;
                     Gizmos.DrawWireSphere(transform.position,0.75f);
                 }
-                else if (this.name == "SpearAttackPoint")
+                else if (name == "SpearAttackPoint")
                 {
                     Gizmos.color = Color.blue;
                     Gizmos.DrawWireCube(transform.position, new Vector3(2,1,1));
                 }
             
             }
-            else if (this.CompareTag("Enemy") && this.GetComponentInParent<global::_Scripts.Units.Enemy.Enemy>().enemyScriptable.avancedStats.hasAttacks)
+            else if (CompareTag("Enemy") && GetComponentInParent<Enemy>().enemyScriptable.avancedStats.hasAttacks)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, GetComponentInParent<global::_Scripts.Units.Enemy.Enemy>().enemyScriptable.avancedStats.weaponAttackRange);
+                Gizmos.DrawWireSphere(transform.position, GetComponentInParent<Enemy>().enemyScriptable.avancedStats.weaponAttackRange);
             }
         
         }

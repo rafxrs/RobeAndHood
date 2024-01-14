@@ -155,7 +155,7 @@ namespace _Scripts.Units.Enemy
         {
             IsAttacking();
             int attackNumber = Random.Range(0,2);
-            string attackTrigger = "Attack"+attackNumber.ToString();
+            string attackTrigger = "Attack"+attackNumber;
             _animator.SetTrigger(attackTrigger);
         }
 //-------------------------------------------------------------------------------------------//
@@ -179,7 +179,7 @@ namespace _Scripts.Units.Enemy
             GetComponent<EnemyAI>().enabled = false;
 
             // destroy enemy after 1 second
-            Destroy(this.gameObject, 1f);
+            Destroy(gameObject, 1f);
         
         }
 //-------------------------------------------------------------------------------------------//
