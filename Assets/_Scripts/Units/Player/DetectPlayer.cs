@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Units.Player;
 using UnityEngine;
 
 public class DetectPlayer : MonoBehaviour

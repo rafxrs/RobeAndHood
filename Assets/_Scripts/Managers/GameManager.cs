@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using _Scripts.Units.Player;
 
 public class GameManager : StaticInstance<GameManager>
 {

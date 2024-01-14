@@ -10,7 +10,7 @@ namespace _Scripts.Units.Enemy
         public bool isDead;
         //-------------------------------------------------------------------------------------------//
         [FormerlySerializedAs("_attackPoint")] [SerializeField] private Transform attackPoint;
-        private Player _player;
+        private Player.Player _player;
         private EnemyAI _enemyAI;
         private Animator _animator;
         private Rigidbody2D _rb;
@@ -27,7 +27,7 @@ namespace _Scripts.Units.Enemy
         private void Start()
         {
             _currentHealth = enemyScriptable.baseStats.maxHealth;
-            _player = GameObject.Find("Player").GetComponent<Player>(); NullCheck.CheckNull(_player);
+            _player = GameObject.Find("Player").GetComponent<Player.Player>(); NullCheck.CheckNull(_player);
             _enemyAI = GetComponent<EnemyAI>(); NullCheck.CheckNull(_enemyAI);
             _rb = GetComponent<Rigidbody2D>(); NullCheck.CheckNull(_rb);
             _animator = GetComponent<Animator>(); NullCheck.CheckNull(_animator);
