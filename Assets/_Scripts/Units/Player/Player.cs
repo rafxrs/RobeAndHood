@@ -42,7 +42,7 @@ namespace _Scripts.Units.Player
         // PRIMITIVES
         float _horizontalInput;
         float _nextClimb=-1f;
-        private const float _nextStepsTime = 2f;
+        private float _nextStepsTime = -1f;
         int _currentHealth;
         bool _jump;
         bool _isDead;
@@ -94,14 +94,17 @@ namespace _Scripts.Units.Player
             if (GameManager.playerControl && !_isDead)
             {
                 _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.avancedStats.speed;
-                if (Mathf.Abs(_horizontalInput) > 0 && Time.time>_nextStepsTime)
+                if (Mathf.Abs(_horizontalInput) > 0 && Time.time>_nextStepsTime && isGrounded())
                 {
+                    _nextStepsTime += Time.time + 2f;
+                    Debug.Log("Playing Steps sound");
                     AudioManager.instance.Play("Steps");
                 }
-                else
+                else if (Mathf.Abs(_horizontalInput) == 0)
                 {
                     AudioManager.instance.StopPlaying("Steps");
                 }
+                
                 _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
                 if (isGrounded())
                 {

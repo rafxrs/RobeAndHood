@@ -298,6 +298,7 @@ public class PlayerCombat : MonoBehaviour
     }
     public void ChooseWeapon(int number) //0 is spear, 1 is bow, 2 is sword
     {
+        AudioManager.instance.Play("Equip");
         weapon = weapons[number];
         ChangeController(weapon);
         SetWeapon(weapon);
