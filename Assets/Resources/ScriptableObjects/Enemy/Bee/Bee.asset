@@ -30,7 +30,7 @@ MonoBehaviour:
     patrolSpeed: 250
     nextWayPointDist: 0.3
     hasAttacks: 1
-    attackDamage: 35
+    attackDamage: 25
     weaponAttackRange: 1
     attackDistance: 2
     attackRate: 1
