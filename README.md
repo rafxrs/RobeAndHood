@@ -1,5 +1,5 @@
 # Welcome to Robe&Hood
-<iframe width="560" height="315" src="https://www.youtube.com/embed/bXu7T_GBPqQ?si=akdJNx_ZlPUNnZWO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/bXu7T_GBPqQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=bXu7T_GBPqQ)
 My itch.io page: https://rafaelxrs.itch.io/
 ### A 2D Platformer, made in Unity, by Rafael Reis
 Navigate the 10 levels of this relaxing platformer game, enjoying the different level desgins and detailed visuals.
