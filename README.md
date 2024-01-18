@@ -1,6 +1,7 @@
 # Welcome to Robe&Hood
+## Watch the Dev Log 1 Video!
 [![Watch the video](https://img.youtube.com/vi/bXu7T_GBPqQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=bXu7T_GBPqQ)
-My itch.io page: https://rafaelxrs.itch.io/
+# My itch.io page: https://rafaelxrs.itch.io/
 ### A 2D Platformer, made in Unity, by Rafael Reis
 Navigate the 10 levels of this relaxing platformer game, enjoying the different level desgins and detailed visuals.
 ### 20 different types of enemies
