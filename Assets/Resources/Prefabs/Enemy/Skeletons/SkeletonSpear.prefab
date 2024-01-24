@@ -225,8 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyScriptable: {fileID: 11400000, guid: c91658f501a1ecf48a524f0f76aa3e60, type: 2}
   isDead: 0
-  _attackPoint: {fileID: 1050924444444687201}
-  healthBar: {fileID: 0}
+  attackPoint: {fileID: 1050924444444687201}
 --- !u!114 &1050924443968045409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +243,8 @@ MonoBehaviour:
   bottomBoundary: {fileID: 7372161042312444887, guid: a687b7986390c924e81de723cc50a72e, type: 3}
   upBoundary: {fileID: 7686047899609385568, guid: d0a21c2f25279ad40a473a6ff61ef525, type: 3}
   isChasing: 0
+  tolerance: 0.01
+  isInBounds: 0
 --- !u!114 &1050924443968045408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +312,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050924444444687200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.99, y: 0.11, z: 0}
+  m_LocalPosition: {x: -0.99, y: -0.086, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

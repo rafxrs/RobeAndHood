@@ -310,8 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyScriptable: {fileID: 11400000, guid: d00623cec018e05449681434873fe450, type: 2}
   isDead: 0
-  _attackPoint: {fileID: 670625338180150605}
-  healthBar: {fileID: 0}
+  attackPoint: {fileID: 670625338180150605}
 --- !u!114 &4336409682911502433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +328,8 @@ MonoBehaviour:
   bottomBoundary: {fileID: 7372161042312444887, guid: a687b7986390c924e81de723cc50a72e, type: 3}
   upBoundary: {fileID: 7686047899609385568, guid: d0a21c2f25279ad40a473a6ff61ef525, type: 3}
   isChasing: 0
+  tolerance: 0.01
+  isInBounds: 0
 --- !u!114 &4310477111489517899
 MonoBehaviour:
   m_ObjectHideFlags: 0
