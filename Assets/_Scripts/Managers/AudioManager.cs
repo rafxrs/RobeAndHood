@@ -43,6 +43,7 @@ namespace _Scripts.Managers
     
         public void StopPlaying(string soundName)
         {
+            
             Sound s = Array.Find(sounds, item => item.name == soundName);
             if (s == null)
             {
