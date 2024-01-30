@@ -140,17 +140,16 @@ namespace _Scripts.Units.Enemy
         }
         public void Attack()
         {
-            Collider2D[] hitPlayer = new Collider2D[10];
+            var hitPlayer = new Collider2D[10];
             Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange,hitPlayer, enemyScriptable.playerLayer);
-            foreach(Collider2D hit in hitPlayer)
+            
+            foreach(var hit in hitPlayer)
             {
                 Debug.Log("We hit "+ hit.name);
                 if (hit.CompareTag("PlayerHitbox"))
                 {
                     _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
                 }
-            
-
             }
         }
         public void AttackAnimation()
