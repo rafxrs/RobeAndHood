@@ -1,3 +1,4 @@
+using _Scripts.Scriptables;
 using _Scripts.Units.Enemy;
 using UnityEngine;
 
