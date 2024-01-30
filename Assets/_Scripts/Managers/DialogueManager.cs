@@ -57,6 +57,7 @@ namespace _Scripts.Managers
             {
                 EndDialogue();
             }
+            
             else 
             {
                 if (_sentences != null)
