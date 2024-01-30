@@ -1,3 +1,4 @@
+using _Scripts.Scriptables;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -50,10 +51,10 @@ namespace _Scripts.Units.Enemy
         {
             if (!isDead)
             {   
-                if (!_isAttacking && !enemyScriptable.avancedStats.isStatic)
+                if (!_isAttacking && !enemyScriptable.advancedStats.isStatic)
                 {
                     _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.x));
-                    if (enemyScriptable.avancedStats.canFly)
+                    if (enemyScriptable.advancedStats.canFly)
                     {
                         if (_rb.velocity.x > 0.01f)
                         {
@@ -103,14 +104,14 @@ namespace _Scripts.Units.Enemy
         //-------------------------------------------------------------------------------------------//
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player") && enemyScriptable.avancedStats.isBouncable && !other.GetComponent<CharacterController2D>().m_Grounded)
+            if (other.CompareTag("Player") && enemyScriptable.advancedStats.isBouncable && !other.GetComponent<CharacterController2D>().m_Grounded)
             {
-                TakeDamage(enemyScriptable.avancedStats.bounceDamage);
+                TakeDamage(enemyScriptable.advancedStats.bounceDamage);
                 _player.Bounce();
             }
             else if (other.CompareTag("PlayerHitbox") && enemyScriptable.baseStats.collisionDamage)
             {
-                _player.TakeDamage(enemyScriptable.avancedStats.attackDamage);
+                _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
                 // player.Knockback(other);
             }
             else if (other.CompareTag("Boundary"))
@@ -139,13 +140,13 @@ namespace _Scripts.Units.Enemy
         public void Attack()
         {
             // _rb.velocity = Vector2.zero;
-            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, enemyScriptable.avancedStats.weaponAttackRange, enemyScriptable.playerLayer);
+            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange, enemyScriptable.playerLayer);
             foreach(Collider2D hit in hitPlayer)
             {
                 Debug.Log("We hit "+ hit.name);
                 if (hit.CompareTag("PlayerHitbox"))
                 {
-                    _player.TakeDamage(enemyScriptable.avancedStats.attackDamage);
+                    _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
                 }
             
 
@@ -161,7 +162,7 @@ namespace _Scripts.Units.Enemy
 //-------------------------------------------------------------------------------------------//
         void Die()
         {
-            if (enemyScriptable.avancedStats.canFly)
+            if (enemyScriptable.advancedStats.canFly)
             {
                 _rb.gravityScale = 3;
             }
@@ -190,7 +191,7 @@ namespace _Scripts.Units.Enemy
                 return;
             }
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(attackPoint.position, enemyScriptable.avancedStats.weaponAttackRange);
+            Gizmos.DrawWireSphere(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange);
         }
     }
 }
