@@ -140,8 +140,8 @@ namespace _Scripts.Units.Enemy
         }
         public void Attack()
         {
-            // _rb.velocity = Vector2.zero;
-            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange, enemyScriptable.playerLayer);
+            Collider2D[] hitPlayer = new Collider2D[10];
+            Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange,hitPlayer, enemyScriptable.playerLayer);
             foreach(Collider2D hit in hitPlayer)
             {
                 Debug.Log("We hit "+ hit.name);
