@@ -8,9 +8,9 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    public void TriggerDialogue()
+    public void TriggerDialogue(GameObject doActionOn)
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, doActionOn);
         FindObjectOfType<Player>().StopMotion();
         FindObjectOfType<GameManager>().DisablePlayerControl();
     }

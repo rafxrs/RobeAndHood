@@ -12,6 +12,7 @@ namespace _Scripts.Managers
         public Text nameText;
         public Text dialogueText;
         public Animator animator;
+        private GameObject _doActionOn;
     
 
         [SerializeField] bool inDialogue;
@@ -34,13 +35,14 @@ namespace _Scripts.Managers
             }
         }
 
-        public void StartDialogue(Dialogue dialogue)
+        public void StartDialogue(Dialogue dialogue, GameObject doActionOn)
     
         {
             inDialogue = true;
             animator.SetBool(IsOpen, true);
             nameText.text = dialogue.name;
-            // Debug.Log("Starting conversation with "+dialogue.name);
+            _doActionOn = doActionOn;
+            Debug.Log("Starting conversation with "+dialogue.name);
 
             _sentences.Clear();
 
@@ -84,6 +86,10 @@ namespace _Scripts.Managers
         {
             inDialogue = false;
             animator.SetBool(IsOpen, false);
+            if (_doActionOn != null)
+            {
+                _doActionOn.SetActive(false);
+            }
             Debug.Log("End of conversation");
             FindObjectOfType<GameManager>().EnablePlayerControl();
         }

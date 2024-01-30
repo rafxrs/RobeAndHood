@@ -40,7 +40,11 @@ namespace _Scripts.Units.Player
                         _gameManager.ShowEButton();
                         if (Input.GetKeyDown(KeyCode.E))
                         {
-                            GetComponent<DialogueTrigger>().TriggerDialogue();
+                            if (doActionOn != null)
+                            {
+                                doActionOn.SetActive(true);
+                            }
+                            GetComponent<DialogueTrigger>().TriggerDialogue(doActionOn);
                             _gameManager.HideEButton();
                         }
                         break;
@@ -54,7 +58,7 @@ namespace _Scripts.Units.Player
                         }
                         break;
                     case Action.Tutorial:
-                        GetComponent<DialogueTrigger>().TriggerDialogue();
+                        GetComponent<DialogueTrigger>().TriggerDialogue(doActionOn);
                         break;
                     case Action.SelectWeapon:
                         _gameManager.ShowEButton();
