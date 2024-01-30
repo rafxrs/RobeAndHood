@@ -1,49 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FloatingHealthBar : MonoBehaviour
+namespace _Scripts.UI
 {
-    private Slider slider;
-    [SerializeField] Transform target;
-    // Start is called before the first frame update
-    void Start()
+    public class FloatingHealthBar : MonoBehaviour
     {
-        target = transform.parent.parent;
-        if (target==null)
+        private Slider _slider;
+        [SerializeField] Transform target;
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log("Root is null");
-        }
-        slider = GetComponent<Slider>();
-        if (slider == null)
-        {
-            // Debug.LogError("slider of health bar from "+target.name+ " is null");
-        }
+            target = transform.parent.parent;
+            if (target==null)
+            {
+                Debug.Log("Root is null");
+            }
+            _slider = GetComponent<Slider>();
+            if (_slider == null)
+            {
+                // Debug.LogError("slider of health bar from "+target.name+ " is null");
+            }
         
-    }
+        }
 
-    public void SetMax(int max)
-    {
-        if (slider == null)
+        public void SetMax(int max)
         {
-            // Debug.LogError("slider of health bar from "+target.name+ " is null");
-        }
-        else 
-        {
-            slider.maxValue = max;
-            slider.value = max;
-        }
+            if (_slider == null)
+            {
+                // Debug.LogError("slider of health bar from "+target.name+ " is null");
+            }
+            else 
+            {
+                _slider.maxValue = max;
+                _slider.value = max;
+            }
         
-    }
-    public void Set(int current)
-    {
-        slider.value = current;
-    }
+        }
+        public void Set(int current)
+        {
+            _slider.value = current;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.localScale = target.localScale; 
+        // Update is called once per frame
+        void Update()
+        {
+            transform.localScale = target.localScale; 
+        }
     }
 }
