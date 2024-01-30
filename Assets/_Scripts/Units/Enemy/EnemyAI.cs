@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Scriptables;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -58,11 +59,11 @@ namespace _Scripts.Units.Enemy
             _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
 
             _enemyScriptable = _enemy.enemyScriptable;
-            _chaseSpeed = _enemyScriptable.avancedStats.chaseSpeed;
-            _patrolSpeed = _enemyScriptable.avancedStats.patrolSpeed;
-            _nextWayPointDist = _enemyScriptable.avancedStats.nextWayPointDist;
-            _hasAttacks = _enemyScriptable.avancedStats.hasAttacks;
-            _isStatic = _enemyScriptable.avancedStats.isStatic;
+            _chaseSpeed = _enemyScriptable.advancedStats.chaseSpeed;
+            _patrolSpeed = _enemyScriptable.advancedStats.patrolSpeed;
+            _nextWayPointDist = _enemyScriptable.advancedStats.nextWayPointDist;
+            _hasAttacks = _enemyScriptable.advancedStats.hasAttacks;
+            _isStatic = _enemyScriptable.advancedStats.isStatic;
 
             if (!_isStatic)
             {
@@ -97,10 +98,10 @@ namespace _Scripts.Units.Enemy
                     transform.localScale = new Vector3(1f, 1f,1f);
                 }
 
-                if (_distToPlayer<_enemyScriptable.avancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
+                if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
                 {
                     // Debug.Log("Static attack");
-                    _nextAttackTime = Time.time + _enemyScriptable.avancedStats.attackRate;
+                    _nextAttackTime = Time.time + _enemyScriptable.advancedStats.attackRate;
                     _enemy.AttackAnimation();
                 }  
             }
@@ -110,7 +111,7 @@ namespace _Scripts.Units.Enemy
                 {
                     if (!isInBounds) 
                     {
-                        if (_wasInBounds && _enemyScriptable.avancedStats.canFly)
+                        if (_wasInBounds && _enemyScriptable.advancedStats.canFly)
                         {
                             ChaseAndAttack();
                         }
@@ -204,7 +205,7 @@ namespace _Scripts.Units.Enemy
         }
         public void FlipPatrol()
         {
-            if (_enemyScriptable.avancedStats.hasAttacks)
+            if (_enemyScriptable.advancedStats.hasAttacks)
             {
                 _rb.velocity = Vector2.zero;
             }
@@ -255,14 +256,14 @@ private void Chase()
         void ChaseAndAttack()
         {
             _wasInBounds = true;
-            if (_distToPlayer<_enemyScriptable.avancedStats.attackDistance && Time.time < _nextAttackTime)
+            if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time < _nextAttackTime)
             {
                 // Debug.Log("Cant attack");
                 Chase();
             }  
-            else if (_distToPlayer<_enemyScriptable.avancedStats.attackDistance && Time.time > _nextAttackTime)
+            else if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time > _nextAttackTime)
             {
-                _nextAttackTime = Time.time + _enemyScriptable.avancedStats.attackRate;
+                _nextAttackTime = Time.time + _enemyScriptable.advancedStats.attackRate;
                 _enemy.AttackAnimation();
             }  
         
@@ -274,7 +275,7 @@ private void Chase()
 //-------------------------------------------------------------------------------------------//
         public void Jump()
         {
-            _rb.AddForce(new Vector2(0f, _enemyScriptable.avancedStats.jumpForce));
+            _rb.AddForce(new Vector2(0f, _enemyScriptable.advancedStats.jumpForce));
         }
 
     

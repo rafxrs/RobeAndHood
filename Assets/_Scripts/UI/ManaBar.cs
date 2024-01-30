@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManaBar : MonoBehaviour
+namespace _Scripts.UI
 {
-    public Slider slider;
-    public void SetMaxMana(float health)
+    public class ManaBar : MonoBehaviour
     {
-        slider.maxValue = health;
-        slider.value = health;
-    }
+        public Slider slider;
+        public void SetMaxMana(float health)
+        {
+            slider.maxValue = health;
+            slider.value = health;
+        }
     
-    public void SetMana(float health)
-    {
-        slider.value = health;
+        public void SetMana(float health)
+        {
+            slider.value = health;
+        }
     }
 }

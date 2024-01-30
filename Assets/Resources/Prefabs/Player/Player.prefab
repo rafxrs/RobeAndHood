@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36590d3ba38cd974faaf9b00010a313f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _platformLayerMask:
+  platformLayerMask:
     serializedVersion: 2
     m_Bits: 33335
   controller: {fileID: 1435041367869528936}

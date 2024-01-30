@@ -1,32 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using _Scripts.Managers.Scene_Management;
 using UnityEngine;
 
-public class World : SceneSwitch
+namespace _Scripts.Managers.Scene_Management
 {
-    public Transform player;
-    public float posX;
-    public float posY;
-    public string previous;
-    // Start is called before the first frame update
-    public override void Start()
+    public class World : SceneSwitch
     {
-        base.Start();
-        if (player==null)
+        public Transform player;
+        public float posX;
+        public float posY;
+        public string previous;
+        // Start is called before the first frame update
+        public override void Start()
         {
-            player = GameObject.Find("Player").GetComponent<Transform>();
+            base.Start();
+            if (player == null)
+            {
+                player = GameObject.Find("Player").GetComponent<Transform>();
 
+            }
+            if (previousScene == previous)
+            {
+                player.position = new Vector2(posX, posY);
+            }
         }
-        if (previousScene == previous)
-        {
-            player.position = new Vector2(posX,posY);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

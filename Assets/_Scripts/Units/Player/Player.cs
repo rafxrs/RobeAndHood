@@ -1,5 +1,7 @@
 using System.Collections;
 using _Scripts.Managers;
+using _Scripts.Scriptables;
+using _Scripts.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -63,7 +65,7 @@ namespace _Scripts.Units.Player
             }
 
             _currentHealth = _playerScriptable.baseStats.maxHealth;
-            currentMana = _playerScriptable.avancedStats.maxMana;
+            currentMana = _playerScriptable.advancedStatistics.maxMana;
             _hurtColor = Color.red;
 
             manaBar.SetMaxMana(currentMana);
@@ -94,7 +96,7 @@ namespace _Scripts.Units.Player
         {
             if (GameManager.playerControl && !_isDead)
             {
-                _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.avancedStats.speed;
+                _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.advancedStatistics.speed;
                 if (Mathf.Abs(_horizontalInput) > 0 && Time.time>_nextStepsTime && isGrounded())
                 {
                     _nextStepsTime += Time.time + 2f;
@@ -121,13 +123,13 @@ namespace _Scripts.Units.Player
                 
                     Jump();
                 }
-                if (Input.GetButtonDown("Roll") && !roll && (currentMana>=_playerScriptable.avancedStats.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)  
+                if (Input.GetButtonDown("Roll") && !roll && (currentMana>=_playerScriptable.advancedStatistics.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)  
                 {
                     Debug.Log("Rolling");
                     Roll();
                 
                 } 
-                else if (Input.GetButtonDown("Roll") && (currentMana<_playerScriptable.avancedStats.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)
+                else if (Input.GetButtonDown("Roll") && (currentMana<_playerScriptable.advancedStatistics.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)
                 {
                     transform.Find("MissingMana").gameObject.SetActive(true);
                     Invoke("ResetMissingMana",0.75f);
@@ -186,7 +188,7 @@ namespace _Scripts.Units.Player
             roll = true;
             AudioManager.instance.Play("Roll");
             _animator.SetBool("isRolling", true);
-            currentMana -= _playerScriptable.avancedStats.rollManaCost;
+            currentMana -= _playerScriptable.advancedStatistics.rollManaCost;
             manaBar.SetMana(currentMana);
             StartCoroutine(RollDownRoutine());
         }
@@ -194,7 +196,7 @@ namespace _Scripts.Units.Player
         {
             _animator.SetBool("isClimbing", true);
             float verticalInput = Input.GetAxis("Vertical");
-            Vector2 climbVelocity = new Vector2(_rb.velocity.x, verticalInput * _playerScriptable.avancedStats.climbSpeed);
+            Vector2 climbVelocity = new Vector2(_rb.velocity.x, verticalInput * _playerScriptable.advancedStatistics.climbSpeed);
             _rb.velocity = climbVelocity;
         
         
@@ -206,7 +208,7 @@ namespace _Scripts.Units.Player
             _hitbox.enabled = false;
             Invoke("EnableHitbox", 0.2f);
             _rb.velocity = Vector2.zero;
-            _rb.AddForce(new Vector2(0f, _playerScriptable.avancedStats.bounceForce));
+            _rb.AddForce(new Vector2(0f, _playerScriptable.advancedStatistics.bounceForce));
             // animator.SetBool("isJumping", true);
         }
 
@@ -306,7 +308,7 @@ namespace _Scripts.Units.Player
         }
         void RegainMana()
         {
-            if (currentMana >= _playerScriptable.avancedStats.maxMana)
+            if (currentMana >= _playerScriptable.advancedStatistics.maxMana)
             {
                 currentMana =100f;
                 manaBar.SetMana(currentMana);

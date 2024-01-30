@@ -1,3 +1,4 @@
+using _Scripts.Scriptables;
 using _Scripts.Units.Enemy;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class RangedEnemy : Enemy
     void ShootArrowSameSpot()
     {
         // Debug.Log("ShootingArrow");
-        Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab, transform.position, Quaternion.identity);
+        Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab[0], transform.position, Quaternion.identity);
         Vector2 throwDirection = -transform.right * (transform.localScale.x);
         float randomOffset = Random.Range(-0.25f, 0.25f);
         // Calculate the required initial velocity for the desired arc
@@ -34,7 +35,7 @@ public class RangedEnemy : Enemy
 
     void ShootArrowOnPlayer()
     {
-        Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab, transform.position, transform.rotation);
+        Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab[0], transform.position, transform.rotation);
         Vector2 launchDirection = (playerTransform.position - transform.position).normalized;
 
         // Calculate the required initial velocity for the desired arc
@@ -48,7 +49,7 @@ public class RangedEnemy : Enemy
 
     private void ThrowSpear()
     {
-        Rigidbody2D spearInstance = Instantiate(w.weaponPrefab, transform.position, transform.rotation);
+        Rigidbody2D spearInstance = Instantiate(w.weaponPrefab[0], transform.position, transform.rotation);
         Vector2 throwDirection = (playerTransform.position - transform.position).normalized;
 
         // Calculate the required initial velocity for the desired arc

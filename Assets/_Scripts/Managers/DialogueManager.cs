@@ -1,82 +1,99 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+namespace _Scripts.Managers
 {
-    public Text nameText;
-    public Text dialogueText;
-    public Animator animator;
+    public class DialogueManager : MonoBehaviour
+    {
+        public Text nameText;
+        public Text dialogueText;
+        public Animator animator;
+        private GameObject _doActionOn;
     
 
-    [SerializeField] bool inDialogue=false;
+        [SerializeField] bool inDialogue;
 
-    Queue<string> _sentences;
-    // Start is called before the first frame update
-    void Start()
-    {
-        _sentences = new Queue<string>();
-    }
+        Queue<string> _sentences;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && inDialogue)
+        private static readonly int IsOpen = Animator.StringToHash("isOpen");
+
+        // Start is called before the first frame update
+        void Start()
         {
+            _sentences = new Queue<string>();
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && inDialogue)
+            {
+                DisplayNextSentence();
+            }
+        }
+
+        public void StartDialogue(Dialogue dialogue, GameObject doActionOn)
+    
+        {
+            inDialogue = true;
+            animator.SetBool(IsOpen, true);
+            nameText.text = dialogue.name;
+            _doActionOn = doActionOn;
+            Debug.Log("Starting conversation with "+dialogue.name);
+
+            _sentences.Clear();
+
+            foreach (string sentence in dialogue.sentences)
+            {
+                _sentences.Enqueue(sentence);
+            }
             DisplayNextSentence();
         }
-    }
 
-    public void StartDialogue(Dialogue dialogue)
-    
-    {
-        inDialogue = true;
-        animator.SetBool("isOpen", true);
-        nameText.text = dialogue.name;
-        // Debug.Log("Starting conversation with "+dialogue.name);
-
-        _sentences.Clear();
-
-        foreach (string sentence in dialogue.sentences)
+        public void DisplayNextSentence()
         {
-            _sentences.Enqueue(sentence);
-        }
-        DisplayNextSentence();
-    }
-
-    public void DisplayNextSentence()
-    {
-        if (_sentences.Count == 0)
-        {
-            EndDialogue();
-            return;
-        }
-        else 
-        {
-            string sentence = _sentences.Dequeue();
-            StopAllCoroutines();
-            StartCoroutine(TypeSentence(sentence));
+            if (_sentences is { Count: 0 })
+            {
+                EndDialogue();
+            }
+            
+            else 
+            {
+                if (_sentences != null)
+                {
+                    var sentence = _sentences.Dequeue();
+                    StopAllCoroutines();
+                    StartCoroutine(TypeSentence(sentence));
+                }
+            }
         }
 
-    }
-
-    IEnumerator TypeSentence(string sentence)
-    {
-        dialogueText.text = "";
-        foreach(char letter in sentence.ToCharArray())
+        private IEnumerator TypeSentence([NotNull] string sentence)
         {
-            dialogueText.text += letter;
-            yield return null;
+            if (sentence == null) throw new ArgumentNullException(nameof(sentence));
+            dialogueText.text = "";
+            foreach(var letter in sentence.ToCharArray())
+            {
+                dialogueText.text += letter;
+                yield return null;
+            }
         }
-    }
 
-    void EndDialogue()
-    {
-        inDialogue = false;
-        animator.SetBool("isOpen", false);
-        Debug.Log("End of conversation");
-        FindObjectOfType<GameManager>().EnablePlayerControl();
-    }
+        void EndDialogue()
+        {
+            inDialogue = false;
+            animator.SetBool(IsOpen, false);
+            if (_doActionOn != null)
+            {
+                _doActionOn.SetActive(false);
+            }
+            Debug.Log("End of conversation");
+            FindObjectOfType<GameManager>().EnablePlayerControl();
+        }
 
     
+    }
 }

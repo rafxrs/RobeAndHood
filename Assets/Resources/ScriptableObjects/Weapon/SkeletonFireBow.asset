@@ -16,7 +16,8 @@ MonoBehaviour:
   attackRate: 2
   attackRange: 20
   controller: {fileID: 0}
-  weaponPrefab: {fileID: 8471060817225452035, guid: f7a42ab9e6b9c9849aa4d421e9d11914, type: 3}
+  weaponPrefab:
+  - {fileID: 8471060817225452035, guid: f7a42ab9e6b9c9849aa4d421e9d11914, type: 3}
   launchForce: 20
   launchArcHeight: 0.4
   launchDuration: 0.5
