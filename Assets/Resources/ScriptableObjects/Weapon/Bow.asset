@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4d1d24670dce54692ce4766d995154, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
-  attackDamage: 75
-  attackRate: 0.8
+  attackDamage: 50
+  attackRate: 0.9
   attackRange: 0
   controller: {fileID: 22100000, guid: 6ab826a5cbc0b9b43bd6e991d038c15e, type: 2}
-  weaponPrefab: {fileID: 8471060817225452035, guid: 3d4b40c5b2b215941b37e2738cf29072, type: 3}
+  weaponPrefab:
+  - {fileID: 8471060817225452035, guid: 3d4b40c5b2b215941b37e2738cf29072, type: 3}
+  - {fileID: 8471060817225452035, guid: d782e2be13bd985449aaeb219066dc8e, type: 3}
   launchForce: 18
   launchArcHeight: 0.4
   launchDuration: 0.5

@@ -9,7 +9,7 @@ namespace _Scripts.Scriptables
         public float attackRate;
         public float attackRange;
         public RuntimeAnimatorController controller;
-        public Rigidbody2D weaponPrefab;
+        public Rigidbody2D[] weaponPrefab;
         public float launchForce;
         public float launchArcHeight;
         public float launchDuration;

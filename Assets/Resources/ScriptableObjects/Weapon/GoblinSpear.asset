@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4d1d24670dce54692ce4766d995154, type: 3}
   m_Name: GoblinSpear
   m_EditorClassIdentifier: 
-  name: GoblinSpear
   attackDamage: 25
   attackRate: 2
   attackRange: 10
   controller: {fileID: 0}
-  weaponPrefab: {fileID: 108336874688654247, guid: 5bf35dd8f2ea8aa469b689227cad78ca, type: 3}
+  weaponPrefab:
+  - {fileID: 108336874688654247, guid: 5bf35dd8f2ea8aa469b689227cad78ca, type: 3}
   launchForce: 20
   launchArcHeight: 1
   launchDuration: 0.5

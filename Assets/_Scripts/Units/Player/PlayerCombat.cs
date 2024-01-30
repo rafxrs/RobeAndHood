@@ -90,11 +90,12 @@ public class PlayerCombat : MonoBehaviour
 // -------------------------------------------------------------------------------------------------------------------------- //
     void AttackAnimation()
     {
-        AudioManager.instance.Play("SwordAttack");
+        
         int _randomAttack = Random.Range(1,3);
         string _attackNumber= "Attack"+_randomAttack;
         if (_weaponName=="Sword")
         {
+            AudioManager.instance.Play("SwordAttack");
             if (_comboTime!=0f)
             {
                 Debug.Log("Check");
@@ -234,7 +235,7 @@ public class PlayerCombat : MonoBehaviour
     {
         _player.currentMana -= _throwSpearManaCost;
         _player.manaBar.SetMana(_player.currentMana);
-        Rigidbody2D spearInstance = Instantiate(weapon.weaponPrefab, transform.position, transform.rotation);
+        Rigidbody2D spearInstance = Instantiate(weapon.weaponPrefab[0], transform.position, transform.rotation);
         Vector2 throwDirection = transform.right;
 
         // Calculate the required initial velocity for the desired arc
@@ -249,7 +250,16 @@ public class PlayerCombat : MonoBehaviour
     void ShootArrow()
     {
         // Debug.Log("ShootingArrow");
-        Rigidbody2D arrowInstance = Instantiate(weapon.weaponPrefab, transform.position, Quaternion.identity);
+        // Fire arrow deals twice the damage and has 20% chance of happening
+        int arrow = 0;
+        _attackDamage = weapon.attackDamage;
+        int temp = Random.Range(0, 5);
+        if (temp == 2)
+        {
+            arrow = 1;
+            _attackDamage *= 2;
+        }
+        Rigidbody2D arrowInstance = Instantiate(weapon.weaponPrefab[arrow], transform.position, Quaternion.identity);
         Vector2 throwDirection = transform.right;
 
         // Calculate the required initial velocity for the desired arc

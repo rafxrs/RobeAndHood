@@ -88,7 +88,7 @@ namespace _Scripts.Managers
                 }
             
             }
-            if (isPaused && Input.GetKeyDown(KeyCode.Escape)) 
+            else if (isPaused && Input.GetKeyDown(KeyCode.Escape)) 
             {
                 Application.Quit();
                 // SceneManager.LoadScene(0  );

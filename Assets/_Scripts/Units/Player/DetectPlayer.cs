@@ -137,6 +137,9 @@ namespace _Scripts.Units.Player
                         _playerTransform.position = doActionOn.transform.position;
                         _gameManager.HideEButton();
                         break;
+                    case Action.ShowInfo:
+                        doActionOn.SetActive(true);
+                        break;
                 }
             
             }
@@ -153,6 +156,7 @@ namespace _Scripts.Units.Player
             Chest,
             Lever,
             Teleport,
+            ShowInfo,
 
         }
 
@@ -172,7 +176,7 @@ namespace _Scripts.Units.Player
                 playerDetected = false;
                 _gameManager.HideEButton();
 
-                if (action == Action.SelectWeapon)
+                if (action == Action.SelectWeapon || action == Action.ShowInfo)
                 {
                     doActionOn.SetActive(false);
                 }
