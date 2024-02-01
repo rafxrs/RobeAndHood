@@ -304,7 +304,6 @@ namespace _Scripts.Units.Player
             attackRate = w.attackRate;
             attackRange = w.attackRange;
         }
-        // ReSharper disable Unity.PerformanceAnalysis
         public void ChooseWeapon(int number) //0 is spear, 1 is bow, 2 is sword
         {
             AudioManager.instance.Play("Equip");

@@ -980,8 +980,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1741450199
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e59cf04fb0636794cb011216c538c8ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1690,7 +1690,7 @@ MonoBehaviour:
     - Short cooldown
 
     - 20%
-    Chance of fire arrow'
+    Chance of fire arrow (2x damage)'
 --- !u!1 &1162361353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1752,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: 298106463
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &1162361356

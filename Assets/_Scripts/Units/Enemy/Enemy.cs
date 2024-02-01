@@ -40,7 +40,8 @@ namespace _Scripts.Units.Enemy
             {
                 Debug.LogError("health bar is null");
             }
-            _healthBar.SetMax(enemyScriptable.baseStats.maxHealth);
+
+            if (_healthBar != null) _healthBar.SetMax(enemyScriptable.baseStats.maxHealth);
             // Debug.Log("success");
             enemyScriptable.impactPrefabs[0] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX1");
             enemyScriptable.impactPrefabs[1] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX2");
@@ -145,11 +146,15 @@ namespace _Scripts.Units.Enemy
             
             foreach(var hit in hitPlayer)
             {
-                Debug.Log("We hit "+ hit.name);
-                if (hit.CompareTag("PlayerHitbox"))
+                if (hit != null)
                 {
-                    _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
+                    Debug.Log("We hit "+ hit.name);
+                    if (hit.CompareTag("PlayerHitbox"))
+                    {
+                        _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
+                    }  
                 }
+                
             }
         }
         public void AttackAnimation()
