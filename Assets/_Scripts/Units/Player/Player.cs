@@ -100,7 +100,7 @@ namespace _Scripts.Units.Player
                 if (Mathf.Abs(_horizontalInput) > 0 && Time.time>_nextStepsTime && isGrounded())
                 {
                     _nextStepsTime += Time.time + 2f;
-                    Debug.Log("Playing Steps sound");
+                    //Debug.Log("Playing Steps sound");
                     AudioManager.instance.Play("Steps");
                 }
                 else if (Mathf.Abs(_horizontalInput) == 0)
@@ -239,7 +239,7 @@ namespace _Scripts.Units.Player
         {
             if (other.tag=="Climbable")
             {
-                Debug.Log("We can climb");
+                //Debug.Log("We can climb");
                 isClimbing = true;
             }
         }

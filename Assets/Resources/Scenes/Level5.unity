@@ -660,7 +660,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -675,12 +675,12 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 8390175544761276735, guid: 230dce2d28f76894d9e9c7a6f20ce568, type: 3}
-  - m_RefCount: 6
-    m_Data: {fileID: 1242789013272568284, guid: 230dce2d28f76894d9e9c7a6f20ce568, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 6
+    m_Data: {fileID: 1242789013272568284, guid: 230dce2d28f76894d9e9c7a6f20ce568, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 8390175544761276735, guid: 230dce2d28f76894d9e9c7a6f20ce568, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 7
     m_Data:
@@ -32528,6 +32528,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: mustChooseWeapon
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
       propertyPath: chooseWeaponPanel
       value: 
       objectReference: {fileID: 415032064}
@@ -32545,6 +32549,18 @@ PrefabInstance:
       objectReference: {fileID: 5738357976181555691}
     - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
       propertyPath: Stars.Array.data[2]
+      value: 
+      objectReference: {fileID: 5738357976181555692}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[0]
+      value: 
+      objectReference: {fileID: 5738357976181555690}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[1]
+      value: 
+      objectReference: {fileID: 5738357976181555691}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[2]
       value: 
       objectReference: {fileID: 5738357976181555692}
     m_RemovedComponents: []

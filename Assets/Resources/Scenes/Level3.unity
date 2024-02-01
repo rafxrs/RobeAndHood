@@ -84012,6 +84012,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: mustChooseWeapon
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
       propertyPath: chooseWeaponPanel
       value: 
       objectReference: {fileID: 415032064}
@@ -84029,6 +84033,18 @@ PrefabInstance:
       objectReference: {fileID: 5738357976181555691}
     - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
       propertyPath: Stars.Array.data[2]
+      value: 
+      objectReference: {fileID: 5738357976181555692}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[0]
+      value: 
+      objectReference: {fileID: 5738357976181555690}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[1]
+      value: 
+      objectReference: {fileID: 5738357976181555691}
+    - target: {fileID: 383341798464348557, guid: 12f8bd52e7200de40b3d6a070b95a2e8, type: 3}
+      propertyPath: stars.Array.data[2]
       value: 
       objectReference: {fileID: 5738357976181555692}
     m_RemovedComponents: []

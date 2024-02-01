@@ -172,7 +172,7 @@ namespace _Scripts.Units.Player
         
             if (other.CompareTag("Player"))
             {
-                Debug.Log("Player left the collider");
+                //Debug.Log("Player left the collider");
                 playerDetected = false;
                 _gameManager.HideEButton();
 

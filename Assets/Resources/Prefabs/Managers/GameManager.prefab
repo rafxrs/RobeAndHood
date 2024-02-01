@@ -46,14 +46,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a27b1551582a149a6511265c9ca565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  starsCount: 0
   isGameOver: 0
   isPaused: 0
-  mustChooseWeapon: 1
+  levelComplete: 0
+  mustChooseWeapon: 0
   pausePanel: {fileID: 0}
   gameOverPanel: {fileID: 0}
   chooseWeaponPanel: {fileID: 0}
   levelCompletePanel: {fileID: 0}
-  player: {fileID: 0}
+  stars:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  eButton: {fileID: 0}
 --- !u!1 &383341799819092760
 GameObject:
   m_ObjectHideFlags: 0

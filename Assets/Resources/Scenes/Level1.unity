@@ -3314,7 +3314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &166285706
 Transform:
   m_ObjectHideFlags: 0
@@ -23747,7 +23747,10 @@ MonoBehaviour:
   gameOverPanel: {fileID: 832968955}
   chooseWeaponPanel: {fileID: 1990709855}
   levelCompletePanel: {fileID: 1652049067}
-  stars: []
+  stars:
+  - {fileID: 1741595269}
+  - {fileID: 623368386}
+  - {fileID: 699463760}
   eButton: {fileID: 1435646076}
 --- !u!1001 &373880305
 PrefabInstance:
@@ -30198,6 +30201,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7905947962695021715, guid: bb9c09a4ab307534aa8022426a601eb2, type: 3}
   m_PrefabInstance: {fileID: 7905947963282874027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &623368386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1005923069, guid: 896c60418467ba94abc91af970eae581, type: 3}
+  m_PrefabInstance: {fileID: 1435646074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &624496325
 GameObject:
   m_ObjectHideFlags: 0
@@ -31206,6 +31214,11 @@ Transform:
   m_Father: {fileID: 812209458}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &699463760 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1133223279, guid: 896c60418467ba94abc91af970eae581, type: 3}
+  m_PrefabInstance: {fileID: 1435646074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705574058
 GameObject:
   m_ObjectHideFlags: 0
@@ -40911,6 +40924,10 @@ PrefabInstance:
     - target: {fileID: 540790227953547665, guid: 54c25e81f0c06124682897962edc59e4, type: 3}
       propertyPath: m_Name
       value: Dialogue Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 540790227953547665, guid: 54c25e81f0c06124682897962edc59e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 540790227953547666, guid: 54c25e81f0c06124682897962edc59e4, type: 3}
       propertyPath: m_Pivot.x
@@ -54227,6 +54244,11 @@ MonoBehaviour:
       restart the current level.
 
       Try collecting the coins on your right!'
+--- !u!1 &1741595269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1542188430, guid: 896c60418467ba94abc91af970eae581, type: 3}
+  m_PrefabInstance: {fileID: 1435646074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1743224172 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7814291195344319244, guid: deddaa75b1fe54a47912dad5a6e3f7a1, type: 3}
