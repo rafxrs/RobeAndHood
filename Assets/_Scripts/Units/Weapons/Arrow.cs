@@ -58,7 +58,7 @@ namespace _Scripts.Units.Weapons
                 {
                     Debug.Log("arrow hit "+other.name);
                     Enemy.Enemy enemy= other.GetComponent<Enemy.Enemy>();
-                    if (enemy != null) enemy.TakeDamage(w.attackDamage);
+                    enemy.TakeDamage(w.attackDamage);
                     Destroy(this.gameObject);
                 }
                 else if (other.CompareTag("Crate"))

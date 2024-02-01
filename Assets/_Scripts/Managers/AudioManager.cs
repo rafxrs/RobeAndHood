@@ -14,13 +14,14 @@ namespace _Scripts.Managers
             {
                 Debug.Log("Setting new AudioManager");
                 instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
                 Debug.Log("Destroying AudioManager");
                 Destroy(gameObject);
             }
-            DontDestroyOnLoad(gameObject);
+            
             foreach (Sound s in sounds)
             {
                 s.source = gameObject.AddComponent<AudioSource>();
@@ -39,6 +40,8 @@ namespace _Scripts.Managers
                 Debug.LogWarning("Sound "+soundName+" not found");
                 return;
             }
+            s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
+            s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
             s.source.Play();
         }
     
