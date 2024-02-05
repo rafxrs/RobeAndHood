@@ -63,7 +63,7 @@ namespace _Scripts.Managers
             
             }
             // m for menu
-            if (Input.GetKeyDown(KeyCode.M) && isGameOver) 
+            if (Input.GetKeyDown(KeyCode.M) && (isGameOver || isPaused)) 
             {
                 SceneManager.LoadScene(0); // main menu
             }
