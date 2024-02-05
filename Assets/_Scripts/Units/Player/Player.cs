@@ -257,11 +257,7 @@ namespace _Scripts.Units.Player
                 //Debug.Log("We can climb");
                 isClimbing = true;
             }
-            if (other.gameObject.CompareTag("DeathFloor"))
-            {
             
-                TakeDamage(_playerScriptable.baseStats.maxHealth);
-            }
         }
         void OnTriggerExit2D(Collider2D other)
         {
