@@ -45,12 +45,17 @@ namespace _Scripts.Units.Player
         // PRIMITIVES
         float _horizontalInput;
         float _nextClimb=-1f;
-        private float _nextStepsTime = -1f;
+        public float _nextStepsTime;
         int _currentHealth;
         bool _jump;
         bool _isDead;
         private bool _isAttacking;
         bool _hasKey;
+        float _nextLadderSound;
+
+        private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
+
+        private static readonly int Speed = Animator.StringToHash("Speed");
         //-------------------------------------------------------------------------------------------//
 
 
@@ -97,35 +102,45 @@ namespace _Scripts.Units.Player
             if (GameManager.playerControl && !_isDead)
             {
                 _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.advancedStatistics.speed;
-                if (Mathf.Abs(_horizontalInput) > 0 && Time.time>_nextStepsTime && isGrounded())
+                if (Mathf.Abs(_horizontalInput) > 0.001f && Time.time>_nextStepsTime && isGrounded())
                 {
-                    _nextStepsTime += Time.time + 2f;
+                    _nextStepsTime = Time.time + 0.3f;
                     //Debug.Log("Playing Steps sound");
                     AudioManager.instance.Play("Steps");
                 }
-                else if (Mathf.Abs(_horizontalInput) == 0)
-                {
-                    AudioManager.instance.StopPlaying("Steps");
-                }
                 
-                _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
+                _animator.SetFloat(Speed, Mathf.Abs(_horizontalInput));
                 if (isGrounded())
                 {
-                    _animator.SetBool("isClimbing",false);
+                    _animator.SetBool(IsClimbing,false);
                 }
 
-                if (isClimbing && (Time.time>_nextClimb) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) ) {
                 
-                    Climb();
-                }
-                else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !roll && !isClimbing)
+                if (isClimbing && (Time.time>_nextClimb) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) )
                 {
-                
+                    if (Time.time > _nextLadderSound)
+                    {
+                        AudioManager.instance.Play("Ladder");
+                        _nextLadderSound = Time.time + 0.4f;
+                    }
+                    else
+                    {
+                        
+                    }
+                    Climb();
+                    AudioManager.instance.StopPlaying("Steps");
+                }
+                else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded() && !roll && !isClimbing)
+                {
+                    AudioManager.instance.StopPlaying("Steps");
                     Jump();
                 }
+                
+                // Roll
                 if (Input.GetButtonDown("Roll") && !roll && (currentMana>=_playerScriptable.advancedStatistics.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)  
                 {
-                    Debug.Log("Rolling");
+                    //Debug.Log("Rolling");
+                    AudioManager.instance.StopPlaying("Steps");
                     Roll();
                 
                 } 
@@ -176,6 +191,7 @@ namespace _Scripts.Units.Player
         }
         public void Jump()
         {
+            AudioManager.instance.Play("Jump");
             _jump = true;
             if (!_isAttacking)
             {
@@ -198,9 +214,8 @@ namespace _Scripts.Units.Player
             float verticalInput = Input.GetAxis("Vertical");
             Vector2 climbVelocity = new Vector2(_rb.velocity.x, verticalInput * _playerScriptable.advancedStatistics.climbSpeed);
             _rb.velocity = climbVelocity;
-        
-        
         }
+        
         public void Bounce()
         {
             AudioManager.instance.Play("SlimeDeath");

@@ -207,6 +207,7 @@ private void ChangeState(GameState newState) {
 //-------------------------------------------------------------------------------------------//
         public void LevelComplete()
         {
+            AudioManager.instance.Play("Level Complete");
             HideEButton();
             starsCount =1;
             if (_player.coins >= 100)

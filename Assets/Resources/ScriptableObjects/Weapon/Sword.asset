@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   attackDamage: 50
-  attackRate: 0.5
+  attackRate: 0.55
   attackRange: 0.8
   controller: {fileID: 22100000, guid: cefa80b425e905245aaa8f34b32a8d85, type: 2}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab:
+  - {fileID: 0}
   launchForce: 0
   launchArcHeight: 0
   launchDuration: 0

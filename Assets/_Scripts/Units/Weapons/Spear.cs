@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Managers;
 using _Scripts.Scriptables;
 using _Scripts.Units.Enemy;
 using _Scripts.Units.Player;
@@ -26,6 +27,7 @@ public class Spear : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.Play("Throw Spear");
         Destroy(this.gameObject, 5f);
         rb = GetComponent<Rigidbody2D>();
         player= GameObject.Find("Player").GetComponent<Player>();
@@ -64,7 +66,7 @@ public class Spear : MonoBehaviour
         {
             if (other.tag == "Enemy")
             {
-                
+                AudioManager.instance.Play("Spear");
                 Enemy enemy= other.GetComponent<Enemy>();
                 enemy.TakeDamage(w.attackDamage);
                 // if (enemy.isDead)
@@ -78,12 +80,13 @@ public class Spear : MonoBehaviour
             }
             else if (other.tag == "Crate")
             {
-                
+                AudioManager.instance.Play("Spear");
                 Destroy(this.gameObject);
                 other.GetComponent<Crate>().TakeDamage(w.attackDamage);
             }
             else if (other.tag == "Lever")
             {
+                AudioManager.instance.Play("Spear");
                 other.GetComponent<Lever>().SwitchLeverState();
             }
         }

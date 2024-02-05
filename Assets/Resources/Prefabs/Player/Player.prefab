@@ -392,7 +392,7 @@ MonoBehaviour:
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 33335
+    m_Bits: 33281
   m_GroundCheck: {fileID: 1435041368280132493}
   m_CeilingCheck: {fileID: 1435041368305319093}
   m_CrouchDisableCollider: {fileID: 2523733902534517736}
@@ -450,6 +450,7 @@ MonoBehaviour:
   isClimbing: 0
   roll: 0
   tookDamage: 0
+  _nextStepsTime: 0
 --- !u!114 &1435041367869528940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,6 +467,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c91a9e63009dbe64ab920adce464a43e, type: 2}
   - {fileID: 11400000, guid: 3e8797bd031b3484f88d1dac1932dbf7, type: 2}
   - {fileID: 11400000, guid: b2287e04f7904b64792c3804d8468fcf, type: 2}
+  - {fileID: 11400000, guid: 394b857a973561945bedcca56ac59896, type: 2}
   weapon: {fileID: 0}
   defaultController: {fileID: 9100000, guid: 202e650c9bba7b949a339fd9def6ae1f, type: 2}
   attackPoints:
@@ -478,11 +480,11 @@ MonoBehaviour:
   interactableLayer:
     serializedVersion: 2
     m_Bits: 16384
-  _weaponName: 
-  _attackRange: 0
-  _attackRate: 0
-  _nextAttackTime: 0
-  _attackDamage: 0
+  weaponName: 
+  attackRange: 0
+  attackRate: 0
+  nextAttackTime: 0
+  attackDamage: 0
 --- !u!82 &4038078092585084937
 AudioSource:
   m_ObjectHideFlags: 0
@@ -504,9 +506,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

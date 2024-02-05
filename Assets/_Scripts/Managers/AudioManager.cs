@@ -44,6 +44,18 @@ namespace _Scripts.Managers
             s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
             s.source.Play();
         }
+        public void Play(string soundName, float volumeDiff)
+        {
+            Sound s = Array.Find(sounds, sound => sound.name == soundName);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound "+soundName+" not found");
+                return;
+            }
+            s.source.volume = s.volume + volumeDiff;
+            s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
+            s.source.Play();
+        }
     
         public void StopPlaying(string soundName)
         {

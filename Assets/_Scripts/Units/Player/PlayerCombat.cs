@@ -78,10 +78,9 @@ namespace _Scripts.Units.Player
                 {
                     if (Input.GetKeyDown(KeyCode.Space)|| Input.GetMouseButtonDown(0))
                     {
+                        AudioManager.instance.StopPlaying("Bow Load");
+                        AudioManager.instance.Play("Bow Load");
                         _animator.SetTrigger(Attack1);
-                        // Invoke("ResetBowForce",1f);
-                        // Debug.Log("Pressed at "+bowButtonDown);
-                        // bowButtonDown = Time.time;
                         _player.IsAttacking();
                         nextAttackTime = Time.time + attackRate;
 
@@ -159,6 +158,7 @@ namespace _Scripts.Units.Player
             switch (name)
             {
                 case "Spear":
+                    AudioManager.instance.Play("Spear");
                     //Debug.Log("Spear Attack");
                     Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackPoints[0].position, new Vector3(weapon.attackRange, 1, 1), 0f, enemyLayer);
                     Collider2D[] hitObjects = Physics2D.OverlapBoxAll(attackPoints[0].position, new Vector3(weapon.attackRange, 1, 1), 0f, interactableLayer);
@@ -245,15 +245,14 @@ namespace _Scripts.Units.Player
 // -------------------------------------------------------------------------------------------------------------------------- //
         void ShootArrow()
         {
+            ChooseWeaponNoSound(1);
             // Debug.Log("ShootingArrow");
             // Fire arrow deals twice the damage and has 20% chance of happening
             int arrow = 0;
-            attackDamage = weapon.attackDamage;
             int temp = Random.Range(0, 5);
             if (temp == 2)
             {
-                arrow = 1;
-                attackDamage *= 2;
+                ChooseWeaponNoSound(3);
             }
             Rigidbody2D arrowInstance = Instantiate(weapon.weaponPrefab[arrow], transform.position, Quaternion.identity);
             Vector2 throwDirection = transform.right;
@@ -307,6 +306,13 @@ namespace _Scripts.Units.Player
         public void ChooseWeapon(int number) //0 is spear, 1 is bow, 2 is sword
         {
             AudioManager.instance.Play("Equip");
+            weapon = weapons[number];
+            ChangeController(weapon);
+            SetWeapon(weapon);
+        }
+        
+        public void ChooseWeaponNoSound(int number) //0 is spear, 1 is bow, 2 is sword
+        {
             weapon = weapons[number];
             ChangeController(weapon);
             SetWeapon(weapon);
