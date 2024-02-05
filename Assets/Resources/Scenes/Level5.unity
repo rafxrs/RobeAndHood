@@ -4202,6 +4202,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4336409682911502433, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
+      propertyPath: leftBoundary
+      value: 
+      objectReference: {fileID: 1345986280}
+    - target: {fileID: 4336409682911502433, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
+      propertyPath: rightBoundary
+      value: 
+      objectReference: {fileID: 1243717715}
     - target: {fileID: 6282386102089082403, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
       propertyPath: m_Name
       value: Skeleton

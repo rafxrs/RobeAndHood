@@ -167,6 +167,7 @@ private void ChangeState(GameState newState) {
             else 
             {
                 playerControl = true;
+                Time.timeScale = 1;
             }
         
             pausePanel.SetActive(false);
