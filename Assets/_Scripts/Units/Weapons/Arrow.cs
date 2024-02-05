@@ -11,7 +11,7 @@ namespace _Scripts.Units.Weapons
     public class Arrow : MonoBehaviour
     {
         public Side side;
-        ScriptableWeapon w;
+        public ScriptableWeapon w;
         Rigidbody2D _rb;
         bool _isInAir = true;
         Player.Player _player;
@@ -38,7 +38,7 @@ namespace _Scripts.Units.Weapons
             Destroy(this.gameObject, 5f);
             _rb = GetComponent<Rigidbody2D>();
             _player = GameObject.Find("Player").GetComponent<Player.Player>();
-            w = _player.GetComponent<PlayerCombat>().weapon;
+            if (side==Side.Player) w = _player.GetComponent<PlayerCombat>().weapon;
         }
 
         // Update is called once per frame

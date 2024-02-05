@@ -59195,8 +59195,12 @@ PrefabInstance:
       value: Background_Forest
       objectReference: {fileID: 0}
     - target: {fileID: 1303216207868432815, guid: 422675cb778ff424691bd05f9a51ead9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 129.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303216207868432815, guid: 422675cb778ff424691bd05f9a51ead9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.3
+      value: -7.48
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 422675cb778ff424691bd05f9a51ead9, type: 3}
