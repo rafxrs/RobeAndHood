@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 7378058765254971040}
   - component: {fileID: 7378058765254971047}
   - component: {fileID: 7378058765254970974}
+  - component: {fileID: 5745528893089835060}
   m_Layer: 0
   m_Name: RewardCoin
   m_TagString: Coin
@@ -186,8 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb723773754c4243aedaf41a5fa5a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   isReward: 1
   destroyFX: {fileID: 1910990868984227888, guid: 0bf491bdbfd7fbb44804b1ebab5cff5d, type: 3}
+  pickupTime: 0
 --- !u!50 &7378058765254970974
 Rigidbody2D:
   serializedVersion: 4
@@ -209,3 +212,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &5745528893089835060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378058765254971043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4127c58f8c897440aefababd7289b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minForce: 5
+  maxForce: 10
+  scatterAngleRange: 30
