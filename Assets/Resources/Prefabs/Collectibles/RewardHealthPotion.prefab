@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 7378058765254970975}
   - component: {fileID: 7378058765254971047}
   - component: {fileID: 7378058765254970974}
+  - component: {fileID: 7855967051279609248}
   m_Layer: 0
   m_Name: RewardHealthPotion
   m_TagString: Coin
@@ -189,3 +190,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &7855967051279609248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378058765254971043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4127c58f8c897440aefababd7289b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minForce: 3
+  maxForce: 5
+  scatterAngleRange: 25

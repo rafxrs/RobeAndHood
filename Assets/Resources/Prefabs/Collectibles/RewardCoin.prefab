@@ -224,6 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4127c58f8c897440aefababd7289b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minForce: 5
-  maxForce: 10
-  scatterAngleRange: 30
+  minForce: 4
+  maxForce: 7
+  scatterAngleRange: 25

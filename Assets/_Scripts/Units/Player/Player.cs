@@ -285,17 +285,24 @@ namespace _Scripts.Units.Player
 
         public void TakeDamage(int damage)
         {
-            tookDamage = true;
-            int randomImpact = Random.Range(0,2);
-            Instantiate(_playerScriptable.impactPrefabs[randomImpact], transform.position, Quaternion.identity);
-            _spriteRenderer.color = _hurtColor;
-            Invoke("ResetColor",0.25f);
-            _currentHealth -= damage;
-            healthBar.Set(_currentHealth);
-            if (_currentHealth <= 0)
+            if (roll)
             {
-                Die();
             }
+            else
+            {
+                tookDamage = true;
+                int randomImpact = Random.Range(0,2);
+                Instantiate(_playerScriptable.impactPrefabs[randomImpact], transform.position, Quaternion.identity);
+                _spriteRenderer.color = _hurtColor;
+                Invoke("ResetColor",0.25f);
+                _currentHealth -= damage;
+                healthBar.Set(_currentHealth);
+                if (_currentHealth <= 0)
+                {
+                    Die();
+                }
+            }
+            
         }
         void ResetColor()
         {

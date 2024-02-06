@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 6448379466143385683}
   - component: {fileID: 6448379466143385684}
   - component: {fileID: 6448379466143385773}
-  - component: {fileID: 4603940541554321888}
   m_Layer: 0
-  m_Name: RewardKey
+  m_Name: StaticRewardKey
   m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,21 +163,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4603940541554321888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6448379466143385680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4127c58f8c897440aefababd7289b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minForce: 3
-  maxForce: 5
-  scatterAngleRange: 25
 --- !u!1 &7398758681258768091
 GameObject:
   m_ObjectHideFlags: 0
