@@ -199,5 +199,10 @@ namespace _Scripts.Units.Enemy
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange);
         }
+
+        public Transform GetAttackPoint()
+        {
+            return attackPoint;
+        }
     }
 }

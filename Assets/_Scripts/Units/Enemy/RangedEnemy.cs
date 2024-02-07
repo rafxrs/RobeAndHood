@@ -7,10 +7,11 @@ namespace _Scripts.Units.Enemy
     {
         [SerializeField] ScriptableWeapon w;
         Transform _playerTransform;
+        private Transform _attackPoint;
 
         void Start()
         {
-        
+            _attackPoint = GetComponent<Enemy>().GetAttackPoint();
             _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
         }
 
@@ -22,12 +23,11 @@ namespace _Scripts.Units.Enemy
         void ShootArrowSameSpot()
         {
             // Debug.Log("ShootingArrow");
-            Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab[0], transform.position, Quaternion.identity);
+            Rigidbody2D arrowInstance = Instantiate(w.weaponPrefab[0], _attackPoint.position, Quaternion.identity);
             Vector2 throwDirection = -transform.right * (transform.localScale.x);
-            float randomOffset = Random.Range(-0.25f, 0.25f);
             // Calculate the required initial velocity for the desired arc
-            float horizontalDistance = w.launchForce * (w.launchDuration + randomOffset);
-            float verticalDistance = (w.launchArcHeight + randomOffset);
+            float horizontalDistance = w.launchForce * (w.launchDuration);
+            float verticalDistance = (w.launchArcHeight);
             Vector2 initialVelocity = CalculateInitialVelocity(throwDirection, horizontalDistance, verticalDistance);
 
             // Apply the initial velocity to the spear
