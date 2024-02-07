@@ -225,8 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyScriptable: {fileID: 11400000, guid: bdbdb57d5f857404c98759d94e859102, type: 2}
   isDead: 0
-  _attackPoint: {fileID: 6646678710503061596}
-  healthBar: {fileID: 0}
+  attackPoint: {fileID: 6646678710503061596}
 --- !u!114 &6646678710159426140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +243,8 @@ MonoBehaviour:
   bottomBoundary: {fileID: 7372161042312444887, guid: a687b7986390c924e81de723cc50a72e, type: 3}
   upBoundary: {fileID: 7686047899609385568, guid: d0a21c2f25279ad40a473a6ff61ef525, type: 3}
   isChasing: 0
+  tolerance: 0.01
+  isInBounds: 0
 --- !u!114 &6646678710159426141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 7378058765254971043, guid: e129833eda866954dbc7ae52a13ffc49, type: 3}
 --- !u!1 &6646678710503061597
 GameObject:
@@ -311,7 +313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6646678710503061597}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: -0.66, z: 0}
+  m_LocalPosition: {x: -0.37, y: -0.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

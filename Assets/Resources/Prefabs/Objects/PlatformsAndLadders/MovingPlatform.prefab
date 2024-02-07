@@ -101,6 +101,8 @@ MonoBehaviour:
   speed: 1.5
   distance: 2
   movingUp: 0
+  move: 1
+  currentDistance: 0
 --- !u!60 &1722877683
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -128,7 +130,7 @@ PolygonCollider2D:
     m_Paths:
     - - {x: -1.5834846, y: 0.19234693}
       - {x: -1.5212097, y: 0.036516067}
-      - {x: -1.4342422, y: -0.11969423}
+      - {x: -1.4524002, y: -0.12574434}
       - {x: -1.4031048, y: -0.22348392}
       - {x: 1.3812097, y: -0.22348416}
       - {x: 1.4277992, y: -0.17068496}
