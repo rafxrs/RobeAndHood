@@ -71,7 +71,7 @@ public class Lever : MonoBehaviour
             case Action.MovingPlatform :
                 foreach (GameObject gobj in doActionOn)
                 {
-                    gobj.GetComponent<MovingPlatform>().move = true;
+                    gobj.GetComponent<MovingPlatform>().move = leverState;
                 }
                 break;
         }

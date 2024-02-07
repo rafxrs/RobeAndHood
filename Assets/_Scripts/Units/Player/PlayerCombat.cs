@@ -54,9 +54,18 @@ namespace _Scripts.Units.Player
             {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
                 {
-                    AttackAnimation();
-                    _player.IsAttacking();
-                    nextAttackTime = Time.time + attackRate;
+                    if (_player.currentMana >= 10f)
+                    {
+                        AttackAnimation();
+                        _player.IsAttacking();
+                        nextAttackTime = Time.time + attackRate;
+                    }
+                    else
+                    {
+                        transform.Find("MissingMana").gameObject.SetActive(true);
+                        Invoke(nameof(ResetMissingMana), 1f);
+                    }
+                    
                 }
                 else if ((_player.currentMana>=_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
                 {
@@ -78,11 +87,21 @@ namespace _Scripts.Units.Player
                 {
                     if (Input.GetKeyDown(KeyCode.Space)|| Input.GetMouseButtonDown(0))
                     {
-                        AudioManager.instance.StopPlaying("Bow Load");
-                        AudioManager.instance.Play("Bow Load");
-                        _animator.SetTrigger(Attack1);
-                        _player.IsAttacking();
-                        nextAttackTime = Time.time + attackRate;
+                        if (_player.currentMana >= 20f)
+                        {
+                            AudioManager.instance.StopPlaying("Bow Load");
+                            AudioManager.instance.Play("Bow Load");
+                            _animator.SetTrigger(Attack1);
+                            _player.IsAttacking();
+                            nextAttackTime = Time.time + attackRate;
+                        }
+                        else
+                        {
+                            transform.Find("MissingMana").gameObject.SetActive(true);
+                            Invoke(nameof(ResetMissingMana), 1f); 
+                        }
+                        
+                        
 
                     }
                 }
@@ -110,7 +129,7 @@ namespace _Scripts.Units.Player
                         _animator.SetTrigger(attackNumber);
                         _animator.SetBool(IsJumping, false);
                     }
-                    else if (((Time.time - _comboTime < 1f))&& _combo==2)
+                    else if (((Time.time - _comboTime < 1f))&& _combo==2&& _player.currentMana<=_throwSpearManaCost)
                     {
                         _combo = 3;
                         attackNumber= "Attack"+_combo;
@@ -158,6 +177,9 @@ namespace _Scripts.Units.Player
             switch (name)
             {
                 case "Spear":
+                    _player.currentMana -= 10f;
+                    _player.manaBar.SetMana(_player.currentMana);
+                    
                     AudioManager.instance.Play("Spear");
                     //Debug.Log("Spear Attack");
                     Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackPoints[0].position, new Vector3(weapon.attackRange, 1, 1), 0f, enemyLayer);
@@ -186,6 +208,8 @@ namespace _Scripts.Units.Player
                 case "Bow":
                     break;
                 case "Sword":
+                    _player.currentMana -= 10f;
+                    _player.manaBar.SetMana(_player.currentMana);
                     // Debug.Log("Sword Attack");
                     hitEnemies = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, enemyLayer);
                     hitObjects = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, interactableLayer);
@@ -245,6 +269,8 @@ namespace _Scripts.Units.Player
 // -------------------------------------------------------------------------------------------------------------------------- //
         void ShootArrow()
         {
+            _player.currentMana -= 20f;
+            _player.manaBar.SetMana(_player.currentMana);
             ChooseWeaponNoSound(1);
             // Debug.Log("ShootingArrow");
             // Fire arrow deals twice the damage and has 20% chance of happening
@@ -281,6 +307,8 @@ namespace _Scripts.Units.Player
 // -------------------------------------------------------------------------------------------------------------------------- //
         void SwordComboAttack()
         {
+            _player.currentMana -= _throwSpearManaCost;
+            _player.manaBar.SetMana(_player.currentMana);
             Debug.Log("combo");
             _isCombo = true;
             Attack();

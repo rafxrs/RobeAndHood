@@ -32549,6 +32549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 0}
 --- !u!1 &860193496
 GameObject:
@@ -41126,6 +41127,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1451419369, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
       propertyPath: m_Points.Array.data[0].x
       value: 0.6739788
@@ -41556,6 +41561,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2833890605688285125, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -45995,6 +46004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 0}
 --- !u!1 &1253985293
 GameObject:
@@ -54539,6 +54549,10 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1380244893}
+    - target: {fileID: 5243291489005524928, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6282386102089082403, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
       propertyPath: m_Name
       value: Skeleton 1
@@ -57402,6 +57416,10 @@ PrefabInstance:
       propertyPath: rewardPrefab
       value: 
       objectReference: {fileID: 6448379466143385680, guid: 35e3738c5bac5204a8adca4de0d59e6c, type: 3}
+    - target: {fileID: 4822133689575428050, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4822133689575428066, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
       propertyPath: m_Name
       value: GoblinAxe
@@ -59387,6 +59405,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 3277300436407337312, guid: c7de7ff89e5b6594e9c8fc83ffa12a93, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7717508031735613324, guid: c7de7ff89e5b6594e9c8fc83ffa12a93, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -59715,6 +59737,10 @@ PrefabInstance:
       propertyPath: rewardPrefab
       value: 
       objectReference: {fileID: 6448379466143385680, guid: 35e3738c5bac5204a8adca4de0d59e6c, type: 3}
+    - target: {fileID: 1247150640, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2833890605688285125, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDetected: 0
   action: 9
-  doActionOn: {fileID: 0}
+  doActionOn: {fileID: 3558930123851287170}
 --- !u!61 &7987405685230955994
 BoxCollider2D:
   m_ObjectHideFlags: 0

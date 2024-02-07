@@ -2579,6 +2579,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 152022771307766663, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.007
@@ -13831,6 +13835,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6048464383685754222, guid: 360d5b030882ad7438ca60bc5a677552, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6048464385505691488, guid: 360d5b030882ad7438ca60bc5a677552, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.38
@@ -15720,6 +15728,10 @@ PrefabInstance:
       propertyPath: rightBoundary
       value: 
       objectReference: {fileID: 1886806693}
+    - target: {fileID: 7107298840593429794, guid: e3c11b604b076a043ab1db22326588da, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8690505337845631143, guid: e3c11b604b076a043ab1db22326588da, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -56759,6 +56771,10 @@ PrefabInstance:
       propertyPath: rightBoundary
       value: 
       objectReference: {fileID: 1268838759}
+    - target: {fileID: 7107298840593429794, guid: e3c11b604b076a043ab1db22326588da, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8690505337845631143, guid: e3c11b604b076a043ab1db22326588da, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -69167,6 +69183,10 @@ PrefabInstance:
     - target: {fileID: 1574537265710126687, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751178746974271343, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149044405158348358, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -85288,6 +85308,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4751178746974271343, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7149044405158348358, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -89619,6 +89643,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4751178746974271343, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7149044405158348358, guid: bd3a187bb86d8334791463795fa61b6d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -89748,6 +89776,10 @@ PrefabInstance:
       propertyPath: rightBoundary
       value: 
       objectReference: {fileID: 269596000}
+    - target: {fileID: 7107298840593429794, guid: e3c11b604b076a043ab1db22326588da, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8690505337845631143, guid: e3c11b604b076a043ab1db22326588da, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -89782,6 +89814,10 @@ PrefabInstance:
     - target: {fileID: 2009111293727782071, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635963571006985772, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8116225736134686480, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
       propertyPath: leftBoundary
@@ -90019,6 +90055,7 @@ MonoBehaviour:
   impactPrefabs:
   - {fileID: 4075565589007400953, guid: 27c8fb768e30f88459024788dbe88bec, type: 3}
   - {fileID: 5013566882751098580, guid: 591adcf3a48c5cb43a2e815a0fb25e68, type: 3}
+  amountOfRewards: 1
 --- !u!212 &4186371275996979239
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -90105,6 +90142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 0}
 --- !u!1001 &4249330656368723854
 PrefabInstance:
@@ -90224,6 +90262,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1202007731320474015, guid: d4f3d6b81f368e443b1690190facb073, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4942719287286327457, guid: d4f3d6b81f368e443b1690190facb073, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
       value: 2.33
@@ -90322,6 +90364,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 4822133689575428050, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4822133689575428066, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
       propertyPath: m_Name
       value: GoblinAxe
@@ -90835,6 +90881,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6048464383685754222, guid: 360d5b030882ad7438ca60bc5a677552, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 360d5b030882ad7438ca60bc5a677552, type: 3}
 --- !u!1001 &5977221590962504898
@@ -90933,6 +90983,10 @@ PrefabInstance:
       propertyPath: rewardPrefab
       value: 
       objectReference: {fileID: 6448379466143385680, guid: 35e3738c5bac5204a8adca4de0d59e6c, type: 3}
+    - target: {fileID: 6646678710159425953, guid: 8a7592da2aee5bb4d89cd77a5cd9d234, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6646678710159426128, guid: 8a7592da2aee5bb4d89cd77a5cd9d234, type: 3}
       propertyPath: m_RootOrder
       value: 2

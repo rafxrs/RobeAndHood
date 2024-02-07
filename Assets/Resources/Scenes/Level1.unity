@@ -24347,6 +24347,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2833890605688285125, guid: f0f596f4216a44e42ad5cbc20a303c36, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -24969,6 +24973,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: d1e21a32f19c7e24ab843540dc3bd2a5, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2833890605688285125, guid: d1e21a32f19c7e24ab843540dc3bd2a5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -39255,6 +39263,10 @@ PrefabInstance:
       propertyPath: rightBoundary
       value: 
       objectReference: {fileID: 5209186683945681019}
+    - target: {fileID: 5243291489005524928, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6282386102089082403, guid: 1cc1672e7815adc4f9730d82b4b5a3fc, type: 3}
       propertyPath: m_Name
       value: Skeleton
@@ -41218,6 +41230,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378514513}
     m_Modifications:
+    - target: {fileID: 1247150640, guid: d1e21a32f19c7e24ab843540dc3bd2a5, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2833890605688285125, guid: d1e21a32f19c7e24ab843540dc3bd2a5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -41313,6 +41329,10 @@ PrefabInstance:
     - target: {fileID: 2009111293727782071, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635963571006985772, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8116225736134686480, guid: 178489f3bdcf6854ab8dcfdbfca4b039, type: 3}
       propertyPath: leftBoundary

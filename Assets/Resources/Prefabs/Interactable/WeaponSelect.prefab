@@ -391,14 +391,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '- Normal damage primary attack [SPACE]
-
-    - Short cooldown
-
-    - Combo
-    attack (x3 damage)
-
-    - To combo: 3 hits in a row with good timing'
+  m_Text: "- Primary attack [SPACE] [10% Energy]\n          Normal damage, short
+    cooldown\n- Combo attack (x3 damage) [50% energy]\n          To combo: 3 hits
+    in a row with good timing"
 --- !u!1 &412104029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,12 +1680,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '- Normal damage primary attack [SPACE]
-
-    - Short cooldown
-
-    - 20%
-    Chance of fire arrow (2x damage)'
+  m_Text: "- Primary attack [SPACE] [20% Energy]\n          Short cooldown, Normal
+    Damage\n          1/5 Chance of fire arrow (2x damage)"
 --- !u!1 &1162361353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,8 +1936,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "- High damage primary attack [SPACE]\n- Long Cooldown\n- Secondary Ranged
-    attack [LSHIFT] \n\t( Uses 50% Energy)"
+  m_Text: "- Primary attack [SPACE] [10% Energy]\n          Long Cooldown, High Damage\n-
+    Secondary attack [LSHIFT] [50% Energy]\n          Throw spear from long range"
 --- !u!1 &1653073960
 GameObject:
   m_ObjectHideFlags: 0
