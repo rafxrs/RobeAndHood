@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Units.Objects;
 using UnityEngine;
 
 public class Lever : MonoBehaviour
@@ -48,7 +49,7 @@ public class Lever : MonoBehaviour
     {
         Door,
         Platform,
-
+        MovingPlatform,
     }
 
     void DoAction()
@@ -67,7 +68,11 @@ public class Lever : MonoBehaviour
                     gobj.SetActive(leverState);
                 }
                 break;
-            default:
+            case Action.MovingPlatform :
+                foreach (GameObject gobj in doActionOn)
+                {
+                    gobj.GetComponent<MovingPlatform>().move = true;
+                }
                 break;
         }
         

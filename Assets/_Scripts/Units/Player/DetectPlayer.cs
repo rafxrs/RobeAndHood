@@ -1,4 +1,5 @@
 using _Scripts.Managers;
+using _Scripts.Units.Objects;
 using UnityEngine;
 
 namespace _Scripts.Units.Player
@@ -140,6 +141,14 @@ namespace _Scripts.Units.Player
                     case Action.ShowInfo:
                         doActionOn.SetActive(true);
                         break;
+                    case Action.MovingPlatform:
+                        _gameManager.ShowEButton();
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            Debug.Log("Activating Platform");
+                            GetComponentInParent<MovingPlatform>().move=true;
+                        }
+                        break;
                 }
             
             }
@@ -157,7 +166,7 @@ namespace _Scripts.Units.Player
             Lever,
             Teleport,
             ShowInfo,
-
+            MovingPlatform,
         }
 
         void OnTriggerStay2D(Collider2D other)

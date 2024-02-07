@@ -121,8 +121,9 @@ namespace _Scripts.Units.Enemy
                 if (_enemyAI.isChasing)
                 {
                 }
-                else 
+                else
                 {
+                    _rb.velocity = Vector3.zero;
                     _enemyAI.FlipPatrol();
                 }   
             }
