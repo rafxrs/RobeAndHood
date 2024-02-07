@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Managers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 // Attach this to any game object that can spawn prefabs for whatever reason
@@ -9,6 +11,8 @@ using UnityEngine;
 public class RewardSpawner : MonoBehaviour
 {
     public RewardType rewardType;
+    [SerializeField] private int amountOfRewards=1;
+
     [System.Serializable]
     public enum RewardType
     {
@@ -39,26 +43,30 @@ public class RewardSpawner : MonoBehaviour
 
     public void Reward(Vector2 spawnPosition)
     {
-        switch (rewardType)
+        for (int i = 0; i < amountOfRewards; i++)
         {
-            case RewardType.Coin:
-                float randomOffset = Random.Range(-0.15f,0.15f);
-                Instantiate(rewardPrefab, new Vector3(spawnPosition.x+randomOffset, spawnPosition.y, 0), Quaternion.identity);
-                break;
-            case RewardType.Key:
-                Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-                break;
-            case RewardType.EndOfLevel:
-                GameObject.Find("GameManager").GetComponent<GameManager>().LevelComplete();
-                break;
-            case RewardType.Potion:
-                Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-                break;
-            case RewardType.Weapon:
-                break;
-            default:
-                break;
+            switch (rewardType)
+            {
+                case RewardType.Coin:
+                    float randomOffset = Random.Range(-0.15f,0.15f);
+                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x+randomOffset, spawnPosition.y, 0), Quaternion.identity);
+                    break;
+                case RewardType.Key:
+                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+                    break;
+                case RewardType.EndOfLevel:
+                    GameObject.Find("GameManager").GetComponent<GameManager>().LevelComplete();
+                    break;
+                case RewardType.Potion:
+                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+                    break;
+                case RewardType.Weapon:
+                    break;
+                default:
+                    break;
+            }
         }
+        
         
     }
 }

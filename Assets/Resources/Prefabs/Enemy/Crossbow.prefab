@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 3
   rewardPrefab: {fileID: 7378058765254971043, guid: e129833eda866954dbc7ae52a13ffc49, type: 3}
 --- !u!114 &7723399157024296817
 MonoBehaviour:

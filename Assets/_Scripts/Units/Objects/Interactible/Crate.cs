@@ -10,6 +10,7 @@ public class Crate : MonoBehaviour
     [SerializeField] private GameObject[] impactPrefabs;
     Animator animator;
     RewardSpawner rewardSpawner;
+    [SerializeField] int amountOfRewards = 1;
 
 
     // Start is called before the first frame update
@@ -50,7 +51,7 @@ public class Crate : MonoBehaviour
             GetComponent<BoxCollider2D>().enabled = false;
             Debug.Log("Destroy");
             animator.SetTrigger("Destroy");
-            SpawnRewards(3);
+            SpawnRewards(amountOfRewards);
             Destroy(this.gameObject,1.5f);
             
         }
