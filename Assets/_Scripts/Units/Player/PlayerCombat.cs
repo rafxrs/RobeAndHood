@@ -129,7 +129,7 @@ namespace _Scripts.Units.Player
                         _animator.SetTrigger(attackNumber);
                         _animator.SetBool(IsJumping, false);
                     }
-                    else if (((Time.time - _comboTime < 1f))&& _combo==2&& _player.currentMana<=_throwSpearManaCost)
+                    else if (((Time.time - _comboTime < 1f))&& _combo==2&& _player.currentMana>=30f)
                     {
                         _combo = 3;
                         attackNumber= "Attack"+_combo;
@@ -208,8 +208,18 @@ namespace _Scripts.Units.Player
                 case "Bow":
                     break;
                 case "Sword":
-                    _player.currentMana -= 10f;
-                    _player.manaBar.SetMana(_player.currentMana);
+                    if (!combo)
+                    {
+                        _player.currentMana -= 10f;
+                        _player.manaBar.SetMana(_player.currentMana);
+                    }
+                    else
+                    {
+                        _player.currentMana -= 30f;
+                        _player.manaBar.SetMana(_player.currentMana);
+                    }
+                    
+                    
                     // Debug.Log("Sword Attack");
                     hitEnemies = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, enemyLayer);
                     hitObjects = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, interactableLayer);
@@ -307,8 +317,6 @@ namespace _Scripts.Units.Player
 // -------------------------------------------------------------------------------------------------------------------------- //
         void SwordComboAttack()
         {
-            _player.currentMana -= _throwSpearManaCost;
-            _player.manaBar.SetMana(_player.currentMana);
             Debug.Log("combo");
             _isCombo = true;
             Attack();

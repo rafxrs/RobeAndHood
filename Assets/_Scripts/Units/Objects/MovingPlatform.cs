@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Units.Objects
 {
@@ -7,7 +8,8 @@ namespace _Scripts.Units.Objects
     {
         public float speed = 5f; // Speed of the platform
         public float distance = 10f; // Distance the platform should move
-        public bool movingUp;
+        [FormerlySerializedAs("movingUp")] public bool vertical;
+        public bool movingDown;
         public bool move = true; // Control whether the platform can move vertically
 
         private Vector3 startPosition;
@@ -18,7 +20,7 @@ namespace _Scripts.Units.Objects
             // Store the initial position of the platform
             startPosition = transform.position;
             currentDistance = 0f;
-            if (movingUp)
+            if (vertical)
             {
                 transform.Find("ActivateVertical").gameObject.SetActive(true);
                 move = false;
@@ -27,7 +29,7 @@ namespace _Scripts.Units.Objects
 
         void Update()
         {
-            if (!movingUp)
+            if (!vertical)
             {
                 MoveHorizontally();
             }
@@ -62,8 +64,8 @@ namespace _Scripts.Units.Objects
             if (!move)
                 return;
 
-            // Move the platform vertically
-            transform.Translate(Vector3.up * (speed * Time.deltaTime));
+            if (!movingDown) transform.Translate(Vector3.up * (speed * Time.deltaTime));
+            else transform.Translate(Vector3.down * (speed * Time.deltaTime));
             // Update the current distance moved
             currentDistance = transform.position.y - startPosition.y;
             // Check if the platform has moved the desired distance
