@@ -123,7 +123,7 @@ namespace _Scripts.Units.Enemy
                 }
                 else
                 {
-                    _rb.velocity = Vector3.zero;
+                    if (enemyScriptable.enemyType != ScriptableEnemy.EnemyType.Slime) _rb.velocity = Vector3.zero;
                     _enemyAI.FlipPatrol();
                 }   
             }
