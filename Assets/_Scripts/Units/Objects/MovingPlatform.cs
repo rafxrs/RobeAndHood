@@ -49,6 +49,7 @@ namespace _Scripts.Units.Objects
             // Check if the platform has moved the desired distance
             if (currentDistance >= distance)
             {
+                
                 speed *= -1;
             }
             // Check if the platform has moved back to its starting position
