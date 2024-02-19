@@ -14,6 +14,7 @@ namespace _Scripts.Units.Objects
 
         private Vector3 startPosition;
         public float currentDistance;
+        private float nextFlip;
 
         void Start()
         {
@@ -47,14 +48,15 @@ namespace _Scripts.Units.Objects
             // Update the current distance moved
             currentDistance = Mathf.Abs(startPosition.x - transform.position.x);
             // Check if the platform has moved the desired distance
-            if (currentDistance >= distance)
+            if (currentDistance >= distance && Time.time>nextFlip)
             {
-                
+                nextFlip = Time.time+1f;
                 speed *= -1;
             }
             // Check if the platform has moved back to its starting position
-            if (currentDistance <= 0 && speed < 0)
+            if (currentDistance <= 0 && speed < 0 && Time.time>nextFlip)
             {
+                nextFlip = Time.time+1f;
                 speed *= -1;
             }
         }
@@ -70,16 +72,18 @@ namespace _Scripts.Units.Objects
             // Update the current distance moved
             currentDistance = transform.position.y - startPosition.y;
             // Check if the platform has moved the desired distance
-            if (currentDistance >= distance)
+            if (currentDistance >= distance && Time.time>nextFlip)
             {
                 // Reverse the direction of movement
+                nextFlip = Time.time+1f;
                 speed *= -1;
                 move = false;
             }
             // Check if the platform has moved back to its starting position
-            if (currentDistance <= 0 && speed < 0)
+            if (currentDistance <= 0 && speed < 0 && Time.time>nextFlip)
             {
                 // Reverse the direction of movement
+                nextFlip = Time.time+1f;
                 speed *= -1;
                 move = false;
             }
