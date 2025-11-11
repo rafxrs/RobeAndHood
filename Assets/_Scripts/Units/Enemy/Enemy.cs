@@ -1,5 +1,6 @@
 using _Scripts.Scriptables;
 using _Scripts.UI;
+using _Scripts.Units.Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,6 +26,9 @@ namespace _Scripts.Units.Enemy
 
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Death = Animator.StringToHash("Death");
+
+        [SerializeField] private MovingPlatform linkedPlatform;
+
 
         //-------------------------------------------------------------------------------------------//
         private void Start()
@@ -196,8 +200,15 @@ namespace _Scripts.Units.Enemy
             // GetComponent<PolygonCollider2D>().enabled = false;
             GetComponent<EnemyAI>().enabled = false;
 
+            if (linkedPlatform != null)
+            {
+                linkedPlatform.ActivateDownwardMotion();
+            }
+
             // destroy enemy after 1 second
             Destroy(gameObject, 1f);
+
+
         
         }
 //-------------------------------------------------------------------------------------------//

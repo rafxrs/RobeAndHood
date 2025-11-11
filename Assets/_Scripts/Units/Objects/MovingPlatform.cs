@@ -61,32 +61,35 @@ namespace _Scripts.Units.Objects
             }
         }
 
-        void MoveVertically()
-        {
-            // If the platform is paused or not allowed to move, do nothing
-            if (!move)
-                return;
+            void MoveVertically()
+            {
+                if (!move)
+                    return;
 
-            if (!movingDown) transform.Translate(Vector3.up * (speed * Time.deltaTime));
-            else transform.Translate(Vector3.down * (speed * Time.deltaTime));
-            // Update the current distance moved
-            currentDistance = transform.position.y - _startPosition.y;
-            // Check if the platform has moved the desired distance
-            if (currentDistance >= distance && Time.time>_nextFlip)
-            {
-                // Reverse the direction of movement
-                _nextFlip = Time.time+1f;
-                speed *= -1;
-                move = false;
+                // Move either up or down depending on the flag
+                float direction = movingDown ? -1f : 1f;
+                transform.Translate(Vector3.up * direction * speed * Time.deltaTime);
+
+                // Measure total distance moved (absolute difference)
+                currentDistance = Mathf.Abs(transform.position.y - _startPosition.y);
+
+                // Stop when reaching the target distance
+                if (currentDistance >= distance && Time.time > _nextFlip)
+                {
+                    _nextFlip = Time.time + 0.5f;
+                    move = false;
+                    Debug.Log($"{name} stopped after moving {currentDistance:F2} units.");
+                }
             }
-            // Check if the platform has moved back to its starting position
-            if (currentDistance <= 0 && speed < 0 && Time.time>_nextFlip)
-            {
-                // Reverse the direction of movement
-                _nextFlip = Time.time+1f;
-                speed *= -1;
-                move = false;
-            }
+
+        
+        public void ActivateDownwardMotion()
+        {   
+            vertical = true;
+            movingDown = true;
+            move = true;
+            _startPosition = transform.position; // reset start position if needed
+            Debug.Log($"{name} now moving downward!");
         }
     }
 }
