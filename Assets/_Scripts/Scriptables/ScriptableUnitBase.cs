@@ -12,7 +12,7 @@ namespace _Scripts.Scriptables
         public UnitType unitType;
 
         [FormerlySerializedAs("_stats")] [SerializeField] private Stats stats;
-        public Stats baseStats => stats;
+        public Stats BaseStats => stats;
 
         // Used in game
         public GameObject prefab;

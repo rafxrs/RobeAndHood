@@ -46190,6 +46190,10 @@ PrefabInstance:
       propertyPath: rewardPrefab
       value: 
       objectReference: {fileID: 7378058765254971043, guid: b41c132b3c65c0a499b5cdffd3bc0f47, type: 3}
+    - target: {fileID: 237120478187990046, guid: 039fd65f744ab0341a7543be7efa2ff3, type: 3}
+      propertyPath: amountOfRewards
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5541924656441983864, guid: 039fd65f744ab0341a7543be7efa2ff3, type: 3}
       propertyPath: m_Name
       value: Chest

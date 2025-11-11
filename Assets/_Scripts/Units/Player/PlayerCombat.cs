@@ -52,42 +52,11 @@ namespace _Scripts.Units.Player
         
             if (weapon != null && GameManager.playerControl && Time.time>nextAttackTime && !_player.roll)
             {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                {
-                    if (_player.currentMana >= 10f)
-                    {
-                        AttackAnimation();
-                        _player.IsAttacking();
-                        nextAttackTime = Time.time + attackRate;
-                    }
-                    else
-                    {
-                        transform.Find("MissingMana").gameObject.SetActive(true);
-                        Invoke(nameof(ResetMissingMana), 1f);
-                    }
-                    
-                }
-                else if ((_player.currentMana>=_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
-                {
-                    if (!_player.isGrounded())
-                    {
-                        _animator.SetBool(IsJumping, false);
-                    }
-                    ThrowSpearAnimation();
-                    nextAttackTime = Time.time + attackRate;
-                    _player.IsAttacking();
-                }
-                else if ((_player.currentMana<_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
-                {
-                    transform.Find("MissingMana").gameObject.SetActive(true);
-                    Invoke(nameof(ResetMissingMana), 1f);
-                
-                }
                 if (weaponName=="Bow")
                 {
                     if (Input.GetKeyDown(KeyCode.Space)|| Input.GetMouseButtonDown(0))
                     {
-                        if (_player.currentMana >= 20f)
+                        if (_player.currentMana >= 30f)
                         {
                             AudioManager.instance.StopPlaying("Bow Load");
                             AudioManager.instance.Play("Bow Load");
@@ -105,6 +74,38 @@ namespace _Scripts.Units.Player
 
                     }
                 }
+                else if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                {
+                    if (_player.currentMana >= 10f)
+                    {
+                        AttackAnimation();
+                        _player.IsAttacking();
+                        nextAttackTime = Time.time + attackRate;
+                    }
+                    else
+                    {
+                        transform.Find("MissingMana").gameObject.SetActive(true);
+                        Invoke(nameof(ResetMissingMana), 1f);
+                    }
+                    
+                }
+                else if ((_player.currentMana>=_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
+                {
+                    if (!_player.IsGrounded())
+                    {
+                        _animator.SetBool(IsJumping, false);
+                    }
+                    ThrowSpearAnimation();
+                    nextAttackTime = Time.time + attackRate;
+                    _player.IsAttacking();
+                }
+                else if ((_player.currentMana<_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
+                {
+                    transform.Find("MissingMana").gameObject.SetActive(true);
+                    Invoke(nameof(ResetMissingMana), 1f);
+                
+                }
+                
             }
         }
 // -------------------------------------------------------------------------------------------------------------------------- //
@@ -279,7 +280,7 @@ namespace _Scripts.Units.Player
 // -------------------------------------------------------------------------------------------------------------------------- //
         void ShootArrow()
         {
-            _player.currentMana -= 20f;
+            _player.currentMana -= 30f;
             _player.manaBar.SetMana(_player.currentMana);
             ChooseWeaponNoSound(1);
             // Debug.Log("ShootingArrow");

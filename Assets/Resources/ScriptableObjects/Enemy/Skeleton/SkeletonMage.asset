@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitType: 1
   stats:
-    maxHealth: 300
+    maxHealth: 400
     collisionDamage: 0
   prefab: {fileID: 1964207045937707050, guid: df4f4d4317fc189448e2546a11c649bd, type: 3}
   enemyType: 12
@@ -25,8 +25,9 @@ MonoBehaviour:
   impactPrefabs:
   - {fileID: 4075565589007400953, guid: 27c8fb768e30f88459024788dbe88bec, type: 3}
   - {fileID: 5013566882751098580, guid: 591adcf3a48c5cb43a2e815a0fb25e68, type: 3}
+  laserPrefab: {fileID: 1576953870782342615, guid: d94346d6955a8ad409c09b78d273fad6, type: 3}
   advancedStatistics:
-    chaseSpeed: 500
+    chaseSpeed: 600
     patrolSpeed: 300
     nextWayPointDist: 1
     hasAttacks: 1

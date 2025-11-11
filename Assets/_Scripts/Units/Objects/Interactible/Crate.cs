@@ -6,19 +6,19 @@ using UnityEngine;
 public class Crate : MonoBehaviour
 {
     public int maxHealth=50;
-    int currentHealth;
+    int _currentHealth;
     [SerializeField] private GameObject[] impactPrefabs;
-    Animator animator;
-    RewardSpawner rewardSpawner;
+    Animator _animator;
+    RewardSpawner _rewardSpawner;
     [SerializeField] int amountOfRewards = 1;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth=maxHealth;
-        animator = GetComponent<Animator>();
-        rewardSpawner = GetComponent<RewardSpawner>();
+        _currentHealth=maxHealth;
+        _animator = GetComponent<Animator>();
+        _rewardSpawner = GetComponent<RewardSpawner>();
         impactPrefabs[0] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX1");
         impactPrefabs[1] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX2");
     }
@@ -28,7 +28,7 @@ public class Crate : MonoBehaviour
     {
         for (int i=0;i<amount;i++)
         {
-            rewardSpawner.Reward(transform.position);
+            _rewardSpawner.Reward(transform.position);
         }
         
     }
@@ -43,14 +43,14 @@ public class Crate : MonoBehaviour
     }
     public void TakeDamage(int attackDamage)
     {
-        currentHealth-=attackDamage;
+        _currentHealth-=attackDamage;
         int rand = Random.Range(0,2);
         Instantiate(impactPrefabs[rand], transform.position, Quaternion.identity);
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             GetComponent<BoxCollider2D>().enabled = false;
             Debug.Log("Destroy");
-            animator.SetTrigger("Destroy");
+            _animator.SetTrigger("Destroy");
             SpawnRewards(amountOfRewards);
             Destroy(this.gameObject,1.5f);
             

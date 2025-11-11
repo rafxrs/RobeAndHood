@@ -13,10 +13,10 @@ public class Spear : MonoBehaviour
 {
     public Side side;
     [SerializeField] private float rotationSpeed = 20f;
-    Rigidbody2D rb;
+    Rigidbody2D _rb;
     public ScriptableWeapon w;
-    bool isInAir = true;
-    Player player;
+    bool _isInAir = true;
+    Player _player;
 
     [System.Serializable]
     public enum Side
@@ -29,14 +29,14 @@ public class Spear : MonoBehaviour
     {
         AudioManager.instance.Play("Throw Spear");
         Destroy(this.gameObject, 5f);
-        rb = GetComponent<Rigidbody2D>();
-        player= GameObject.Find("Player").GetComponent<Player>();
+        _rb = GetComponent<Rigidbody2D>();
+        _player= GameObject.Find("Player").GetComponent<Player>();
     }
     void FixedUpdate()
     {
         // float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x)* Mathf.Rad2Deg;
         // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        if (isInAir)
+        if (_isInAir)
         {
             ChangeSpriteDirection();
         }
@@ -45,9 +45,9 @@ public class Spear : MonoBehaviour
     }
     void ChangeSpriteDirection()
     {
-        if (rb.velocity != Vector2.zero)
+        if (_rb.velocity != Vector2.zero)
         {
-            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, rb.velocity);
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, _rb.velocity);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed*Time.deltaTime);
         }
     }
@@ -58,7 +58,7 @@ public class Spear : MonoBehaviour
             StopMotion();
             CircleCollider2D arrow = GetComponent<CircleCollider2D>();
             arrow.enabled = false;
-            isInAir =false;
+            _isInAir =false;
             Invoke("StopMotion",0.05f);
 
         }
@@ -96,14 +96,14 @@ public class Spear : MonoBehaviour
             {
                 
                 
-                player.TakeDamage(w.attackDamage);
+                _player.TakeDamage(w.attackDamage);
                 Destroy(this.gameObject);
             }
         }
     }
     void StopMotion()
     {
-        rb.velocity = Vector2.zero;
-        rb.gravityScale =0;
+        _rb.velocity = Vector2.zero;
+        _rb.gravityScale =0;
     }
 }

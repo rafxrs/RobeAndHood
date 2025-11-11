@@ -9,13 +9,13 @@ public class Lever : MonoBehaviour
     public bool leverState=false;
     public GameObject[] doActionOn;
 
-    float timeBetweenSwitch = 1f;
-    float nextSwitch = -1f;
-    Animator animator;
+    float _timeBetweenSwitch = 1f;
+    float _nextSwitch = -1f;
+    Animator _animator;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     void OntriggerEnter2D(Collider2D other)
@@ -29,12 +29,12 @@ public class Lever : MonoBehaviour
 
     public void SwitchLeverState()
     {
-        if (Time.time > nextSwitch)
+        if (Time.time > _nextSwitch)
         {
             leverState = !leverState;
-            animator.SetBool("State", leverState);
+            _animator.SetBool("State", leverState);
             DoAction();
-            nextSwitch = Time.time + timeBetweenSwitch;
+            _nextSwitch = Time.time + _timeBetweenSwitch;
         }
         else 
         {

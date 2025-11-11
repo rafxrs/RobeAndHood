@@ -3,6 +3,7 @@ using _Scripts.Scriptables;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Units.Enemy
 {
@@ -20,33 +21,38 @@ namespace _Scripts.Units.Enemy
 //-------------------------------------------------------------------------------------------//
         // PRIVATE PRIMITIVES
 //-------------------------------------------------------------------------------------------//
-        int _currentWaypoint;
-        float _speed;
-        float _distToPlayer;
-        float _chaseSpeed;
-        float _patrolSpeed;
-        float _nextAttackTime = -1f;
-        float _dir= -1f; // direction of patrolling
-        float _nextWayPointDist;
-        bool _hasAttacks;
-        bool _isStatic;
-        [FormerlySerializedAs("_isInBounds")] [SerializeField] bool isInBounds;
-        bool _wasInBounds;
+        private int _currentWaypoint;
+        private float _speed;
+        private float _distToPlayer;
+        private float _chaseSpeed;
+        private float _patrolSpeed;
+        private float _nextAttackTime = -1f;
+        private float _dir= -1f; // direction of patrolling
+        private float _nextWayPointDist;
+        private float _nextTp;
+        private bool _hasAttacks;
+        private bool _isStatic;
+        private bool _isTeleporting;
+        [FormerlySerializedAs("_isInBounds")] [SerializeField] private bool isInBounds;
+        private bool _wasInBounds;
 
 //-------------------------------------------------------------------------------------------//
         // PRIVATE NON PRIMITIVES
 //-------------------------------------------------------------------------------------------//
-        Path _path;
-        Enemy _enemy;
-        Seeker _seeker;
-        Rigidbody2D _rb;
-        ScriptableEnemy _enemyScriptable;
-        Transform _playerTransform;
-        SpriteRenderer _spriteRenderer;
+        private Path _path;
+        private Enemy _enemy;
+        private Seeker _seeker;
+        private Rigidbody2D _rb;
+        private ScriptableEnemy _enemyScriptable;
+        private Transform _playerTransform;
+        private SpriteRenderer _spriteRenderer;
+        private Animator _animator;
+        private static readonly int Attack2 = Animator.StringToHash("Attack2");
+        private static readonly int Teleport1 = Animator.StringToHash("Teleport");
 
-//-------------------------------------------------------------------------------------------//
-// START AND UPDATE
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
+        // START AND UPDATE
+        //-------------------------------------------------------------------------------------------//
         // Start is called before the first frame update
         void Start()
         {
@@ -54,16 +60,16 @@ namespace _Scripts.Units.Enemy
             _seeker = GetComponent<Seeker>();
             _rb = GetComponent<Rigidbody2D>();
             _enemy = GetComponent<Enemy>();
-            GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
 
             _enemyScriptable = _enemy.enemyScriptable;
-            _chaseSpeed = _enemyScriptable.advancedStats.chaseSpeed;
-            _patrolSpeed = _enemyScriptable.advancedStats.patrolSpeed;
-            _nextWayPointDist = _enemyScriptable.advancedStats.nextWayPointDist;
-            _hasAttacks = _enemyScriptable.advancedStats.hasAttacks;
-            _isStatic = _enemyScriptable.advancedStats.isStatic;
+            _chaseSpeed = _enemyScriptable.AdvancedStats.chaseSpeed;
+            _patrolSpeed = _enemyScriptable.AdvancedStats.patrolSpeed;
+            _nextWayPointDist = _enemyScriptable.AdvancedStats.nextWayPointDist;
+            _hasAttacks = _enemyScriptable.AdvancedStats.hasAttacks;
+            _isStatic = _enemyScriptable.AdvancedStats.isStatic;
 
             if (!_isStatic)
             {
@@ -78,7 +84,8 @@ namespace _Scripts.Units.Enemy
                 _rb.velocity = Vector2.zero;
             }
             if ((_playerTransform.position.x > leftBoundary.position.x) && (_playerTransform.position.x < rightBoundary.position.x)
-                                                                        && (_playerTransform.position.y > bottomBoundary.position.y) && (_playerTransform.position.y < upBoundary.position.y))
+                                                                        && (_playerTransform.position.y > bottomBoundary.position.y) 
+                                                                        && (_playerTransform.position.y < upBoundary.position.y))
             {
                 isInBounds = true;
             }
@@ -98,10 +105,10 @@ namespace _Scripts.Units.Enemy
                     transform.localScale = new Vector3(1f, 1f,1f);
                 }
 
-                if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
+                if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
                 {
                     // Debug.Log("Static attack");
-                    _nextAttackTime = Time.time + _enemyScriptable.advancedStats.attackRate;
+                    _nextAttackTime = Time.time + _enemyScriptable.AdvancedStats.attackRate;
                     _enemy.AttackAnimation();
                 }  
             }
@@ -111,7 +118,7 @@ namespace _Scripts.Units.Enemy
                 {
                     if (!isInBounds) 
                     {
-                        if (_wasInBounds && _enemyScriptable.advancedStats.canFly)
+                        if (_wasInBounds && _enemyScriptable.AdvancedStats.canFly)
                         {
                             ChaseAndAttack();
                         }
@@ -146,15 +153,7 @@ namespace _Scripts.Units.Enemy
         {
             if (_seeker.IsDone())
             {
-                // if (_isInBounds)
-                // {
                 _seeker.StartPath(_rb.position, _playerTransform.position, OnPathComplete);
-                // }
-                // else if (!_isInBounds && _enemyScriptable.advancedStats.canFly)
-                // {
-                //      _seeker.StartPath(_rb.position, _spawnPosition, OnPathComplete);
-                // }
-            
             }
         
         }
@@ -205,7 +204,7 @@ namespace _Scripts.Units.Enemy
         }
         public void FlipPatrol()
         {
-            if (_enemyScriptable.advancedStats.hasAttacks)
+            if (_enemyScriptable.AdvancedStats.hasAttacks)
             {
                 _rb.velocity = Vector2.zero;
             }
@@ -220,6 +219,24 @@ private void Chase()
             {
                 _spriteRenderer.flipY = false;
                 _rb.gravityScale = 2;
+            }
+
+            if (_enemyScriptable.enemyType == ScriptableEnemy.EnemyType.SkeletonMage)
+            {
+                // randomly (50% chance) fire a laser OR teleport every x to y seconds
+                float choice = Random.Range(-1, 1);
+                    
+                if (choice<0f && Time.time > _nextTp && !_isTeleporting)
+                {
+                    _speed = 0f;
+                    _isTeleporting = true;
+                    _nextTp = Time.time + Random.Range(2f, 4f);
+                    Teleport();
+                }
+                else if (choice<0f && Time.time > _nextTp && !_isTeleporting)
+                {
+                    _animator.SetTrigger(Attack2);
+                }
             }
             _speed=_chaseSpeed;
             isChasing = true;
@@ -256,26 +273,45 @@ private void Chase()
         void ChaseAndAttack()
         {
             _wasInBounds = true;
-            if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time < _nextAttackTime)
+            if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time < _nextAttackTime)
             {
                 // Debug.Log("Cant attack");
                 Chase();
             }  
-            else if (_distToPlayer<_enemyScriptable.advancedStats.attackDistance && Time.time > _nextAttackTime)
+            else if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && !_isTeleporting)
             {
-                _nextAttackTime = Time.time + _enemyScriptable.advancedStats.attackRate;
-                _enemy.AttackAnimation();
-            }  
+                    _nextAttackTime = Time.time + _enemyScriptable.AdvancedStats.attackRate;
+                    _enemy.AttackAnimation();
+            } 
         
             else
             {
                 Chase();
             }
         }
+
+        void Teleport()
+        {
+            // For skeleton mage only: teleport close to the player within a specific range
+            Debug.Log("Teleport now");
+            _animator.SetTrigger(Teleport1);
+            Invoke(nameof(PerformTeleport), 1f);
+        }
+        private void PerformTeleport()
+        {
+            var position = _playerTransform.position;
+            transform.position = new Vector2(
+                position.x + Random.Range(-3f, 3f),
+                position.y + 0.5f
+            );
+            _isTeleporting = false;
+            }
+        
 //-------------------------------------------------------------------------------------------//
         public void Jump()
+
         {
-            _rb.AddForce(new Vector2(0f, _enemyScriptable.advancedStats.jumpForce));
+            _rb.AddForce(new Vector2(0f, _enemyScriptable.AdvancedStats.jumpForce));
         }
 
     

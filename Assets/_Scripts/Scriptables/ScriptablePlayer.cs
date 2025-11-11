@@ -8,7 +8,7 @@ namespace _Scripts.Scriptables
     public class ScriptablePlayer : ScriptableUnitBase
     {
         [FormerlySerializedAs("_advancedStats")] [SerializeField] private Stats advancedStats;
-        public Stats advancedStatistics => advancedStats;
+        public Stats AdvancedStatistics => advancedStats;
         public GameObject[] impactPrefabs;
 
         /// <summary>

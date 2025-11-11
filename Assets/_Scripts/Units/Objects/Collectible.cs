@@ -7,11 +7,11 @@ public class Collectible : MonoBehaviour
 {
     // Start is called before the first frame update
     public Type type;
-    Player player;
+    Player _player;
     [SerializeField] bool isReward;
     public GameObject destroyFX;
     [SerializeField] float pickupTime = 0.0f;
-    float awakeTime;
+    float _awakeTime;
 
     [System.Serializable]
     public enum Type
@@ -23,12 +23,12 @@ public class Collectible : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void Awake()
     {
-        awakeTime = Time.time;
+        _awakeTime = Time.time;
     }
 
     // Update is called once per frame
@@ -47,13 +47,13 @@ public class Collectible : MonoBehaviour
                     {
                         Instantiate(destroyFX, transform.position, Quaternion.identity);
                         Destroy(this.gameObject);
-                        player.AddCoin(1);
+                        _player.AddCoin(1);
                     }
-                    else if (isReward && Time.time > awakeTime+pickupTime )
+                    else if (isReward && Time.time > _awakeTime+pickupTime )
                     {
                         Instantiate(destroyFX, transform.position, Quaternion.identity);
                         Destroy(this.gameObject);
-                        player.AddCoin(1);
+                        _player.AddCoin(1);
                     }
                     break;
                 case Type.Key:
@@ -61,13 +61,13 @@ public class Collectible : MonoBehaviour
                     {
                         Instantiate(destroyFX, transform.position, Quaternion.identity);
                         Destroy(this.gameObject);
-                        player.CollectKey();
+                        _player.CollectKey();
                     }
-                    else if (isReward && Time.time > awakeTime+pickupTime )
+                    else if (isReward && Time.time > _awakeTime+pickupTime )
                     {
                         Instantiate(destroyFX, transform.position, Quaternion.identity);
                         Destroy(this.gameObject);
-                        player.CollectKey();
+                        _player.CollectKey();
 
                     }
                     break;
@@ -75,12 +75,12 @@ public class Collectible : MonoBehaviour
                     if (!isReward)
                     {
                         Destroy(this.gameObject);
-                        player.HealthPotion();
+                        _player.HealthPotion();
                     }
-                    else if (isReward && Time.time > awakeTime+pickupTime )
+                    else if (isReward && Time.time > _awakeTime+pickupTime )
                     {
                         Destroy(this.gameObject);
-                        player.HealthPotion();
+                        _player.HealthPotion();
 
                     }
                     break;

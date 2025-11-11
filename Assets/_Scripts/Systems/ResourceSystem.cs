@@ -11,7 +11,7 @@ namespace _Scripts.Systems
     /// If you don't feel free to make this a standard class
     /// </summary>
     public class ResourceSystem : StaticInstance<ResourceSystem> {
-        private List<ScriptableUnitBase> units { get; set; }
+        private List<ScriptableUnitBase> Units { get; set; }
         private Dictionary<UnitType, ScriptableUnitBase> _unitDict;
 //-------------------------------------------------------------------------------------------//
         protected override void Awake() {
@@ -21,12 +21,12 @@ namespace _Scripts.Systems
 //-------------------------------------------------------------------------------------------//
 
         private void AssembleResources() {
-            units = Resources.LoadAll<ScriptableUnitBase>(nameof(Units)).ToList();
-            _unitDict = units.ToDictionary(r => r.unitType, r => r);
+            Units = Resources.LoadAll<ScriptableUnitBase>(nameof(_Scripts.Units)).ToList();
+            _unitDict = Units.ToDictionary(r => r.unitType, r => r);
         }
 //-------------------------------------------------------------------------------------------//
 
         public ScriptableUnitBase GetExampleHero(UnitType t) => _unitDict[t];
-        public ScriptableUnitBase GetRandomHero() => units[Random.Range(0, units.Count)];
+        public ScriptableUnitBase GetRandomHero() => Units[Random.Range(0, Units.Count)];
     }
 }   

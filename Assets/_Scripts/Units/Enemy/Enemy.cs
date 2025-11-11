@@ -12,6 +12,7 @@ namespace _Scripts.Units.Enemy
         public bool isDead;
         //-------------------------------------------------------------------------------------------//
         [FormerlySerializedAs("_attackPoint")] [SerializeField] private Transform attackPoint;
+        [SerializeField] private Transform laserAttackPoint;
         private Player.Player _player;
         private EnemyAI _enemyAI;
         private Animator _animator;
@@ -28,7 +29,7 @@ namespace _Scripts.Units.Enemy
         //-------------------------------------------------------------------------------------------//
         private void Start()
         {
-            _currentHealth = enemyScriptable.baseStats.maxHealth;
+            _currentHealth = enemyScriptable.BaseStats.maxHealth;
             _player = GameObject.Find("Player").GetComponent<Player.Player>(); NullCheck.CheckNull(_player);
             _enemyAI = GetComponent<EnemyAI>(); NullCheck.CheckNull(_enemyAI);
             _rb = GetComponent<Rigidbody2D>(); NullCheck.CheckNull(_rb);
@@ -41,7 +42,7 @@ namespace _Scripts.Units.Enemy
                 Debug.LogError("health bar is null");
             }
 
-            if (_healthBar != null) _healthBar.SetMax(enemyScriptable.baseStats.maxHealth);
+            if (_healthBar != null) _healthBar.SetMax(enemyScriptable.BaseStats.maxHealth);
             // Debug.Log("success");
             enemyScriptable.impactPrefabs[0] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX1");
             enemyScriptable.impactPrefabs[1] = Resources.Load<GameObject>("Prefabs/FX/Impacts/ImpactFX2");
@@ -53,10 +54,10 @@ namespace _Scripts.Units.Enemy
         {
             if (!isDead)
             {   
-                if (!_isAttacking && !enemyScriptable.advancedStats.isStatic)
+                if (!_isAttacking && !enemyScriptable.AdvancedStats.isStatic)
                 {
                     _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.x));
-                    if (enemyScriptable.advancedStats.canFly)
+                    if (enemyScriptable.AdvancedStats.canFly)
                     {
                         if (_rb.velocity.x > 0.01f)
                         {
@@ -89,7 +90,7 @@ namespace _Scripts.Units.Enemy
             _spriteRenderer.color = Color.red;
             Invoke(nameof(ResetSprite),0.1f);
             // activate health bar
-            // transform.Find("WorldHealthBar").gameObject.SetActive(true);
+            transform.Find("WorldHealthBar").gameObject.SetActive(true);
             _currentHealth -= damage;
             _healthBar.Set(_currentHealth);
             // play hurt animation
@@ -106,14 +107,14 @@ namespace _Scripts.Units.Enemy
         //-------------------------------------------------------------------------------------------//
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player") && enemyScriptable.advancedStats.isBouncable && !other.GetComponent<CharacterController2D>().m_Grounded)
+            if (other.CompareTag("Player") && enemyScriptable.AdvancedStats.isBouncable && !other.GetComponent<CharacterController2D>().mGrounded)
             {
-                TakeDamage(enemyScriptable.advancedStats.bounceDamage);
+                TakeDamage(enemyScriptable.AdvancedStats.bounceDamage);
                 _player.Bounce();
             }
-            else if (other.CompareTag("PlayerHitbox") && enemyScriptable.baseStats.collisionDamage)
+            else if (other.CompareTag("PlayerHitbox") && enemyScriptable.BaseStats.collisionDamage)
             {
-                _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
+                _player.TakeDamage(enemyScriptable.AdvancedStats.attackDamage);
                 // player.Knockback(other);
             }
             else if (other.CompareTag("Boundary"))
@@ -143,7 +144,7 @@ namespace _Scripts.Units.Enemy
         public void Attack()
         {
             var hitPlayer = new Collider2D[10];
-            Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange,hitPlayer, enemyScriptable.playerLayer);
+            Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.AdvancedStats.weaponAttackRange,hitPlayer, enemyScriptable.playerLayer);
             
             foreach(var hit in hitPlayer)
             {
@@ -152,23 +153,33 @@ namespace _Scripts.Units.Enemy
                     Debug.Log("We hit "+ hit.name);
                     if (hit.CompareTag("PlayerHitbox"))
                     {
-                        _player.TakeDamage(enemyScriptable.advancedStats.attackDamage);
+                        _player.TakeDamage(enemyScriptable.AdvancedStats.attackDamage);
                     }  
                 }
                 
             }
         }
+        public void LaserAttack()
+        {
+            // 1) compute spawn + direction
+            Vector2 spawnPos = (Vector2)laserAttackPoint.position;
+            Vector2 toPlayer = (Vector2) _player.transform.position - spawnPos;
+
+            // 2) instantiate & initialize
+            GameObject laser = Instantiate(enemyScriptable.laserPrefab, spawnPos, Quaternion.identity);
+            laser.GetComponent<LaserBeam>().Initialize(toPlayer);
+        }
         public void AttackAnimation()
         {
             IsAttacking();
-            int attackNumber = Random.Range(0,2);
-            string attackTrigger = "Attack"+attackNumber;
+            int attackNumber = Random.Range(0, 2);
+            string attackTrigger = "Attack" + attackNumber;
             _animator.SetTrigger(attackTrigger);
         }
 //-------------------------------------------------------------------------------------------//
         void Die()
         {
-            if (enemyScriptable.advancedStats.canFly)
+            if (enemyScriptable.AdvancedStats.canFly)
             {
                 _rb.gravityScale = 3;
             }
@@ -197,7 +208,7 @@ namespace _Scripts.Units.Enemy
                 return;
             }
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(attackPoint.position, enemyScriptable.advancedStats.weaponAttackRange);
+            Gizmos.DrawWireSphere(attackPoint.position, enemyScriptable.AdvancedStats.weaponAttackRange);
         }
 
         public Transform GetAttackPoint()

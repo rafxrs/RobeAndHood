@@ -75,3 +75,4 @@ settings.json
 launch.json
 extensions.json
 .vsconfig
+.fake

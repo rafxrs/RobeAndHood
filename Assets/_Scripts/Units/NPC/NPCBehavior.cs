@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCBehavior : MonoBehaviour
+public class NpcBehavior : MonoBehaviour
 {
-    Animator animator;
+    Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         if (this.gameObject.name == "NPC_Blacksmith")
         {
-            animator.SetBool("isSmithing",true);
+            _animator.SetBool("isSmithing",true);
             InvokeRepeating("FlipSmith",5f,Random.Range(5f,10f));
         }
     }
@@ -24,13 +24,13 @@ public class NPCBehavior : MonoBehaviour
 
     void FlipSmith()
     {
-        if (animator.GetBool("isSmithing"))
+        if (_animator.GetBool("isSmithing"))
         {
-            animator.SetBool("isSmithing",false);
+            _animator.SetBool("isSmithing",false);
         }
         else 
         {
-            animator.SetBool("isSmithing",true);
+            _animator.SetBool("isSmithing",true);
         }
         
     }

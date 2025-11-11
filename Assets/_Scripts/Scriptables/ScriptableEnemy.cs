@@ -11,11 +11,11 @@ namespace _Scripts.Scriptables
         public LayerMask playerLayer;
         public RuntimeAnimatorController controller;
         public GameObject[] impactPrefabs;
-
-
+        public GameObject laserPrefab;
+        
 
         [FormerlySerializedAs("_advancedStats")] [SerializeField] private Stats advancedStatistics;
-        public Stats advancedStats => advancedStatistics;
+        public Stats AdvancedStats => advancedStatistics;
 
         [Serializable]
         public enum EnemyType {

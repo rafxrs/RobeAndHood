@@ -20,10 +20,10 @@ namespace _Scripts.Units.Enemy
                 }
             
             }
-            else if (CompareTag("Enemy") && GetComponentInParent<Enemy>().enemyScriptable.advancedStats.hasAttacks)
+            else if (CompareTag("Enemy") && GetComponentInParent<Enemy>().enemyScriptable.AdvancedStats.hasAttacks)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, GetComponentInParent<Enemy>().enemyScriptable.advancedStats.weaponAttackRange);
+                Gizmos.DrawWireSphere(transform.position, GetComponentInParent<Enemy>().enemyScriptable.AdvancedStats.weaponAttackRange);
             }
         
         }

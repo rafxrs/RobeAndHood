@@ -12,14 +12,14 @@ namespace _Scripts.Units.Objects
         public bool movingDown;
         public bool move = true; // Control whether the platform can move vertically
 
-        private Vector3 startPosition;
+        private Vector3 _startPosition;
         public float currentDistance;
-        private float nextFlip;
+        private float _nextFlip;
 
         void Start()
         {
             // Store the initial position of the platform
-            startPosition = transform.position;
+            _startPosition = transform.position;
             currentDistance = 0f;
             if (vertical)
             {
@@ -46,17 +46,17 @@ namespace _Scripts.Units.Objects
             // Move the platform horizontally
             transform.Translate(Vector3.right * (speed * Time.deltaTime));
             // Update the current distance moved
-            currentDistance = Mathf.Abs(startPosition.x - transform.position.x);
+            currentDistance = Mathf.Abs(_startPosition.x - transform.position.x);
             // Check if the platform has moved the desired distance
-            if (currentDistance >= distance && Time.time>nextFlip)
+            if (currentDistance >= distance && Time.time>_nextFlip)
             {
-                nextFlip = Time.time+1f;
+                _nextFlip = Time.time+1f;
                 speed *= -1;
             }
             // Check if the platform has moved back to its starting position
-            if (currentDistance <= 0 && speed < 0 && Time.time>nextFlip)
+            if (currentDistance <= 0 && speed < 0 && Time.time>_nextFlip)
             {
-                nextFlip = Time.time+1f;
+                _nextFlip = Time.time+1f;
                 speed *= -1;
             }
         }
@@ -70,20 +70,20 @@ namespace _Scripts.Units.Objects
             if (!movingDown) transform.Translate(Vector3.up * (speed * Time.deltaTime));
             else transform.Translate(Vector3.down * (speed * Time.deltaTime));
             // Update the current distance moved
-            currentDistance = transform.position.y - startPosition.y;
+            currentDistance = transform.position.y - _startPosition.y;
             // Check if the platform has moved the desired distance
-            if (currentDistance >= distance && Time.time>nextFlip)
+            if (currentDistance >= distance && Time.time>_nextFlip)
             {
                 // Reverse the direction of movement
-                nextFlip = Time.time+1f;
+                _nextFlip = Time.time+1f;
                 speed *= -1;
                 move = false;
             }
             // Check if the platform has moved back to its starting position
-            if (currentDistance <= 0 && speed < 0 && Time.time>nextFlip)
+            if (currentDistance <= 0 && speed < 0 && Time.time>_nextFlip)
             {
                 // Reverse the direction of movement
-                nextFlip = Time.time+1f;
+                _nextFlip = Time.time+1f;
                 speed *= -1;
                 move = false;
             }

@@ -45,13 +45,16 @@ namespace _Scripts.Units.Player
         // PRIMITIVES
         float _horizontalInput;
         float _nextClimb=-1f;
-        public float _nextStepsTime;
+        [FormerlySerializedAs("_nextStepsTime")] public float nextStepsTime;
         int _currentHealth;
-        bool _jump;
         bool _isDead;
         private bool _isAttacking;
         bool _hasKey;
         float _nextLadderSound;
+
+        // Jump buffer
+        const float JumpBufferTime = 0.12f;
+        float _jumpPressedTime = -1f;
 
         private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
 
@@ -69,14 +72,14 @@ namespace _Scripts.Units.Player
                 Debug.LogError("PlayerScriptable is null");
             }
 
-            _currentHealth = _playerScriptable.baseStats.maxHealth;
-            currentMana = _playerScriptable.advancedStatistics.maxMana;
+            _currentHealth = _playerScriptable.BaseStats.maxHealth;
+            currentMana = _playerScriptable.AdvancedStatistics.maxMana;
             _hurtColor = Color.red;
 
             manaBar.SetMaxMana(currentMana);
             manaBar.SetMana(currentMana);
-            healthBar.SetMax(_playerScriptable.baseStats.maxHealth);
-            healthBar.Set(_playerScriptable.baseStats.maxHealth);
+            healthBar.SetMax(_playerScriptable.BaseStats.maxHealth);
+            healthBar.Set(_playerScriptable.BaseStats.maxHealth);
 
             _uiManager = GameObject.Find("Main Canvas").GetComponent<UIManager>();
             if (_playerScriptable==null)
@@ -101,21 +104,26 @@ namespace _Scripts.Units.Player
         {
             if (GameManager.playerControl && !_isDead)
             {
-                _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.advancedStatistics.speed;
-                if (Mathf.Abs(_horizontalInput) > 0.001f && Time.time>_nextStepsTime && isGrounded())
+                _horizontalInput = Input.GetAxisRaw("Horizontal") * _playerScriptable.AdvancedStatistics.speed;
+                if (Mathf.Abs(_horizontalInput) > 0.001f && Time.time>nextStepsTime && IsGrounded())
                 {
-                    _nextStepsTime = Time.time + 0.3f;
+                    nextStepsTime = Time.time + 0.3f;
                     //Debug.Log("Playing Steps sound");
                     AudioManager.instance.Play("Steps");
                 }
                 
                 _animator.SetFloat(Speed, Mathf.Abs(_horizontalInput));
-                if (isGrounded())
+                if (IsGrounded())
                 {
                     _animator.SetBool(IsClimbing,false);
                 }
 
-                
+                // Buffer jump input instead of calling Jump() directly
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                {
+                    _jumpPressedTime = Time.time;
+                }
+
                 if (isClimbing && (Time.time>_nextClimb) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) )
                 {
                     if (Time.time > _nextLadderSound)
@@ -130,21 +138,17 @@ namespace _Scripts.Units.Player
                     Climb();
                     AudioManager.instance.StopPlaying("Steps");
                 }
-                else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded() && !roll && !isClimbing)
-                {
-                    AudioManager.instance.StopPlaying("Steps");
-                    Jump();
-                }
+                // (Removed direct Jump() call on KeyDown)
                 
                 // Roll
-                if (Input.GetButtonDown("Roll") && !roll && (currentMana>=_playerScriptable.advancedStatistics.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)  
+                if (Input.GetButtonDown("Roll") && !roll && (currentMana>=_playerScriptable.AdvancedStatistics.rollManaCost) && IsGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)  
                 {
                     //Debug.Log("Rolling");
                     AudioManager.instance.StopPlaying("Steps");
                     Roll();
                 
                 } 
-                else if (Input.GetButtonDown("Roll") && (currentMana<_playerScriptable.advancedStatistics.rollManaCost) && isGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)
+                else if (Input.GetButtonDown("Roll") && (currentMana<_playerScriptable.AdvancedStatistics.rollManaCost) && IsGrounded() && !isClimbing && Mathf.Abs(_horizontalInput) > 0.01)
                 {
                     transform.Find("MissingMana").gameObject.SetActive(true);
                     Invoke("ResetMissingMana",0.75f);
@@ -162,8 +166,21 @@ namespace _Scripts.Units.Player
         {
             if (GameManager.playerControl)
             {
-                controller.Move(_horizontalInput* Time.fixedDeltaTime, roll, _jump);
-                _jump = false;
+                // Decide if we want to attempt a jump this physics tick
+                bool wantJump = (_jumpPressedTime > 0) &&
+                                (Time.time - _jumpPressedTime <= JumpBufferTime) &&
+                                !roll && !isClimbing;
+
+                // Pass the attempt to the controller; it returns whether it actually jumped
+                bool didJump = controller.Move(_horizontalInput* Time.fixedDeltaTime, roll, wantJump);
+
+                if (didJump)
+                {
+                    _jumpPressedTime = -1f; // clear buffer only when jump actually applied
+                    if (!_isAttacking)
+                        _animator.SetBool("isJumping", true);
+                    AudioManager.instance.Play("Jump");
+                }
             }
         
 
@@ -183,28 +200,26 @@ namespace _Scripts.Units.Player
             _animator.SetBool("isRolling", false);
         }
 
-        public bool isGrounded()
+        public bool IsGrounded()
         {
-            CircleCollider2D collider = GetComponent<CircleCollider2D>();
-            bool grounded = collider.IsTouchingLayers(platformLayerMask);
-            return grounded;
+            // Use the controller's unified grounded state
+            return controller != null && controller.Grounded;
         }
         public void Jump()
         {
+            // Kept for compatibility if used elsewhere, but input path no longer calls this.
             AudioManager.instance.Play("Jump");
-            _jump = true;
             if (!_isAttacking)
             {
                 _animator.SetBool("isJumping", true);
             }
-        
         }
         public void Roll()
         {
             roll = true;
             AudioManager.instance.Play("Roll");
             _animator.SetBool("isRolling", true);
-            currentMana -= _playerScriptable.advancedStatistics.rollManaCost;
+            currentMana -= _playerScriptable.AdvancedStatistics.rollManaCost;
             manaBar.SetMana(currentMana);
             StartCoroutine(RollDownRoutine());
         }
@@ -212,7 +227,7 @@ namespace _Scripts.Units.Player
         {
             _animator.SetBool("isClimbing", true);
             float verticalInput = Input.GetAxis("Vertical");
-            Vector2 climbVelocity = new Vector2(_rb.velocity.x, verticalInput * _playerScriptable.advancedStatistics.climbSpeed);
+            Vector2 climbVelocity = new Vector2(_rb.velocity.x, verticalInput * _playerScriptable.AdvancedStatistics.climbSpeed);
             _rb.velocity = climbVelocity;
         }
         
@@ -223,7 +238,7 @@ namespace _Scripts.Units.Player
             _hitbox.enabled = false;
             Invoke("EnableHitbox", 0.2f);
             _rb.velocity = Vector2.zero;
-            _rb.AddForce(new Vector2(0f, _playerScriptable.advancedStatistics.bounceForce));
+            _rb.AddForce(new Vector2(0f, _playerScriptable.AdvancedStatistics.bounceForce));
             // animator.SetBool("isJumping", true);
         }
 
@@ -247,7 +262,7 @@ namespace _Scripts.Units.Player
             if (other.gameObject.CompareTag("DeathFloor"))
             {
             
-                TakeDamage(_playerScriptable.baseStats.maxHealth);
+                TakeDamage(_playerScriptable.BaseStats.maxHealth / 4);
             }
         }
         void OnTriggerEnter2D(Collider2D other)
@@ -331,7 +346,7 @@ namespace _Scripts.Units.Player
         }
         void RegainMana()
         {
-            if (currentMana >= _playerScriptable.advancedStatistics.maxMana)
+            if (currentMana >= _playerScriptable.AdvancedStatistics.maxMana)
             {
                 currentMana =100f;
                 manaBar.SetMana(currentMana);
@@ -405,9 +420,9 @@ namespace _Scripts.Units.Player
         public void HealthPotion()
         {
             _currentHealth += 50;
-            if (_currentHealth>= _playerScriptable.baseStats.maxHealth)
+            if (_currentHealth>= _playerScriptable.BaseStats.maxHealth)
             {
-                _currentHealth = _playerScriptable.baseStats.maxHealth;
+                _currentHealth = _playerScriptable.BaseStats.maxHealth;
             }
             healthBar.Set(_currentHealth);
 

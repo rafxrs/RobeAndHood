@@ -20,7 +20,7 @@ namespace _Scripts.Managers
             var spawned = Instantiate(scriptableUnit.prefab, pos, Quaternion.identity,transform);
 
             // Apply possible modifications here such as potion boosts, team synergies, etc
-            var stats = scriptableUnit.baseStats;
+            var stats = scriptableUnit.BaseStats;
             stats.maxHealth += 20;
 
             spawned.GetComponent<UnitBase>().SetStats(stats);
