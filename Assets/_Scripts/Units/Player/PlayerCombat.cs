@@ -37,6 +37,9 @@ namespace _Scripts.Units.Player
         private static readonly int IsJumping = Animator.StringToHash("isJumping");
         private static readonly int Attack1 = Animator.StringToHash("Attack1");
         private static readonly int Attack3 = Animator.StringToHash("Attack3");
+        private bool _queuedFireArrow;
+        private float _queuedManaCost;
+        private bool _shotQueued;
 
         // -------------------------------------------------------------------------------------------------------------------------- //
         void Start() 
@@ -49,31 +52,35 @@ namespace _Scripts.Units.Player
         // Update is called once per frame
         void Update()
         {
-        
-            if (weapon != null && GameManager.playerControl && Time.time>nextAttackTime && !_player.roll)
+            if (weapon != null && GameManager.playerControl && Time.time > nextAttackTime && !_player.roll)
             {
-                if (weaponName=="Bow")
+                // --- Bow Controls ---
+                if (weaponName == "Bow")
                 {
-                    if (Input.GetKeyDown(KeyCode.Space)|| Input.GetMouseButtonDown(0))
-                    {
-                        if (_player.currentMana >= 30f)
-                        {
-                            AudioManager.instance.StopPlaying("Bow Load");
-                            AudioManager.instance.Play("Bow Load");
-                            _animator.SetTrigger(Attack1);
-                            _player.IsAttacking();
-                            nextAttackTime = Time.time + attackRate;
-                        }
-                        else
-                        {
-                            transform.Find("MissingMana").gameObject.SetActive(true);
-                            Invoke(nameof(ResetMissingMana), 1f); 
-                        }
-                        
-                        
+                    // NORMAL: Space or LMB
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                        QueueBowShot(fire:false);
 
-                    }
+                    // FIRE: Shift or RMB
+                    else if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1))
+                        QueueBowShot(fire:true);
                 }
+
+
+                // --- Spear Controls ---
+                else if ((_player.currentMana >= _throwSpearManaCost) && 
+                        (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && 
+                        weaponName == "Spear")
+                {
+                    if (!_player.IsGrounded())
+                        _animator.SetBool(IsJumping, false);
+
+                    ThrowSpearAnimation();
+                    nextAttackTime = Time.time + attackRate;
+                    _player.IsAttacking();
+                }
+
+                // --- Sword / Melee Controls ---
                 else if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
                 {
                     if (_player.currentMana >= 10f)
@@ -84,30 +91,12 @@ namespace _Scripts.Units.Player
                     }
                     else
                     {
-                        transform.Find("MissingMana").gameObject.SetActive(true);
-                        Invoke(nameof(ResetMissingMana), 1f);
+                        ShowMissingMana();
                     }
-                    
                 }
-                else if ((_player.currentMana>=_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
-                {
-                    if (!_player.IsGrounded())
-                    {
-                        _animator.SetBool(IsJumping, false);
-                    }
-                    ThrowSpearAnimation();
-                    nextAttackTime = Time.time + attackRate;
-                    _player.IsAttacking();
-                }
-                else if ((_player.currentMana<_throwSpearManaCost) && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName=="Spear")
-                {
-                    transform.Find("MissingMana").gameObject.SetActive(true);
-                    Invoke(nameof(ResetMissingMana), 1f);
-                
-                }
-                
             }
         }
+
 // -------------------------------------------------------------------------------------------------------------------------- //
         void AttackAnimation()
         {
@@ -116,50 +105,26 @@ namespace _Scripts.Units.Player
             string attackNumber= "Attack"+randomAttack;
             if (weaponName=="Sword")
             {
+                _animator.SetBool(IsJumping, false);
                 AudioManager.instance.Play("SwordAttack");
-                if (_comboTime!=0f)
+
+                _combo++; // increment combo count
+                Debug.Log("Combo count: " + _combo);
+
+                // Every third attack = SUPER ATTACK
+                if (_combo >= 3)
                 {
-                    //Debug.Log("Check");
-                    if (((Time.time - _comboTime < 1f))&& _combo==1)
-                    {
-                        Debug.Log("Combo pt2");
-                        _combo = 2;
-                        _comboTime = Time.time;
-                        _isCombo = false;
-                        attackNumber= "Attack"+_combo;
-                        _animator.SetTrigger(attackNumber);
-                        _animator.SetBool(IsJumping, false);
-                    }
-                    else if (((Time.time - _comboTime < 1f))&& _combo==2&& _player.currentMana>=30f)
-                    {
-                        _combo = 3;
-                        attackNumber= "Attack"+_combo;
-                        _animator.SetBool(attackNumber, true);
-                        _animator.SetBool(IsJumping, false);
-                        Invoke(nameof(FinishAttack3), 0.5f);
-                        _combo = 0;
-                        _comboTime = 0f;
-                    }
-                    else 
-                    {
-                        _isCombo = false;
-                        _comboTime = 0f;
-                        _animator.SetTrigger(attackNumber);
-                        _animator.SetBool(IsJumping, false);
-                        _combo = 1;
-                    }
+                    Debug.Log("💥 Super Attack triggered!");
+                    _animator.SetTrigger("Attack3");
+                    Invoke(nameof(FinishAttack3), 0.5f);
+                    _combo = 0; // reset combo
+
                 }
                 else
                 {
                     _isCombo = false;
-                    Debug.Log("Reset combo");
                     _animator.SetTrigger(attackNumber);
-                    _animator.SetBool(IsJumping, false);
-                    _comboTime = Time.time;
-                    _combo = 1;
                 }
-            
-
             }
             else {
                 _animator.SetTrigger(attackNumber);
@@ -278,30 +243,119 @@ namespace _Scripts.Units.Player
             spearInstance.velocity = initialVelocity;
         }
 // -------------------------------------------------------------------------------------------------------------------------- //
-        void ShootArrow()
+        private void TryShootArrow(bool fireArrow)
         {
-            _player.currentMana -= 30f;
-            _player.manaBar.SetMana(_player.currentMana);
-            ChooseWeaponNoSound(1);
-            // Debug.Log("ShootingArrow");
-            // Fire arrow deals twice the damage and has 20% chance of happening
-            int arrow = 0;
-            int temp = Random.Range(0, 5);
-            if (temp == 2)
+            float manaCost = fireArrow ? 50f : 25f;  // fire arrow = half cost of total mana
+            if (_player.currentMana < manaCost)
             {
-                ChooseWeaponNoSound(3);
+                ShowMissingMana();
+                return;
             }
-            Rigidbody2D arrowInstance = Instantiate(weapon.weaponPrefab[arrow], transform.position, Quaternion.identity);
-            Vector2 throwDirection = transform.right;
 
-            // Calculate the required initial velocity for the desired arc
+            _player.currentMana -= manaCost;
+            _player.manaBar.SetMana(_player.currentMana);
+
+            // Audio + animation
+            AudioManager.instance.StopPlaying("Bow Load");
+            AudioManager.instance.Play("Bow Load");
+            _animator.SetTrigger(Attack1);
+            _player.IsAttacking();
+            nextAttackTime = Time.time + attackRate;
+
+            // Fire the arrow with modified stats
+            ShootArrow(fireArrow, manaCost);
+        }
+
+        void ShootArrow(bool fireArrow, float manaCost)
+        {
+            // Select correct projectile prefab
+            int arrowIndex = 0;
+            Rigidbody2D arrowInstance = Instantiate(weapon.weaponPrefab[arrowIndex], transform.position, Quaternion.identity);
+
+            // Apply velocity
+            Vector2 throwDirection = transform.right;
             float horizontalDistance = weapon.launchForce * weapon.launchDuration;
             float verticalDistance = weapon.launchArcHeight;
             Vector2 initialVelocity = CalculateInitialVelocity(throwDirection, horizontalDistance, verticalDistance);
-
-            // Apply the initial velocity to the spear
             arrowInstance.velocity = initialVelocity;
+
+            Debug.Log($"{(fireArrow ? "🔥 Fire" : "🏹 Normal")} arrow shot! Mana used: {manaCost}");
         }
+
+        private void QueueBowShot(bool fire)
+        {
+            float manaCost = fire ? 50f : 25f;
+
+            if (_player.currentMana < manaCost)
+            {
+                ShowMissingMana();
+                return;
+            }
+
+            // Deduct now so animation event doesn’t need UI logic
+            _player.currentMana -= manaCost;
+            _player.manaBar.SetMana(_player.currentMana);
+
+            // Queue shot info for the animation event
+            _queuedFireArrow = fire;
+            _queuedManaCost  = manaCost;
+            _shotQueued      = true;
+
+            // Play bow draw/fire animation
+            AudioManager.instance.StopPlaying("Bow Load");
+            AudioManager.instance.Play("Bow Load");
+            _animator.SetBool(IsJumping, false); // prevent the cancellation of the bow animation
+            _animator.SetTrigger(Attack1);
+            _player.IsAttacking();
+            nextAttackTime = Time.time + attackRate;
+
+            Debug.Log($"{(fire ? "🔥 Fire" : "🏹 Normal")} arrow queued. Mana used: {manaCost}");
+        }
+
+        // <<< ANIMATION EVENT >>>  
+        // Add this event on the bow attack animation at the frame the arrow should spawn.
+        public void ShootArrowEvent()
+        {
+            if (!_shotQueued)
+            {
+                // nothing queued (e.g., event left on another clip) – just ignore
+                return;
+            }
+
+            // choose which ScriptableWeapon to use
+            ScriptableWeapon activeWeapon = _queuedFireArrow ? _player.GetComponent<PlayerCombat>().weapons[3] 
+                                                            : _player.GetComponent<PlayerCombat>().weapons[1];
+
+            // spawn from that weapon's prefab[0]
+            if (activeWeapon.weaponPrefab == null || activeWeapon.weaponPrefab.Length == 0 || activeWeapon.weaponPrefab[0] == null)
+            {
+                Debug.LogError($"Missing prefab on {activeWeapon.name}");
+                _shotQueued = false;
+                return;
+            }
+
+            Rigidbody2D arrowInstance = Instantiate(
+                activeWeapon.weaponPrefab[0],
+                transform.position,
+                Quaternion.identity
+            );
+
+
+            // Give it velocity (same arc as before)
+            Vector2 dir = transform.right;
+            float H = weapon.launchForce * weapon.launchDuration;
+            float V = weapon.launchArcHeight;
+            Vector2 v0 = CalculateInitialVelocity(dir, H, V);
+            arrowInstance.velocity = v0;
+
+            Debug.Log($"{( _queuedFireArrow ? "🔥 Fire" : "🏹 Normal")} arrow shot! Mana used: {_queuedManaCost}");
+
+            // Clear the queue
+            _shotQueued = false;
+        }
+
+
+
 // -------------------------------------------------------------------------------------------------------------------------- //
         private Vector2 CalculateInitialVelocity(Vector2 direction, float horizontalDistance, float verticalDistance)
         {
@@ -358,12 +412,19 @@ namespace _Scripts.Units.Player
         {
             _animator.runtimeAnimatorController = scriptableWeapon.controller;
         }
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
 
         void ResetMissingMana()
         {
             transform.Find("MissingMana").gameObject.SetActive(false);
         }
+        
+        private void ShowMissingMana()
+        {
+            transform.Find("MissingMana").gameObject.SetActive(true);
+            Invoke(nameof(ResetMissingMana), 1f);
+        }
+
 
     
     }

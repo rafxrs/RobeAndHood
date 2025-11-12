@@ -100,9 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1.5
   distance: 2
-  movingUp: 0
-  move: 1
-  currentDistance: 0
+  vertical: 0
+  movingDown: 0
+  activationType: 1
+  canReactivate: 0
 --- !u!60 &1722877683
 PolygonCollider2D:
   m_ObjectHideFlags: 0

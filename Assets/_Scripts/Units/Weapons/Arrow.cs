@@ -38,7 +38,6 @@ namespace _Scripts.Units.Weapons
             Destroy(this.gameObject, 5f);
             _rb = GetComponent<Rigidbody2D>();
             _player = GameObject.Find("Player").GetComponent<Player.Player>();
-            if (side==Side.Player) w = _player.GetComponent<PlayerCombat>().weapon;
         }
 
         // Update is called once per frame
@@ -71,9 +70,9 @@ namespace _Scripts.Units.Weapons
                 {
                     _soundDiff = (Time.time - _awakeTime) / -5f;
                     AudioManager.instance.Play("Arrow Impact",_soundDiff);
-                    w = _player.GetComponent<PlayerCombat>().weapon;
                     Debug.Log("arrow hit "+other.name+" and dealt "+w.attackDamage+" dmg");
-                    Enemy.Enemy enemy= other.GetComponent<Enemy.Enemy>();
+                    Enemy.Enemy enemy = other.GetComponent<Enemy.Enemy>();
+                    Debug.Log("enemy took "+w.attackDamage+" dmg from "+w.name);
                     enemy.TakeDamage(w.attackDamage);
                     Destroy(this.gameObject);
                 }

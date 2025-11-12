@@ -274,9 +274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295300baf66ba2948b11b008dda93380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyScriptable: {fileID: 0}
+  enemyScriptable: {fileID: 11400000, guid: 905ccff58a5355f4784d85fbb45d0105, type: 2}
   isDead: 0
-  attackPoint: {fileID: 0}
+  attackPoint: {fileID: 961048314009526062}
+  laserAttackPoint: {fileID: 0}
+  linkedPlatform: {fileID: 0}
 --- !u!114 &961048315546133806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 7378058765254971043, guid: e129833eda866954dbc7ae52a13ffc49, type: 3}
 --- !u!1 &961048315745057492
 GameObject:
@@ -402,7 +405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5213932964976316910
 Transform:
   m_ObjectHideFlags: 0
@@ -425,7 +428,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980392140486973693}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

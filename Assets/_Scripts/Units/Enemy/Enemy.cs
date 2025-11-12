@@ -89,20 +89,41 @@ namespace _Scripts.Units.Enemy
 
         public void TakeDamage(int damage) 
         {
-            int rand = Random.Range(0,2);
+            // --- Shield Block Mechanic ---
+            if (enemyScriptable.enemyType == ScriptableEnemy.EnemyType.SkeletonShield)
+            {
+                // Compare facing directions: both facing right (+1) or left (-1)
+                float enemyFacing = Mathf.Sign(transform.localScale.x);
+                float playerFacing = Mathf.Sign(_player.transform.localScale.x);
+
+                // If facing opposite directions → block partially
+                if (enemyFacing == playerFacing)
+                {
+                    int reducedDamage = Mathf.RoundToInt(damage * 0.5f);
+                    Debug.Log($"🛡 SkeletonShield blocked attack! Damage reduced from {damage} → {reducedDamage}");
+                    damage = reducedDamage;
+                }
+            }
+
+            // --- Existing FX & damage logic ---
+            int rand = Random.Range(0, 2);
             Instantiate(enemyScriptable.impactPrefabs[rand], transform.position, Quaternion.identity);
+
             _spriteRenderer.color = Color.red;
-            Invoke(nameof(ResetSprite),0.1f);
+            Invoke(nameof(ResetSprite), 0.1f);
+
             // activate health bar
             transform.Find("WorldHealthBar").gameObject.SetActive(true);
+
             _currentHealth -= damage;
             _healthBar.Set(_currentHealth);
-            // play hurt animation
-            if (_currentHealth <=0)
+
+            if (_currentHealth <= 0)
             {
                 Die();
             }
         }
+
 
         void ResetSprite()
         {
@@ -202,7 +223,7 @@ namespace _Scripts.Units.Enemy
 
             if (linkedPlatform != null)
             {
-                linkedPlatform.ActivateDownwardMotion();
+                linkedPlatform.Activate();
             }
 
             // destroy enemy after 1 second

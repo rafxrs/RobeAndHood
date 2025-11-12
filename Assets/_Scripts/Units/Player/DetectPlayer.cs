@@ -146,7 +146,7 @@ namespace _Scripts.Units.Player
                         if (Input.GetKeyDown(KeyCode.E))
                         {
                             Debug.Log("Activating Platform");
-                            doActionOn.GetComponent<MovingPlatform>().move=true;
+                            doActionOn.GetComponent<MovingPlatform>().Activate();
                         }
                         break;
                 }

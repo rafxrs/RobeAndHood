@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitType: 1
   stats:
-    maxHealth: 400
+    maxHealth: 500
     collisionDamage: 0
   prefab: {fileID: 1964207045937707050, guid: df4f4d4317fc189448e2546a11c649bd, type: 3}
   enemyType: 12
@@ -31,7 +31,7 @@ MonoBehaviour:
     patrolSpeed: 300
     nextWayPointDist: 1
     hasAttacks: 1
-    attackDamage: 50
+    attackDamage: 34
     weaponAttackRange: 1
     attackDistance: 2.5
     attackRate: 2

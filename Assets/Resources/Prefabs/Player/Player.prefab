@@ -435,18 +435,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a70a5ce864a04645a68b02f50399475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 600
-  m_CrouchSpeed: 1.2
-  m_MovementSmoothing: 0.05
-  m_AirControl: 1
-  m_WhatIsGround:
+  mJumpForce: 600
+  mCrouchSpeed: 1.2
+  mMovementSmoothing: 0.05
+  mAirControl: 1
+  mWhatIsGround:
     serializedVersion: 2
     m_Bits: 33281
-  m_GroundCheck: {fileID: 1435041368280132493}
-  m_CeilingCheck: {fileID: 1435041368305319093}
-  m_CrouchDisableCollider: {fileID: 2523733902534517736}
-  m_Grounded: 0
-  OnLandEvent:
+  mGroundCheck: {fileID: 1435041368280132493}
+  mCeilingCheck: {fileID: 1435041368305319093}
+  mCrouchDisableCollider: {fileID: 2523733902534517736}
+  mGrounded: 0
+  onLandEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1435041367869528943}
@@ -461,7 +461,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnCrouchEvent:
+  onCrouchEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1435041367869528943}
@@ -499,7 +499,7 @@ MonoBehaviour:
   isClimbing: 0
   roll: 0
   tookDamage: 0
-  _nextStepsTime: 0
+  nextStepsTime: 0
 --- !u!114 &1435041367869528940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,8 +763,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 298106463
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a772c8e87c9b89e408059a256d2ed5ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}

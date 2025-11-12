@@ -30,7 +30,7 @@ namespace _Scripts.Units.Enemy
             float verticalDistance = (w.launchArcHeight);
             Vector2 initialVelocity = CalculateInitialVelocity(throwDirection, horizontalDistance, verticalDistance);
 
-            // Apply the initial velocity to the spear
+            // Apply the initial velocity to the arrow
             arrowInstance.velocity = initialVelocity;
         }
 
@@ -44,7 +44,7 @@ namespace _Scripts.Units.Enemy
             float verticalDistance = w.launchArcHeight;
             Vector2 initialVelocity = CalculateInitialVelocity(launchDirection, horizontalDistance, verticalDistance);
 
-            // Apply the initial velocity to the spear
+            // Apply the initial velocity to the arrow
             arrowInstance.velocity = initialVelocity;
         }
 

@@ -49,7 +49,7 @@ namespace _Scripts.Units.Player
         int _currentHealth;
         bool _isDead;
         private bool _isAttacking;
-        bool _hasKey;
+        int _numKeys = 0;
         float _nextLadderSound;
 
         // Jump buffer
@@ -261,7 +261,11 @@ namespace _Scripts.Units.Player
         {
             if (other.gameObject.CompareTag("DeathFloor"))
             {
-            
+
+                TakeDamage(_playerScriptable.BaseStats.maxHealth);
+            }
+            else if (other.gameObject.CompareTag("Spikes"))
+            {
                 TakeDamage(_playerScriptable.BaseStats.maxHealth / 4);
             }
         }
@@ -397,15 +401,15 @@ namespace _Scripts.Units.Player
         public void CollectKey()
         {
             Debug.Log("Collected a key");
-            _hasKey =true;
+            _numKeys++;
         }
         public bool UnlockChest()
         {
-            if (_hasKey)
+            if (_numKeys > 0)
             {
                 Debug.Log("Unlocking chest");
                 // unlock
-                _hasKey = false;
+                _numKeys--;
                 return true;
             
             }
