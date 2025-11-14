@@ -43,15 +43,15 @@ namespace _Scripts.Units.Weapons
         // Update is called once per frame
         void FixedUpdate()
         {
-            
+
             if (_isInAir)
             {
                 var velocity = _rb.velocity;
-                float angle = Mathf.Atan2(velocity.y, velocity.x)* Mathf.Rad2Deg;
+                float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
-            
-        
+
+
         }
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -60,8 +60,8 @@ namespace _Scripts.Units.Weapons
                 StopMotion();
                 PolygonCollider2D arrow = GetComponent<PolygonCollider2D>();
                 arrow.enabled = false;
-                _isInAir =false;
-                Invoke(nameof(StopMotion),0.05f);
+                _isInAir = false;
+                Invoke(nameof(StopMotion), 0.05f);
 
             }
             if (side == Side.Player)
@@ -69,17 +69,30 @@ namespace _Scripts.Units.Weapons
                 if (other.CompareTag("Enemy"))
                 {
                     _soundDiff = (Time.time - _awakeTime) / -5f;
-                    AudioManager.instance.Play("Arrow Impact",_soundDiff);
-                    Debug.Log("arrow hit "+other.name+" and dealt "+w.attackDamage+" dmg");
+                    AudioManager.instance.Play("Arrow Impact", _soundDiff);
+                    Debug.Log("arrow hit " + other.name + " and dealt " + w.attackDamage + " dmg");
                     Enemy.Enemy enemy = other.GetComponent<Enemy.Enemy>();
-                    Debug.Log("enemy took "+w.attackDamage+" dmg from "+w.name);
+                    if (other.GetComponent<Enemy.Enemy>().enemyScriptable.enemyType == ScriptableEnemy.EnemyType.SkeletonShield)
+                    {
+                        bool facingOpposite = PlayerDir(_player) != EnemyDir(enemy);
+                        // If facing opposite directions → block partially
+                        if (!facingOpposite)
+                        {
+                            int reducedDamage = Mathf.RoundToInt(w.attackDamage * 0.25f);
+                            Debug.Log($"🛡 SkeletonShield blocked arrow! Damage reduced from {w.attackDamage} → {reducedDamage}");
+                            enemy.TakeDamage(reducedDamage);
+                            Destroy(this.gameObject);
+                            return;
+                        }
+                    }
+                    Debug.Log("enemy took " + w.attackDamage + " dmg from " + w.name);
                     enemy.TakeDamage(w.attackDamage);
                     Destroy(this.gameObject);
                 }
                 else if (other.CompareTag("Crate"))
                 {
                     _soundDiff = (Time.time - _awakeTime) / -5f;
-                    AudioManager.instance.Play("Arrow Impact",_soundDiff);
+                    AudioManager.instance.Play("Arrow Impact", _soundDiff);
                     Destroy(this.gameObject);
                     other.GetComponent<Crate>().TakeDamage(w.attackDamage);
                 }
@@ -97,13 +110,26 @@ namespace _Scripts.Units.Weapons
                     Destroy(this.gameObject);
                 }
             }
-        
-        
+
+
         }
         void StopMotion()
         {
             _rb.velocity = Vector2.zero;
-            _rb.gravityScale =0;
+            _rb.gravityScale = 0;
+        }
+
+        int PlayerDir(Player.Player p)
+        {
+            // Player uses _mFacingRight from CharacterController2D
+            return p.controller._mFacingRight ? 1 : -1;
+        }
+
+        int EnemyDir(Enemy.Enemy e)
+        {
+            // Enemy uses localScale
+            return e.transform.localScale.x >= 0 ? 1 : -1;
+
         }
     }
 }

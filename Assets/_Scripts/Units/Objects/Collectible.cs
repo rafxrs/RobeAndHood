@@ -34,61 +34,41 @@ public class Collectible : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
-        if ((other.tag == "CoinCollider"))
+        if (other.CompareTag("CoinCollider"))
         {
-            switch (type)
+            if (!isReward)
             {
-                case Type.Coin:
-                    if (!isReward)
-                    {
-                        Instantiate(destroyFX, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject);
-                        _player.AddCoin(1);
-                    }
-                    else if (isReward && Time.time > _awakeTime+pickupTime )
-                    {
-                        Instantiate(destroyFX, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject);
-                        _player.AddCoin(1);
-                    }
-                    break;
-                case Type.Key:
-                    if (!isReward)
-                    {
-                        Instantiate(destroyFX, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject);
-                        _player.CollectKey();
-                    }
-                    else if (isReward && Time.time > _awakeTime+pickupTime )
-                    {
-                        Instantiate(destroyFX, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject);
-                        _player.CollectKey();
-
-                    }
-                    break;
-                case Type.HealthPotion:
-                    if (!isReward)
-                    {
-                        Destroy(this.gameObject);
-                        _player.HealthPotion();
-                    }
-                    else if (isReward && Time.time > _awakeTime+pickupTime )
-                    {
-                        Destroy(this.gameObject);
-                        _player.HealthPotion();
-
-                    }
-                    break;
-                default:
-                    break;
+                Collect();
             }
-            
+            else if (Time.time > _awakeTime + pickupTime)
+            {
+                Collect();
+            }
+        }
+    }
+
+    void Collect()
+    {
+        switch (type)
+        {
+            case Type.Coin:
+                Instantiate(destroyFX, transform.position, Quaternion.identity);
+                _player.AddCoin(1);
+                break;
+            case Type.Key:
+                Instantiate(destroyFX, transform.position, Quaternion.identity);
+                _player.CollectKey();
+                break;
+            case Type.HealthPotion:
+                _player.HealthPotion();
+                break;
         }
 
+        Destroy(gameObject);
     }
+
 }

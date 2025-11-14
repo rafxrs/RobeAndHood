@@ -190,7 +190,7 @@ MonoBehaviour:
   type: 0
   isReward: 1
   destroyFX: {fileID: 1910990868984227888, guid: 0bf491bdbfd7fbb44804b1ebab5cff5d, type: 3}
-  pickupTime: 0
+  pickupTime: 0.05
 --- !u!50 &7378058765254970974
 Rigidbody2D:
   serializedVersion: 4

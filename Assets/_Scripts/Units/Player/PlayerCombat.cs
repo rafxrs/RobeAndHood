@@ -11,9 +11,9 @@ namespace _Scripts.Units.Player
     public class PlayerCombat : MonoBehaviour
     {
 
-// -------------------------------------------------------------------------------------------------------------------------- //
-// PUBLIC VARIABLES
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
+        // PUBLIC VARIABLES
+        // -------------------------------------------------------------------------------------------------------------------------- //
 
         public ScriptableWeapon[] weapons;
         public ScriptableWeapon weapon;
@@ -21,15 +21,16 @@ namespace _Scripts.Units.Player
         public Transform[] attackPoints;
         public LayerMask enemyLayer, interactableLayer;
 
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         Player _player;
         Animator _animator;
-        [FormerlySerializedAs("_weaponName")] [SerializeField] string weaponName;
-        [FormerlySerializedAs("_attackRange")] [SerializeField]
+        [FormerlySerializedAs("_weaponName")][SerializeField] string weaponName;
+        [FormerlySerializedAs("_attackRange")]
+        [SerializeField]
         private float attackRange;
-        [FormerlySerializedAs("_attackRate")] [SerializeField] float attackRate;
-        [FormerlySerializedAs("_nextAttackTime")] [SerializeField] float nextAttackTime;
-        [FormerlySerializedAs("_attackDamage")] [SerializeField] int attackDamage;
+        [FormerlySerializedAs("_attackRate")][SerializeField] float attackRate;
+        [FormerlySerializedAs("_nextAttackTime")][SerializeField] float nextAttackTime;
+        [FormerlySerializedAs("_attackDamage")][SerializeField] int attackDamage;
         float _comboTime;
         readonly float _throwSpearManaCost = 50f;
         int _combo;
@@ -42,34 +43,34 @@ namespace _Scripts.Units.Player
         private bool _shotQueued;
 
         // -------------------------------------------------------------------------------------------------------------------------- //
-        void Start() 
+        void Start()
         {
             _animator = GetComponent<Animator>(); NullCheck.CheckNull(_animator);
-            _player = GetComponent<Player>(); 
+            _player = GetComponent<Player>();
             _animator.runtimeAnimatorController = defaultController;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (weapon != null && GameManager.playerControl && Time.time > nextAttackTime && !_player.roll)
+            if (weapon != null && GameManager.playerControl && Time.time > nextAttackTime && !_player.roll && !(_player.isClimbing && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))))
             {
                 // --- Bow Controls ---
                 if (weaponName == "Bow")
                 {
                     // NORMAL: Space or LMB
                     if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                        QueueBowShot(fire:false);
+                        QueueBowShot(fire: false);
 
                     // FIRE: Shift or RMB
                     else if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1))
-                        QueueBowShot(fire:true);
+                        QueueBowShot(fire: true);
                 }
 
 
                 // --- Spear Controls ---
-                else if ((_player.currentMana >= _throwSpearManaCost) && 
-                        (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && 
+                else if ((_player.currentMana >= _throwSpearManaCost) &&
+                        (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) &&
                         weaponName == "Spear")
                 {
                     if (!_player.IsGrounded())
@@ -83,7 +84,7 @@ namespace _Scripts.Units.Player
                 // --- Sword / Melee Controls ---
                 else if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
                 {
-                    if (_player.currentMana >= 10f)
+                    if (_combo < 2 && _player.currentMana >= 10f || (_combo >= 2 && _player.currentMana >= 50f))
                     {
                         AttackAnimation();
                         _player.IsAttacking();
@@ -97,13 +98,13 @@ namespace _Scripts.Units.Player
             }
         }
 
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         void AttackAnimation()
         {
-        
-            int randomAttack = Random.Range(1,3);
-            string attackNumber= "Attack"+randomAttack;
-            if (weaponName=="Sword")
+
+            int randomAttack = Random.Range(1, 3);
+            string attackNumber = "Attack" + randomAttack;
+            if (weaponName == "Sword")
             {
                 _animator.SetBool(IsJumping, false);
                 AudioManager.instance.Play("SwordAttack");
@@ -126,13 +127,14 @@ namespace _Scripts.Units.Player
                     _animator.SetTrigger(attackNumber);
                 }
             }
-            else {
+            else
+            {
                 _animator.SetTrigger(attackNumber);
                 _animator.SetBool(IsJumping, false);
             }
-        
+
         }
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         void Attack()
         {
             // Debug.Log("Attacking");
@@ -143,23 +145,23 @@ namespace _Scripts.Units.Player
             switch (name)
             {
                 case "Spear":
-                    _player.currentMana -= 10f;
+                    _player.currentMana -= 15f;
                     _player.manaBar.SetMana(_player.currentMana);
-                    
+
                     AudioManager.instance.Play("Spear");
                     //Debug.Log("Spear Attack");
                     Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackPoints[0].position, new Vector3(weapon.attackRange, 1, 1), 0f, enemyLayer);
                     Collider2D[] hitObjects = Physics2D.OverlapBoxAll(attackPoints[0].position, new Vector3(weapon.attackRange, 1, 1), 0f, interactableLayer);
 
-                    foreach(Collider2D enemy in hitEnemies)
+                    foreach (Collider2D enemy in hitEnemies)
                     {
-                        Debug.Log("Spear hit "+ enemy.name);
+                        Debug.Log("Spear hit " + enemy.name);
                         enemy.GetComponent<Enemy.Enemy>().TakeDamage(weapon.attackDamage);
                     }
-                    foreach(Collider2D obj in hitObjects)
+                    foreach (Collider2D obj in hitObjects)
                     {
-                        Debug.Log("Spear hit "+ obj.name);
-                        switch(obj.tag)
+                        Debug.Log("Spear hit " + obj.name);
+                        switch (obj.tag)
                         {
                             case "Crate":
                                 obj.GetComponent<Crate>().TakeDamage(weapon.attackDamage);
@@ -181,35 +183,35 @@ namespace _Scripts.Units.Player
                     }
                     else
                     {
-                        _player.currentMana -= 30f;
+                        _player.currentMana -= 50f;
                         _player.manaBar.SetMana(_player.currentMana);
                     }
-                    
-                    
+
+
                     // Debug.Log("Sword Attack");
                     hitEnemies = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, enemyLayer);
                     hitObjects = Physics2D.OverlapCircleAll(attackPoints[1].position, weapon.attackRange, interactableLayer);
-                
-                    foreach(Collider2D enemy in hitEnemies)
+
+                    foreach (Collider2D enemy in hitEnemies)
                     {
-                        Debug.Log("Sword hit "+ enemy.name);
+                        Debug.Log("Sword hit " + enemy.name);
                         if (!combo)
                         {
                             enemy.GetComponent<Enemy.Enemy>().TakeDamage(weapon.attackDamage);
                         }
-                        else 
+                        else
                         {
                             Debug.Log("COMBO!");
-                            enemy.GetComponent<Enemy.Enemy>().TakeDamage((weapon.attackDamage)*3);
+                            enemy.GetComponent<Enemy.Enemy>().TakeDamage((weapon.attackDamage) * 3);
                         }
                     }
-                    foreach(Collider2D obj in hitObjects)
+                    foreach (Collider2D obj in hitObjects)
                     {
-                        Debug.Log("Sword hit "+ obj.name);
-                        switch(obj.tag)
+                        Debug.Log("Sword hit " + obj.name);
+                        switch (obj.tag)
                         {
                             case "Crate":
-                                obj.GetComponent<Crate>().TakeDamage(weapon.attackDamage);
+                                obj.GetComponent<Crate>().TakeDamage(!combo ? weapon.attackDamage : weapon.attackDamage * 3);
                                 break;
                             case "Lever":
                                 obj.GetComponent<Lever>().SwitchLeverState();
@@ -221,7 +223,7 @@ namespace _Scripts.Units.Player
             }
         }
 
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         void ThrowSpearAnimation()
         {
             _animator.SetBool(Attack3, true);
@@ -231,18 +233,37 @@ namespace _Scripts.Units.Player
         {
             _player.currentMana -= _throwSpearManaCost;
             _player.manaBar.SetMana(_player.currentMana);
-            Rigidbody2D spearInstance = Instantiate(weapon.weaponPrefab[0], transform.position, transform.rotation);
-            Vector2 throwDirection = transform.right;
 
-            // Calculate the required initial velocity for the desired arc
-            float horizontalDistance = weapon.launchForce * weapon.launchDuration;
-            float verticalDistance = weapon.launchArcHeight;
-            Vector2 initialVelocity = CalculateInitialVelocity(throwDirection, horizontalDistance, verticalDistance);
+            Rigidbody2D spearInstance = Instantiate(
+                weapon.weaponPrefab[0],
+                transform.position,
+                Quaternion.identity
+            );
 
-            // Apply the initial velocity to the spear
+            // Facing direction based on player flip
+            int facing = _player.controller._mFacingRight ? 1 : -1;
+
+            // Flip spear visually
+            Vector3 scale = spearInstance.transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * facing;
+            spearInstance.transform.localScale = scale;
+
+            // Corrected throw direction (independent of transform.right)
+            Vector2 throwDirection = new Vector2(facing, 0f);
+
+            // Arc calculation
+            float H = weapon.launchForce * weapon.launchDuration;
+            float V = weapon.launchArcHeight;
+
+            Vector2 initialVelocity = CalculateInitialVelocity(
+                throwDirection,
+                H,
+                V
+            );
+
             spearInstance.velocity = initialVelocity;
         }
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         private void TryShootArrow(bool fireArrow)
         {
             float manaCost = fireArrow ? 50f : 25f;  // fire arrow = half cost of total mana
@@ -298,8 +319,8 @@ namespace _Scripts.Units.Player
 
             // Queue shot info for the animation event
             _queuedFireArrow = fire;
-            _queuedManaCost  = manaCost;
-            _shotQueued      = true;
+            _queuedManaCost = manaCost;
+            _shotQueued = true;
 
             // Play bow draw/fire animation
             AudioManager.instance.StopPlaying("Bow Load");
@@ -323,7 +344,7 @@ namespace _Scripts.Units.Player
             }
 
             // choose which ScriptableWeapon to use
-            ScriptableWeapon activeWeapon = _queuedFireArrow ? _player.GetComponent<PlayerCombat>().weapons[3] 
+            ScriptableWeapon activeWeapon = _queuedFireArrow ? _player.GetComponent<PlayerCombat>().weapons[3]
                                                             : _player.GetComponent<PlayerCombat>().weapons[1];
 
             // spawn from that weapon's prefab[0]
@@ -342,13 +363,14 @@ namespace _Scripts.Units.Player
 
 
             // Give it velocity (same arc as before)
-            Vector2 dir = transform.right;
+            int facing = _player.controller._mFacingRight ? 1 : -1;
+            Vector2 dir = transform.right * facing;
             float H = weapon.launchForce * weapon.launchDuration;
             float V = weapon.launchArcHeight;
             Vector2 v0 = CalculateInitialVelocity(dir, H, V);
             arrowInstance.velocity = v0;
 
-            Debug.Log($"{( _queuedFireArrow ? "🔥 Fire" : "🏹 Normal")} arrow shot! Mana used: {_queuedManaCost}");
+            Debug.Log($"{(_queuedFireArrow ? "🔥 Fire" : "🏹 Normal")} arrow shot! Mana used: {_queuedManaCost}");
 
             // Clear the queue
             _shotQueued = false;
@@ -356,7 +378,7 @@ namespace _Scripts.Units.Player
 
 
 
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         private Vector2 CalculateInitialVelocity(Vector2 direction, float horizontalDistance, float verticalDistance)
         {
             // Calculate the initial velocity components for the desired arc
@@ -368,8 +390,8 @@ namespace _Scripts.Units.Player
             initialVelocity.y = verticalVelocity;
 
             return initialVelocity;
-        }   
-// -------------------------------------------------------------------------------------------------------------------------- //
+        }
+        // -------------------------------------------------------------------------------------------------------------------------- //
         void SwordComboAttack()
         {
             Debug.Log("combo");
@@ -385,7 +407,7 @@ namespace _Scripts.Units.Player
         {
             _animator.SetBool(Attack3, false);
         }
-// -------------------------------------------------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------------------------------------------------- //
         private void SetWeapon(ScriptableWeapon w)
         {
             weaponName = w.name;
@@ -401,7 +423,7 @@ namespace _Scripts.Units.Player
             ChangeController(weapon);
             SetWeapon(weapon);
         }
-        
+
         public void ChooseWeaponNoSound(int number) //0 is spear, 1 is bow, 2 is sword
         {
             weapon = weapons[number];
@@ -418,7 +440,7 @@ namespace _Scripts.Units.Player
         {
             transform.Find("MissingMana").gameObject.SetActive(false);
         }
-        
+
         private void ShowMissingMana()
         {
             transform.Find("MissingMana").gameObject.SetActive(true);
@@ -426,6 +448,6 @@ namespace _Scripts.Units.Player
         }
 
 
-    
+
     }
 }

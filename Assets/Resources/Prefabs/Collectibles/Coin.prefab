@@ -136,5 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb723773754c4243aedaf41a5fa5a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   isReward: 0
   destroyFX: {fileID: 1910990868984227888, guid: 0bf491bdbfd7fbb44804b1ebab5cff5d, type: 3}
+  pickupTime: 0
