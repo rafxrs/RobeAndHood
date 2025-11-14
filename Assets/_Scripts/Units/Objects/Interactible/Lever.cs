@@ -50,7 +50,7 @@ public class Lever : MonoBehaviour
         {
             case Action.Door:
                 foreach (GameObject gobj in doActionOn)
-                    gobj.SetActive(false);
+                    gobj.SetActive(!leverState);
                 break;
 
             case Action.Platform:

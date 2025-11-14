@@ -30,7 +30,7 @@ public class Spear : MonoBehaviour
         AudioManager.instance.Play("Throw Spear");
         Destroy(this.gameObject, 5f);
         _rb = GetComponent<Rigidbody2D>();
-        _player= GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
     void FixedUpdate()
     {
@@ -40,15 +40,15 @@ public class Spear : MonoBehaviour
         {
             ChangeSpriteDirection();
         }
-        
-        
+
+
     }
     void ChangeSpriteDirection()
     {
         if (_rb.velocity != Vector2.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, _rb.velocity);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed*Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -58,8 +58,8 @@ public class Spear : MonoBehaviour
             StopMotion();
             CircleCollider2D arrow = GetComponent<CircleCollider2D>();
             arrow.enabled = false;
-            _isInAir =false;
-            Invoke("StopMotion",0.05f);
+            _isInAir = false;
+            Invoke("StopMotion", 0.05f);
 
         }
         if (side == Side.Player)
@@ -67,16 +67,23 @@ public class Spear : MonoBehaviour
             if (other.tag == "Enemy")
             {
                 AudioManager.instance.Play("Spear");
-                Enemy enemy= other.GetComponent<Enemy>();
+                Enemy enemy = other.GetComponent<Enemy>();
+                if (other.GetComponent<Enemy>().enemyScriptable.enemyType == ScriptableEnemy.EnemyType.SkeletonShield)
+                {
+                    bool facingOpposite = PlayerDir(_player) != EnemyDir(enemy);
+                    // If facing opposite directions → block partially
+                    if (!facingOpposite)
+                    {
+                        int reducedDamage = Mathf.RoundToInt(w.attackDamage * 0.25f);
+                        Debug.Log($"🛡 SkeletonShield blocked spear! Damage reduced from {w.attackDamage} → {reducedDamage}");
+                        enemy.TakeDamage(reducedDamage);
+                        Destroy(this.gameObject);
+                        return;
+                    }
+                }
                 enemy.TakeDamage(w.attackDamage);
-                // if (enemy.isDead)
-                // {
                 Destroy(this.gameObject);
-                // }
-                // else 
-                // {
-                //     Invoke("StopMotion",0.05f);
-                // }
+
             }
             else if (other.tag == "Crate")
             {
@@ -94,8 +101,8 @@ public class Spear : MonoBehaviour
         {
             if (other.tag == "PlayerHitbox")
             {
-                
-                
+
+
                 _player.TakeDamage(w.attackDamage);
                 Destroy(this.gameObject);
             }
@@ -104,6 +111,18 @@ public class Spear : MonoBehaviour
     void StopMotion()
     {
         _rb.velocity = Vector2.zero;
-        _rb.gravityScale =0;
+        _rb.gravityScale = 0;
+    }
+
+    int PlayerDir(Player p)
+    {
+        // Player uses _mFacingRight from CharacterController2D
+        return p.controller._mFacingRight ? 1 : -1;
+    }
+
+    int EnemyDir(Enemy e)
+    {
+        // Enemy uses localScale
+        return e.transform.localScale.x >= 0 ? 1 : -1;
     }
 }

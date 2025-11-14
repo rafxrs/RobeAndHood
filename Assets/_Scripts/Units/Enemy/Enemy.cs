@@ -9,10 +9,10 @@ namespace _Scripts.Units.Enemy
     public class Enemy : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------//
-        public ScriptableEnemy enemyScriptable ;
+        public ScriptableEnemy enemyScriptable;
         public bool isDead;
         //-------------------------------------------------------------------------------------------//
-        [FormerlySerializedAs("_attackPoint")] [SerializeField] private Transform attackPoint;
+        [FormerlySerializedAs("_attackPoint")][SerializeField] private Transform attackPoint;
         [SerializeField] private Transform laserAttackPoint;
         private Player.Player _player;
         private EnemyAI _enemyAI;
@@ -41,7 +41,7 @@ namespace _Scripts.Units.Enemy
             _rewardSpawner = GetComponent<RewardSpawner>(); NullCheck.CheckNull(_rewardSpawner);
             _spriteRenderer = GetComponent<SpriteRenderer>(); NullCheck.CheckNull(_spriteRenderer);
             _healthBar = GetComponentInChildren<FloatingHealthBar>();
-            if (_healthBar == null )
+            if (_healthBar == null)
             {
                 Debug.LogError("health bar is null");
             }
@@ -57,7 +57,7 @@ namespace _Scripts.Units.Enemy
         void Update()
         {
             if (!isDead)
-            {   
+            {
                 if (!_isAttacking && !enemyScriptable.AdvancedStats.isStatic)
                 {
                     _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.x));
@@ -71,13 +71,13 @@ namespace _Scripts.Units.Enemy
                         {
                             _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.y));
                         }
-                    
+
                     }
 
                 }
-            
+
             }
-        
+
         }
 
         //-------------------------------------------------------------------------------------------//
@@ -87,24 +87,8 @@ namespace _Scripts.Units.Enemy
         }
         //-------------------------------------------------------------------------------------------//
 
-        public void TakeDamage(int damage) 
+        public void TakeDamage(int damage)
         {
-            // --- Shield Block Mechanic ---
-            if (enemyScriptable.enemyType == ScriptableEnemy.EnemyType.SkeletonShield)
-            {
-                // Compare facing directions: both facing right (+1) or left (-1)
-                float enemyFacing = Mathf.Sign(transform.localScale.x);
-                float playerFacing = Mathf.Sign(_player.transform.localScale.x);
-
-                // If facing opposite directions → block partially
-                if (enemyFacing == playerFacing)
-                {
-                    int reducedDamage = Mathf.RoundToInt(damage * 0.5f);
-                    Debug.Log($"🛡 SkeletonShield blocked attack! Damage reduced from {damage} → {reducedDamage}");
-                    damage = reducedDamage;
-                }
-            }
-
             // --- Existing FX & damage logic ---
             int rand = Random.Range(0, 2);
             Instantiate(enemyScriptable.impactPrefabs[rand], transform.position, Quaternion.identity);
@@ -151,12 +135,12 @@ namespace _Scripts.Units.Enemy
                 {
                     if (enemyScriptable.enemyType != ScriptableEnemy.EnemyType.Slime) _rb.velocity = Vector3.zero;
                     _enemyAI.FlipPatrol();
-                }   
+                }
             }
-        
+
         }
 
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         void IsAttacking()
         {
             _isAttacking = true;
@@ -169,26 +153,26 @@ namespace _Scripts.Units.Enemy
         public void Attack()
         {
             var hitPlayer = new Collider2D[10];
-            Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.AdvancedStats.weaponAttackRange,hitPlayer, enemyScriptable.playerLayer);
-            
-            foreach(var hit in hitPlayer)
+            Physics2D.OverlapCircleNonAlloc(attackPoint.position, enemyScriptable.AdvancedStats.weaponAttackRange, hitPlayer, enemyScriptable.playerLayer);
+
+            foreach (var hit in hitPlayer)
             {
                 if (hit != null)
                 {
-                    Debug.Log("We hit "+ hit.name);
+                    Debug.Log("We hit " + hit.name);
                     if (hit.CompareTag("PlayerHitbox"))
                     {
                         _player.TakeDamage(enemyScriptable.AdvancedStats.attackDamage);
-                    }  
+                    }
                 }
-                
+
             }
         }
         public void LaserAttack()
         {
             // 1) compute spawn + direction
             Vector2 spawnPos = (Vector2)laserAttackPoint.position;
-            Vector2 toPlayer = (Vector2) _player.transform.position - spawnPos;
+            Vector2 toPlayer = (Vector2)_player.transform.position - spawnPos;
 
             // 2) instantiate & initialize
             GameObject laser = Instantiate(enemyScriptable.laserPrefab, spawnPos, Quaternion.identity);
@@ -201,7 +185,7 @@ namespace _Scripts.Units.Enemy
             string attackTrigger = "Attack" + attackNumber;
             _animator.SetTrigger(attackTrigger);
         }
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         void Die()
         {
             if (enemyScriptable.AdvancedStats.canFly)
@@ -213,8 +197,8 @@ namespace _Scripts.Units.Enemy
 
             // die animation
             _rb.velocity = Vector2.zero;
-            _animator.SetTrigger(Death);     
-            _rewardSpawner.Reward(transform.position);
+            _animator.SetTrigger(Death);
+            _rewardSpawner.Reward(transform.position + new Vector3(0, 0.3f, 0));
 
             // disable enemy
             GetComponent<BoxCollider2D>().enabled = false;
@@ -230,9 +214,9 @@ namespace _Scripts.Units.Enemy
             Destroy(gameObject, 1f);
 
 
-        
+
         }
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         void OnDrawGizmosSelected()
         {
             if (attackPoint == null)

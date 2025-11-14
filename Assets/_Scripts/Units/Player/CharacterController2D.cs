@@ -6,26 +6,26 @@ using UnityEngine.Serialization;
 
 public class CharacterController2D : MonoBehaviour
 {
-	[FormerlySerializedAs("m_JumpForce")] [SerializeField] private float mJumpForce = 400f;							// Amount of force added when the player jumps.
-	[FormerlySerializedAs("m_CrouchSpeed")] [Range(0, 1.5f)] [SerializeField] private float mCrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
-	[FormerlySerializedAs("m_MovementSmoothing")] [Range(0, .3f)] [SerializeField] private float mMovementSmoothing = .05f;	// How much to smooth out the movement
-	[FormerlySerializedAs("m_AirControl")] [SerializeField] private bool mAirControl = false;							// Whether or not a player can steer while jumping;
-	[FormerlySerializedAs("m_WhatIsGround")] [SerializeField] private LayerMask mWhatIsGround;							// A mask determining what is ground to the character
-	[FormerlySerializedAs("m_GroundCheck")] [SerializeField] private Transform mGroundCheck;							// A position marking where to check if the player is grounded.
-	[FormerlySerializedAs("m_CeilingCheck")] [SerializeField] private Transform mCeilingCheck;							// A position marking where to check for ceilings
-	[FormerlySerializedAs("m_CrouchDisableCollider")] [SerializeField] private Collider2D mCrouchDisableCollider;				// A collider that will be disabled when crouching
+	[FormerlySerializedAs("m_JumpForce")][SerializeField] private float mJumpForce = 400f;                          // Amount of force added when the player jumps.
+	[FormerlySerializedAs("m_CrouchSpeed")][Range(0, 1.5f)][SerializeField] private float mCrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[FormerlySerializedAs("m_MovementSmoothing")][Range(0, .3f)][SerializeField] private float mMovementSmoothing = .05f;   // How much to smooth out the movement
+	[FormerlySerializedAs("m_AirControl")][SerializeField] private bool mAirControl = false;                            // Whether or not a player can steer while jumping;
+	[FormerlySerializedAs("m_WhatIsGround")][SerializeField] private LayerMask mWhatIsGround;                           // A mask determining what is ground to the character
+	[FormerlySerializedAs("m_GroundCheck")][SerializeField] private Transform mGroundCheck;                         // A position marking where to check if the player is grounded.
+	[FormerlySerializedAs("m_CeilingCheck")][SerializeField] private Transform mCeilingCheck;                           // A position marking where to check for ceilings
+	[FormerlySerializedAs("m_CrouchDisableCollider")][SerializeField] private Collider2D mCrouchDisableCollider;                // A collider that will be disabled when crouching
 
 	const float KGroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	const float KCeilingRadius = .2f; // Radius of the overlap circle to determine if there is a ceiling
 	[FormerlySerializedAs("m_Grounded")] public bool mGrounded;            // Whether or not the player is grounded.
 	public bool Grounded { get; private set; }
 
-    // Coyote time
-    private const float CoyoteTime = 0.12f;
-    private float _lastGroundedTime = -1f;
+	// Coyote time
+	private const float CoyoteTime = 0.12f;
+	private float _lastGroundedTime = -1f;
 
 	private Rigidbody2D _mRigidbody2D;
-	private bool _mFacingRight = true;  // For determining which way the player is currently facing.
+	public bool _mFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 _mVelocity = Vector3.zero;
 
 
@@ -50,32 +50,32 @@ public class CharacterController2D : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-        bool wasGrounded = mGrounded;
-        mGrounded = false;
+		bool wasGrounded = mGrounded;
+		mGrounded = false;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(mGroundCheck.position, KGroundedRadius, mWhatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                mGrounded = true;
-                if (!wasGrounded)
-                    onLandEvent.Invoke();
-            }
-        }
+		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(mGroundCheck.position, KGroundedRadius, mWhatIsGround);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != gameObject)
+			{
+				mGrounded = true;
+				if (!wasGrounded)
+					onLandEvent.Invoke();
+			}
+		}
 
-        if (mGrounded) _lastGroundedTime = Time.time;
+		if (mGrounded) _lastGroundedTime = Time.time;
 
-        // Expose unified grounded state
-        Grounded = mGrounded;
+		// Expose unified grounded state
+		Grounded = mGrounded;
 	}
 
 
 	// Return true if a jump force was actually applied this frame
 	public bool Move(float move, bool crouch, bool jump)
 	{
-        bool didJump = false;
+		bool didJump = false;
 
 		// If crouching, check to see if the character can stand up
 		if (crouch)
@@ -97,7 +97,7 @@ public class CharacterController2D : MonoBehaviour
 				if (!_mWasCrouching)
 				{
 					_mWasCrouching = true;
-					
+
 				}
 
 				// Reduce the speed by the crouchSpeed multiplier
@@ -106,7 +106,8 @@ public class CharacterController2D : MonoBehaviour
 				// Disable one of the colliders when crouching
 				if (mCrouchDisableCollider != null)
 					mCrouchDisableCollider.enabled = false;
-			} else
+			}
+			else
 			{
 				onCrouchEvent.Invoke();
 				// Enable the collider when not crouching
@@ -160,8 +161,8 @@ public class CharacterController2D : MonoBehaviour
 		_mFacingRight = !_mFacingRight;
 
 		// Multiply the player's x local scale by -1.
-		transform.Rotate(0f,180,0f);
-		transform.Find("MissingMana").Rotate(0f,180,0f);
-		transform.Find("MissingKey").Rotate(0f,180,0f);
+		transform.Rotate(0f, 180, 0f);
+		transform.Find("MissingMana").Rotate(0f, 180, 0f);
+		transform.Find("MissingKey").Rotate(0f, 180, 0f);
 	}
 }

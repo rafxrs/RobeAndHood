@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class RewardSpawner : MonoBehaviour
 {
     public RewardType rewardType;
-    [SerializeField] private int amountOfRewards=1;
+    [SerializeField] private int amountOfRewards = 1;
 
     [System.Serializable]
     public enum RewardType
@@ -34,7 +34,7 @@ public class RewardSpawner : MonoBehaviour
                 rewardPrefab = Resources.Load<GameObject>("Prefabs/Collectibles/RewardCoin");
             }
         }
-        
+
         if (rewardPrefab == null)
         {
             Debug.LogError("No reward");
@@ -48,8 +48,8 @@ public class RewardSpawner : MonoBehaviour
             switch (rewardType)
             {
                 case RewardType.Coin:
-                    float randomOffset = Random.Range(-0.15f,0.15f);
-                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x+randomOffset, spawnPosition.y, 0), Quaternion.identity);
+                    float randomOffset = Random.Range(-0.15f, 0.15f);
+                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x + randomOffset, spawnPosition.y, 0), Quaternion.identity);
                     break;
                 case RewardType.Key:
                     Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
@@ -58,7 +58,7 @@ public class RewardSpawner : MonoBehaviour
                     GameObject.Find("GameManager").GetComponent<GameManager>().LevelComplete();
                     break;
                 case RewardType.Potion:
-                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+                    Instantiate(rewardPrefab, new Vector3(spawnPosition.x, spawnPosition.y + 0.3f, 0), Quaternion.identity);
                     break;
                 case RewardType.Weapon:
                     break;
@@ -66,7 +66,7 @@ public class RewardSpawner : MonoBehaviour
                     break;
             }
         }
-        
-        
+
+
     }
 }
