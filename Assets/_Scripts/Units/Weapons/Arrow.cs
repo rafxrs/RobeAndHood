@@ -129,6 +129,7 @@ namespace _Scripts.Units.Weapons
         {
             // Enemy uses localScale
             return e.transform.localScale.x >= 0 ? 1 : -1;
+
         }
     }
 }

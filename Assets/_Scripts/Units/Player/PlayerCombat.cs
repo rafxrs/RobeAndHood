@@ -233,15 +233,34 @@ namespace _Scripts.Units.Player
         {
             _player.currentMana -= _throwSpearManaCost;
             _player.manaBar.SetMana(_player.currentMana);
-            Rigidbody2D spearInstance = Instantiate(weapon.weaponPrefab[0], transform.position, transform.rotation);
-            Vector2 throwDirection = transform.right;
 
-            // Calculate the required initial velocity for the desired arc
-            float horizontalDistance = weapon.launchForce * weapon.launchDuration;
-            float verticalDistance = weapon.launchArcHeight;
-            Vector2 initialVelocity = CalculateInitialVelocity(throwDirection, horizontalDistance, verticalDistance);
+            Rigidbody2D spearInstance = Instantiate(
+                weapon.weaponPrefab[0],
+                transform.position,
+                Quaternion.identity
+            );
 
-            // Apply the initial velocity to the spear
+            // Facing direction based on player flip
+            int facing = _player.controller._mFacingRight ? 1 : -1;
+
+            // Flip spear visually
+            Vector3 scale = spearInstance.transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * facing;
+            spearInstance.transform.localScale = scale;
+
+            // Corrected throw direction (independent of transform.right)
+            Vector2 throwDirection = new Vector2(facing, 0f);
+
+            // Arc calculation
+            float H = weapon.launchForce * weapon.launchDuration;
+            float V = weapon.launchArcHeight;
+
+            Vector2 initialVelocity = CalculateInitialVelocity(
+                throwDirection,
+                H,
+                V
+            );
+
             spearInstance.velocity = initialVelocity;
         }
         // -------------------------------------------------------------------------------------------------------------------------- //
@@ -344,7 +363,8 @@ namespace _Scripts.Units.Player
 
 
             // Give it velocity (same arc as before)
-            Vector2 dir = transform.right;
+            int facing = _player.controller._mFacingRight ? 1 : -1;
+            Vector2 dir = transform.right * facing;
             float H = weapon.launchForce * weapon.launchDuration;
             float V = weapon.launchArcHeight;
             Vector2 v0 = CalculateInitialVelocity(dir, H, V);

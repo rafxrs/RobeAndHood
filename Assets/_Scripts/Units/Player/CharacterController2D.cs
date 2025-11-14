@@ -153,16 +153,16 @@ public class CharacterController2D : MonoBehaviour
 
 		return didJump;
 	}
-
-
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
 		_mFacingRight = !_mFacingRight;
 
-		// Multiply the player's x local scale by -1.
-		transform.Rotate(0f, 180, 0f);
-		transform.Find("MissingMana").Rotate(0f, 180, 0f);
-		transform.Find("MissingKey").Rotate(0f, 180, 0f);
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;        // <-- this is now consistent with EnemyDir
+		transform.localScale = scale;
+		transform.Find("MissingMana").localScale = scale;
+		transform.Find("MissingKey").localScale = scale;
+
 	}
 }
