@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 765750859}
   - component: {fileID: 765750860}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: BodyCollider
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ EdgeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

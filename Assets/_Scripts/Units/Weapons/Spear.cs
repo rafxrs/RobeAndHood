@@ -18,6 +18,8 @@ public class Spear : MonoBehaviour
     bool _isInAir = true;
     Player _player;
 
+    int _attackDamage;
+
     [System.Serializable]
     public enum Side
     {
@@ -31,6 +33,8 @@ public class Spear : MonoBehaviour
         Destroy(this.gameObject, 5f);
         _rb = GetComponent<Rigidbody2D>();
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _attackDamage = w.attackDamage * 2;
+
     }
     void FixedUpdate()
     {
@@ -74,14 +78,14 @@ public class Spear : MonoBehaviour
                     // If facing opposite directions → block partially
                     if (!facingOpposite)
                     {
-                        int reducedDamage = Mathf.RoundToInt(w.attackDamage * 0.25f);
-                        Debug.Log($"🛡 SkeletonShield blocked spear! Damage reduced from {w.attackDamage} → {reducedDamage}");
+                        int reducedDamage = Mathf.RoundToInt(_attackDamage * 0.25f);
+                        Debug.Log($"🛡 SkeletonShield blocked spear! Damage reduced from {_attackDamage} → {reducedDamage}");
                         enemy.TakeDamage(reducedDamage);
                         Destroy(this.gameObject);
                         return;
                     }
                 }
-                enemy.TakeDamage(w.attackDamage);
+                enemy.TakeDamage(_attackDamage);
                 Destroy(this.gameObject);
 
             }
@@ -89,7 +93,7 @@ public class Spear : MonoBehaviour
             {
                 AudioManager.instance.Play("Spear");
                 Destroy(this.gameObject);
-                other.GetComponent<Crate>().TakeDamage(w.attackDamage);
+                other.GetComponent<Crate>().TakeDamage(_attackDamage);
             }
             else if (other.tag == "Lever")
             {
@@ -103,7 +107,7 @@ public class Spear : MonoBehaviour
             {
 
 
-                _player.TakeDamage(w.attackDamage);
+                _player.TakeDamage(_attackDamage);
                 Destroy(this.gameObject);
             }
         }

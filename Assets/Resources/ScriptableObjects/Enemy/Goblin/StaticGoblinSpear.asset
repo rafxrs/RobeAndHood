@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d0ec6f21eae6c46a957839d715770e, type: 3}
   m_Name: StaticGoblinSpear
   m_EditorClassIdentifier: 
-  unitType: 0
+  unitType: 1
   stats:
     maxHealth: 150
     collisionDamage: 0

@@ -10,7 +10,7 @@ namespace _Scripts.Units.Enemy
     public class EnemyAI : MonoBehaviour
     {
 
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         // PUBLIC GLOBAL VARIABLES
         public Transform leftBoundary;
         public Transform rightBoundary;
@@ -18,27 +18,27 @@ namespace _Scripts.Units.Enemy
         public Transform upBoundary;
         public bool isChasing;
         [FormerlySerializedAs("TOLERANCE")] public float tolerance = 0.01f;
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         // PRIVATE PRIMITIVES
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         private int _currentWaypoint;
         private float _speed;
         private float _distToPlayer;
         private float _chaseSpeed;
         private float _patrolSpeed;
         private float _nextAttackTime = -1f;
-        private float _dir= -1f; // direction of patrolling
+        private float _dir = -1f; // direction of patrolling
         private float _nextWayPointDist;
         private float _nextTp;
         private bool _hasAttacks;
         private bool _isStatic;
         private bool _isTeleporting;
-        [FormerlySerializedAs("_isInBounds")] [SerializeField] private bool isInBounds;
+        [FormerlySerializedAs("_isInBounds")][SerializeField] private bool isInBounds;
         private bool _wasInBounds;
 
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         // PRIVATE NON PRIMITIVES
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
         private Path _path;
         private Enemy _enemy;
         private Seeker _seeker;
@@ -84,7 +84,7 @@ namespace _Scripts.Units.Enemy
                 _rb.velocity = Vector2.zero;
             }
             if ((_playerTransform.position.x > leftBoundary.position.x) && (_playerTransform.position.x < rightBoundary.position.x)
-                                                                        && (_playerTransform.position.y > bottomBoundary.position.y) 
+                                                                        && (_playerTransform.position.y > bottomBoundary.position.y)
                                                                         && (_playerTransform.position.y < upBoundary.position.y))
             {
                 isInBounds = true;
@@ -94,85 +94,85 @@ namespace _Scripts.Units.Enemy
                 isInBounds = false;
             }
 
-            if (_isStatic && _hasAttacks && Time.timeSinceLevelLoad>2f)
+            if (_isStatic && _hasAttacks && Time.timeSinceLevelLoad > 2f)
             {
-                if(_playerTransform.position.x > transform.position.x)
+                if (_playerTransform.position.x > transform.position.x)
                 {
-                    transform.localScale = new Vector3(-1f, 1f,1f);
+                    transform.localScale = new Vector3(-1f, 1f, 1f);
                 }
                 else if (_playerTransform.position.x < transform.position.x)
                 {
-                    transform.localScale = new Vector3(1f, 1f,1f);
+                    transform.localScale = new Vector3(1f, 1f, 1f);
                 }
 
-                if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
+                if (_distToPlayer < _enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && isInBounds)
                 {
                     // Debug.Log("Static attack");
                     _nextAttackTime = Time.time + _enemyScriptable.AdvancedStats.attackRate;
                     _enemy.AttackAnimation();
-                }  
+                }
             }
             else if (_hasAttacks)
             {
                 if (!_isStatic)
                 {
-                    if (!isInBounds) 
+                    if (!isInBounds)
                     {
                         if (_wasInBounds && _enemyScriptable.AdvancedStats.canFly)
                         {
                             ChaseAndAttack();
                         }
-                        else 
+                        else
                         {
                             Patrol();
                         }
-                    
+
                     }
-                    else 
-                    {   
+                    else
+                    {
                         ChaseAndAttack();
                     }
                 }
             }
-            else 
+            else
             {
                 if (!_isStatic)
                 {
                     Patrol();
                 }
-            
-            }
-        
 
-        
+            }
+
+
+
         }
-//-------------------------------------------------------------------------------------------//
-// PATH FUNCTIONS
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
+        // PATH FUNCTIONS
+        //-------------------------------------------------------------------------------------------//
         void UpdatePath()
         {
             if (_seeker.IsDone())
             {
                 _seeker.StartPath(_rb.position, _playerTransform.position, OnPathComplete);
             }
-        
+
         }
         void OnPathComplete(Path p)
         {
             if (!p.error)
             {
                 _path = p;
-                _currentWaypoint =0;
+                _currentWaypoint = 0;
             }
         }
-//-------------------------------------------------------------------------------------------//
-// PATROL FUNCTIONS
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
+        // PATROL FUNCTIONS
+        //-------------------------------------------------------------------------------------------//
         private void Patrol()
         {
-            _speed=_patrolSpeed;
+            _speed = _patrolSpeed;
             isChasing = false;
-            Vector2 direction = new Vector2(_dir,0f);
+            Vector2 direction = new Vector2(_dir, 0f);
             Vector2 force = direction * (_speed * Time.deltaTime);
             _rb.AddForce(force);
             if (_enemyScriptable.enemyType == ScriptableEnemy.EnemyType.Spider)
@@ -180,27 +180,27 @@ namespace _Scripts.Units.Enemy
                 _spriteRenderer = GetComponent<SpriteRenderer>();
                 _spriteRenderer.flipY = !_wasInBounds;
 
-                if(force.x >= 0.01)
+                if (force.x >= 0.01)
                 {
-                    transform.localScale = new Vector3(-1f, 1f,1f);
+                    transform.localScale = new Vector3(-1f, 1f, 1f);
                 }
                 else if (force.x <= 0.01)
                 {
-                    transform.localScale = new Vector3(1f, 1f,1f);
+                    transform.localScale = new Vector3(1f, 1f, 1f);
                 }
             }
-            else 
+            else
             {
-                if(force.x >= 0.01)
+                if (force.x >= 0.01)
                 {
-                    transform.localScale = new Vector3(-1f, 1f,1f);
+                    transform.localScale = new Vector3(-1f, 1f, 1f);
                 }
                 else if (force.x <= 0.01)
                 {
-                    transform.localScale = new Vector3(1f, 1f,1f);
+                    transform.localScale = new Vector3(1f, 1f, 1f);
                 }
             }
-        
+
         }
         public void FlipPatrol()
         {
@@ -208,12 +208,12 @@ namespace _Scripts.Units.Enemy
             {
                 _rb.velocity = Vector2.zero;
             }
-            _dir*=-1f;
+            _dir *= -1f;
         }
 
-//-------------------------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------------------------//
 
-private void Chase()
+        private void Chase()
         {
             if (_enemyScriptable.enemyType == ScriptableEnemy.EnemyType.Spider)
             {
@@ -225,26 +225,26 @@ private void Chase()
             {
                 // randomly (50% chance) fire a laser OR teleport every x to y seconds
                 float choice = Random.Range(-1, 1);
-                    
-                if (choice<0f && Time.time > _nextTp && !_isTeleporting)
+
+                if (choice < 0f && Time.time > _nextTp && !_isTeleporting)
                 {
                     _speed = 0f;
                     _isTeleporting = true;
                     _nextTp = Time.time + Random.Range(2f, 4f);
                     Teleport();
                 }
-                else if (choice<0f && Time.time > _nextTp && !_isTeleporting)
+                else if (choice < 0f && Time.time > _nextTp && !_isTeleporting)
                 {
                     _animator.SetTrigger(Attack2);
                 }
             }
-            _speed=_chaseSpeed;
+            _speed = _chaseSpeed;
             isChasing = true;
-            if (_path ==null)
+            if (_path == null)
             {
                 return;
             }
-        
+
             if (_currentWaypoint >= _path.vectorPath.Count)
             {
                 return;
@@ -255,35 +255,41 @@ private void Chase()
             _rb.AddForce(force);
             float distance = Vector2.Distance(_rb.position, _path.vectorPath[_currentWaypoint]);
 
-            if (distance<_nextWayPointDist)
+            if (distance < _nextWayPointDist)
             {
                 _currentWaypoint++;
             }
 
-            if(force.x >= 0.01)
+            // NEW: face the player instead of using A* force
+            float dxToPlayer = _playerTransform.position.x - transform.position.x;
+
+            // small deadzone so we don't flicker when almost aligned
+            if (dxToPlayer > 0.1f)
             {
-                transform.localScale = new Vector3(-1f, 1f,1f);
+                // player is to the right → enemy looks right (in your art, that’s scale.x = -1)
+                transform.localScale = new Vector3(-1f, 1f, 1f);
             }
-            else if (force.x <= 0.01)
+            else if (dxToPlayer < -0.1f)
             {
-                transform.localScale = new Vector3(1f, 1f,1f);
+                // player is to the left → enemy looks left
+                transform.localScale = new Vector3(1f, 1f, 1f);
             }
         }
 
         void ChaseAndAttack()
         {
             _wasInBounds = true;
-            if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time < _nextAttackTime)
+            if (_distToPlayer < _enemyScriptable.AdvancedStats.attackDistance && Time.time < _nextAttackTime)
             {
                 // Debug.Log("Cant attack");
                 Chase();
-            }  
-            else if (_distToPlayer<_enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && !_isTeleporting)
+            }
+            else if (_distToPlayer < _enemyScriptable.AdvancedStats.attackDistance && Time.time > _nextAttackTime && !_isTeleporting)
             {
-                    _nextAttackTime = Time.time + _enemyScriptable.AdvancedStats.attackRate;
-                    _enemy.AttackAnimation();
-            } 
-        
+                _nextAttackTime = Time.time + _enemyScriptable.AdvancedStats.attackRate;
+                _enemy.AttackAnimation();
+            }
+
             else
             {
                 Chase();
@@ -305,15 +311,15 @@ private void Chase()
                 position.y + 0.5f
             );
             _isTeleporting = false;
-            }
-        
-//-------------------------------------------------------------------------------------------//
+        }
+
+        //-------------------------------------------------------------------------------------------//
         public void Jump()
 
         {
             _rb.AddForce(new Vector2(0f, _enemyScriptable.AdvancedStats.jumpForce));
         }
 
-    
+
     }
 }

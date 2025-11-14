@@ -32,7 +32,7 @@ namespace _Scripts.Units.Player
         [FormerlySerializedAs("_nextAttackTime")][SerializeField] float nextAttackTime;
         [FormerlySerializedAs("_attackDamage")][SerializeField] int attackDamage;
         float _comboTime;
-        readonly float _throwSpearManaCost = 50f;
+        readonly float _throwSpearManaCost = 75f;
         int _combo;
         bool _isCombo;
         private static readonly int IsJumping = Animator.StringToHash("isJumping");
@@ -69,16 +69,20 @@ namespace _Scripts.Units.Player
 
 
                 // --- Spear Controls ---
-                else if ((_player.currentMana >= _throwSpearManaCost) &&
-                        (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) &&
-                        weaponName == "Spear")
+                else if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(1)) && weaponName == "Spear")
                 {
-                    if (!_player.IsGrounded())
-                        _animator.SetBool(IsJumping, false);
+                    if (_player.currentMana >= _throwSpearManaCost)
+                    {
+                        if (!_player.IsGrounded()) _animator.SetBool(IsJumping, false);
+                        ThrowSpearAnimation();
+                        nextAttackTime = Time.time + attackRate;
+                        _player.IsAttacking();
+                    }
 
-                    ThrowSpearAnimation();
-                    nextAttackTime = Time.time + attackRate;
-                    _player.IsAttacking();
+                    else
+                    {
+                        ShowMissingMana();
+                    }
                 }
 
                 // --- Sword / Melee Controls ---

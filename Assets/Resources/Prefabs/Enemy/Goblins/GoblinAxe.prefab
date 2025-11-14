@@ -55,10 +55,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 2.5
+  m_Mass: 2
+  m_LinearDrag: 0.05
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 79e2d4580c0ba23429bc8981a3a1749f, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -177,8 +177,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyScriptable: {fileID: 11400000, guid: 6ae3638c833d1d84580180becff6942f, type: 2}
   isDead: 0
-  _attackPoint: {fileID: 4822133690036237807}
-  healthBar: {fileID: 0}
+  attackPoint: {fileID: 4822133690036237807}
+  laserAttackPoint: {fileID: 0}
+  linkedPlatform: {fileID: 0}
 --- !u!114 &4822133689575428079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +197,8 @@ MonoBehaviour:
   bottomBoundary: {fileID: 7372161042312444887, guid: a687b7986390c924e81de723cc50a72e, type: 3}
   upBoundary: {fileID: 7686047899609385568, guid: d0a21c2f25279ad40a473a6ff61ef525, type: 3}
   isChasing: 0
+  tolerance: 0.01
+  isInBounds: 0
 --- !u!114 &4822133689575428078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardType: 0
+  amountOfRewards: 1
   rewardPrefab: {fileID: 7378058765254971043, guid: e129833eda866954dbc7ae52a13ffc49, type: 3}
 --- !u!1 &4822133690036237806
 GameObject:
