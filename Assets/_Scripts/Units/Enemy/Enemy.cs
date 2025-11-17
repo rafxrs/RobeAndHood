@@ -89,6 +89,7 @@ namespace _Scripts.Units.Enemy
 
         public void TakeDamage(int damage)
         {
+            if (isDead) return;
             // --- Existing FX & damage logic ---
             int rand = Random.Range(0, 2);
             Instantiate(enemyScriptable.impactPrefabs[rand], transform.position, Quaternion.identity);
@@ -188,34 +189,29 @@ namespace _Scripts.Units.Enemy
         //-------------------------------------------------------------------------------------------//
         void Die()
         {
-            if (enemyScriptable.AdvancedStats.canFly)
-            {
-                _rb.gravityScale = 3;
-            }
-            Debug.Log("enemy died");
+            if (isDead) return;  
             isDead = true;
+
+            Debug.Log("enemy died");
 
             // die animation
             _rb.velocity = Vector2.zero;
             _animator.SetTrigger(Death);
-            _rewardSpawner.Reward(transform.position + new Vector3(0, 0.3f, 0));
-
-            // disable enemy
-            GetComponent<BoxCollider2D>().enabled = false;
-            // GetComponent<PolygonCollider2D>().enabled = false;
-            GetComponent<EnemyAI>().enabled = false;
 
             if (linkedPlatform != null)
             {
+                Debug.Log("Platform activated by enemy death");
                 linkedPlatform.Activate();
             }
 
-            // destroy enemy after 1 second
+            _rewardSpawner.Reward(transform.position + new Vector3(0, 0.3f, 0));
+
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<EnemyAI>().enabled = false;
+
             Destroy(gameObject, 1f);
-
-
-
         }
+
         //-------------------------------------------------------------------------------------------//
         void OnDrawGizmosSelected()
         {
