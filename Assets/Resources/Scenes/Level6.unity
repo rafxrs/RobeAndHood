@@ -1842,7 +1842,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4822133689575428072, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
       propertyPath: m_LinearDrag
-      value: 0.1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4822133689575428075, guid: 32a83a2c49393da44809adf5cf54653a, type: 3}
       propertyPath: m_FlipX
@@ -46190,7 +46190,7 @@ GameObject:
   - component: {fileID: 2019680018}
   - component: {fileID: 2019680020}
   - component: {fileID: 2019680019}
-  m_Layer: 1
+  m_Layer: 13
   m_Name: BR 8
   m_TagString: Boundary
   m_Icon: {fileID: 0}
