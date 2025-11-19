@@ -63872,7 +63872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6869305157303446939, guid: 8efafafd06259ac4d8e4dccc927a2365, type: 3}
       propertyPath: rewardType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6869305157303446939, guid: 8efafafd06259ac4d8e4dccc927a2365, type: 3}
       propertyPath: rewardPrefab
