@@ -27,7 +27,7 @@ MonoBehaviour:
   - {fileID: 5013566882751098580, guid: 591adcf3a48c5cb43a2e815a0fb25e68, type: 3}
   laserPrefab: {fileID: 0}
   advancedStatistics:
-    chaseSpeed: 1000
+    chaseSpeed: 700
     patrolSpeed: 200
     nextWayPointDist: 0.5
     hasAttacks: 1
