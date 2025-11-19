@@ -86,13 +86,11 @@ public class Spear : MonoBehaviour
                     }
                 }
                 enemy.TakeDamage(_attackDamage);
-                Destroy(this.gameObject);
 
             }
             else if (other.tag == "Crate")
             {
                 AudioManager.instance.Play("Spear");
-                Destroy(this.gameObject);
                 other.GetComponent<Crate>().TakeDamage(_attackDamage);
             }
             else if (other.tag == "Lever")
@@ -105,8 +103,6 @@ public class Spear : MonoBehaviour
         {
             if (other.tag == "PlayerHitbox")
             {
-
-
                 _player.TakeDamage(_attackDamage);
                 Destroy(this.gameObject);
             }
